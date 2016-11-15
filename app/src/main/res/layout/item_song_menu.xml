@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/x2"
+    android:layout_marginRight="@dimen/x2"
+    android:layout_marginTop="@dimen/y8"
+    android:clickable="true"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="2dp"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="false">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.qhn.bhne.baseproject.wight.ShapedImageView
+            android:id="@+id/img_pic"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y108"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_test_01"
+            app:round_radius="2dp"
+            app:shape_mode="round_rect" />
+
+        <TextView
+            android:id="@+id/txt_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/img_pic"
+            android:drawableLeft="@mipmap/ic_small_user"
+            android:gravity="center"
+            android:padding="@dimen/x4"
+            android:drawablePadding="@dimen/x4"
+            android:visibility="gone"
+
+            android:textColor="@color/alpha_85_white"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/txt_listen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/txt_gradient_bg"
+            android:drawableLeft="@mipmap/ic_ear_phone"
+            android:gravity="center|end"
+            android:paddingLeft="@dimen/x24"
+            android:paddingRight="@dimen/x4"
+            android:visibility="gone"
+            android:textColor="@color/alpha_85_white"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/txt_music_album_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/img_pic"
+            android:layout_marginBottom="@dimen/y4"
+            android:layout_marginLeft="@dimen/x4"
+            android:layout_marginTop="@dimen/y4"
+            android:text="听一首李宗盛"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:textColor="@color/alpha_85_black"
+            android:textSize="14sp" />
+
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
+
+

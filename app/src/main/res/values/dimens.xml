@@ -1,6 +1,30 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="nav_header_vertical_spacing">16dp</dimen>
+    <dimen name="nav_header_height">160dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="item_margin">8dp</dimen>
+    <dimen name="title_margin">24dp</dimen>
+
+
+    <dimen name="top_status_bar">24dp</dimen>
+    <dimen name="app_bar_min">56dp</dimen>
+    <dimen name="app_bar_icon_size">24dp</dimen>
+    <dimen name="nav_bar_bottom">48dp</dimen>
+    <dimen name="float_button_big">56dp</dimen>
+    <dimen name="float_button_small">40dp</dimen>
+    <dimen name="user_photo_big">64dp</dimen>
+    <dimen name="user_photo_small">40dp</dimen>
+    <dimen name="drawer_margin_right">56dp</dimen>
+    <dimen name="card_gap">8dp</dimen>
+    <dimen name="cut_line_gap">8dp</dimen>
+    <dimen name="screen_gap">16dp</dimen>
+    <dimen name="text_margin_left_gap">72dp</dimen>
+    <dimen name="more_element_gap">16dp</dimen>
+    <dimen name="drawablePadding">8dp</dimen>
+    <!--cardView适配5.0一下版本-->
 </resources>

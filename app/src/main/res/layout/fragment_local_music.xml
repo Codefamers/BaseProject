@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/txt_local_music"
+        style="@style/local_fragment"
+        android:drawableLeft="@mipmap/ic_local_music"
+        android:drawableStart="@mipmap/ic_local_music"
+        android:text="@string/local_music" />
+
+    <TextView
+        android:id="@+id/txt_recently_play"
+        style="@style/local_fragment"
+        android:drawableLeft="@mipmap/ic_recently_play"
+        android:drawableStart="@mipmap/ic_recently_play"
+        android:text="@string/recently_play" />
+
+    <TextView
+        android:id="@+id/txt_manager_download"
+        style="@style/local_fragment"
+        android:drawableLeft="@mipmap/ic_manager_download"
+        android:drawableStart="@mipmap/ic_manager_download"
+        android:text="@string/download_manager" />
+
+
+    <TextView
+        android:id="@+id/txt_my_signer"
+        style="@style/local_fragment"
+        android:drawableLeft="@mipmap/ic_my_signer"
+        android:drawableStart="@mipmap/ic_my_signer"
+        android:text="@string/my_signer" />
+
+
+    <TextView
+        android:id="@+id/txt_my_MV"
+        style="@style/local_fragment"
+        android:drawableLeft="@mipmap/ic_my_video"
+        android:drawableStart="@mipmap/ic_my_video"
+        android:text="@string/mv" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/alpha_10_black">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textSize="@dimen/x12"
+            android:layout_marginTop="@dimen/y4"
+            android:drawableLeft="@mipmap/ic_rotate_arrows"
+            android:text="创建歌单"
+            android:gravity="center_vertical"
+            android:drawablePadding="@dimen/y4"
+            android:layout_marginLeft="@dimen/y8"
+            android:layout_marginBottom="@dimen/y4"
+
+            android:textColor="@color/alpha_35_black"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:paddingRight="@dimen/x16"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/ic_more_operation"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</LinearLayout>

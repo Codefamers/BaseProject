@@ -1,20 +1,92 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="BaseAppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-    </style>
 
-    <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
+        <item name="android:screenOrientation">portrait</item>
+        <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="BaseAppTheme.NoTrans">
+    </style>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="BaseAppTheme.Trans">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 
+    <style name="SplashTheme" parent="BaseAppTheme">
+        <item name="android:windowBackground">@mipmap/ic_launcher</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <!--改变textAllCaps属性让tab中的icon渲染出来-->
+    <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@color/white</item>
+        <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabPaddingStart">12dp</item>
+        <item name="tabPaddingEnd">12dp</item>
+        <item name="tabBackground">?attr/selectableItemBackground</item>
+        <item name="tabTextAppearance">@style/MyCustomTabTextAppearance</item>
+        <item name="tabSelectedTextColor">@color/white</item><!--tab字体默认的颜色-->
+    </style>
+    <style name="MyCustomTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/alpha_60_white</item><!--tab字体默认的颜色-->
+        <item name="textAllCaps">true</item><!--字体是否大写-->
+    </style>
+
+    <!--推荐标题样式-->
+    <style name="recommend_title_text"  >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:drawablePadding">@dimen/x8</item>
+        <item name="android:textSize">@dimen/small_text</item>
+    </style>
+    <!--歌单标题样式-->
+    <style name="song_menu_title_text"  >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginLeft">@dimen/x8</item>
+        <item name="android:layout_marginTop">@dimen/y8</item>
+        <item name="android:drawablePadding">@dimen/x8</item>
+        <item name="android:textSize">@dimen/small_text</item>
+    </style>
+    <!--推荐进去看看样式-->
+    <style name="recommend_more_btn">
+        <item name="android:layout_width">@dimen/x56</item>
+        <item name="android:layout_height">@dimen/y16</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:background">@drawable/btn_bg_more</item>
+        <item name="android:text">@string/see_into</item>
+        <item name="android:textColor">@color/alpha_90_white</item>
+        <item name="android:textSize">@dimen/micro_text</item>
+    </style>
+
+    <style name="local_fragment">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center|start</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:drawableBottom">@drawable/ic_drawable_cut_line</item>
+        <item name="android:textColor">@color/alpha_85_black</item>
+        <item name="android:textSize">@dimen/small_text</item>
+
+    </style>
 </resources>

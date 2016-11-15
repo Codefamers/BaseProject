@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/y48"
+    android:layout_gravity="bottom|end"
+    android:background="@color/alpha_90_white">
+
+    <ImageView
+        android:id="@+id/img_music_pic"
+        android:layout_width="@dimen/x42"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/y4"
+        android:layout_marginLeft="@dimen/x8"
+        android:layout_marginTop="@dimen/y4"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_test_01" />
+
+    <TextView
+        android:id="@+id/txt_song_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x4"
+        android:layout_marginTop="@dimen/y8"
+        android:layout_toRightOf="@id/img_music_pic"
+        android:text="寂寞沙洲冷"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/txt_singer_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/img_music_pic"
+        android:layout_alignLeft="@+id/txt_song_name"
+        android:layout_alignStart="@+id/txt_song_name"
+        android:text="陈果"
+        android:textSize="12sp" />
+
+    <ImageButton
+        android:id="@+id/btn_music_list"
+        android:layout_width="@dimen/x24"
+        android:layout_height="@dimen/y24"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/btn_next_music"
+        android:background="@null"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_playbar_list"
+        android:tint="@color/colorPrimary" />
+
+    <ImageButton
+        android:id="@+id/btn_next_music"
+        android:layout_width="@dimen/x24"
+        android:layout_height="@dimen/y24"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/x16"
+        android:layout_marginRight="@dimen/x16"
+        android:layout_toLeftOf="@+id/btn_play_music"
+        android:background="@null"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_playbar_play"
+        android:tint="@color/colorPrimary" />
+
+    <ImageButton
+        android:id="@+id/btn_play_music"
+        android:layout_width="@dimen/x24"
+        android:layout_height="@dimen/y24"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/x8"
+        android:layout_marginTop="@dimen/y4"
+        android:background="@null"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_playbar_next"
+        android:tint="@color/colorPrimary" />
+</RelativeLayout>

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/success_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <!--轮播图-->
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/y80"
+                    android:contentDescription="@string/banner"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/sr" />
+
+                <!--三个圆形按钮-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/y16"
+                    android:paddingTop="@dimen/y16">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:id="@+id/itn_all_listening"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:contentDescription="@string/all_listening"
+                            android:gravity="center"
+                            android:src="@drawable/ic_all_listening" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/y4"
+                            android:alpha="0.87"
+                            android:gravity="center"
+                            android:text="@string/all_listening"
+
+                            android:textColor="@color/alpha_55_black"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:id="@+id/itn_everyday_recommend_music"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:contentDescription="@string/about"
+                            android:gravity="center"
+                            android:src="@drawable/ic_all_listening" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/y4"
+                            android:alpha="0.87"
+                            android:gravity="center"
+                            android:text="@string/every_recommend"
+                            android:textColor="@color/alpha_55_black"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:id="@+id/itn_new_music_rank"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:contentDescription="@string/new_music_rank"
+                            android:gravity="center"
+                            android:src="@drawable/ic_all_listening" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/y4"
+                            android:alpha="0.87"
+                            android:gravity="center"
+                            android:text="@string/new_music_rank"
+
+                            android:textColor="@color/alpha_55_black"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!--<ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/y8"
+                    android:layout_marginTop="@dimen/y8"
+                    android:background="@drawable/ic_grey_cut_line" />-->
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        style="@style/recommend_title_text"
+                        android:drawableLeft="@mipmap/ic_hot_music"
+                        android:drawableStart="@mipmap/ic_hot_music"
+                        android:text="@string/hot_music_album" />
+
+                    <Button
+                        android:id="@+id/btn_hot_music"
+                        style="@style/recommend_more_btn" />
+                </RelativeLayout>
+
+                <com.qhn.bhne.baseproject.wight.DisableScrollRecyclerView
+                    android:id="@+id/rec_hot_music"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp">
+
+                    <TextView
+                        style="@style/recommend_title_text"
+                        android:drawableLeft="@mipmap/ic_exclusive_report"
+                        android:drawableStart="@mipmap/ic_exclusive_report"
+                        android:text="@string/exclusive_report" />
+
+                    <Button
+                        android:id="@+id/btn_exclusive_report"
+                        style="@style/recommend_more_btn" />
+                </RelativeLayout>
+
+                <com.qhn.bhne.baseproject.wight.DisableScrollRecyclerView
+                    android:id="@+id/rec_exclusive_report"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        style="@style/recommend_title_text"
+                        android:drawableLeft="@mipmap/ic_new_music"
+                        android:drawableStart="@mipmap/ic_new_music"
+                        android:text="@string/new_music" />
+
+                    <Button
+                        android:id="@+id/btn_new_music"
+                        style="@style/recommend_more_btn" />
+                </RelativeLayout>
+
+                <com.qhn.bhne.baseproject.wight.DisableScrollRecyclerView
+                    android:id="@+id/rec_new_music"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        style="@style/recommend_title_text"
+                        android:drawableLeft="@mipmap/ic_good_mv"
+                        android:drawableStart="@mipmap/ic_good_mv"
+                        android:text="@string/good_mv" />
+
+                    <Button
+                        android:id="@+id/btn_good_mv"
+                        style="@style/recommend_more_btn" />
+                </RelativeLayout>
+
+                <com.qhn.bhne.baseproject.wight.DisableScrollRecyclerView
+                    android:id="@+id/rec_good_mv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/y48" />
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</FrameLayout>

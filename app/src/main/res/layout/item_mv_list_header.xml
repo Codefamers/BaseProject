@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txt_song_menu_title"
+        style="@style/song_menu_title_text"
+        android:drawableLeft="@drawable/flag_line"
+        android:textColor="@color/alpha_85_black"
+        android:text="散步" />
+
+
+    <TextView
+        android:id="@+id/txt_more_mv"
+        style="@style/song_menu_title_text"
+        android:drawableRight="@mipmap/ic_more"
+        android:text="更多"
+        android:textSize="12sp"
+        android:drawablePadding="@dimen/x4"
+        android:layout_alignBaseline="@+id/txt_song_menu_title"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>

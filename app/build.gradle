@@ -1,8 +1,13 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'com.neenbedankt.android-apt'//dagger2 需要的插件
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.2"
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
     defaultConfig {
         applicationId "com.qhn.bhne.baseproject"
         minSdkVersion 14
@@ -11,8 +16,17 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java', 'src/main/java-gen']
+        }
+    }
     buildTypes {
+        debug {
+            buildConfigField "boolean", "LOG_DEBUG", "true"//配置kLog
+        }
         release {
+            buildConfigField "boolean", "LOG_DEBUG", "false"//配置KLog
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -27,4 +41,55 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
     testCompile 'junit:junit:4.12'
+
+    //内存泄漏检测工具
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'//debug版本
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'//发布版本
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'//测试版本
+
+    apt 'com.jakewharton:butterknife-compiler:8.0.1'
+    compile 'com.jakewharton:butterknife:8.0.1'
+    compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.android.support:recyclerview-v7:24.2.1'
+    compile 'com.android.support:cardview-v7:24.2.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
+    compile 'com.google.dagger:dagger:2.2'
+    compile 'io.reactivex:rxandroid:1.2.0'
+    compile 'io.reactivex:rxjava:1.1.5'
+    compile 'com.google.code.gson:gson:2.4'
+    compile 'com.squareup.retrofit2:retrofit:2.0.2'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+    compile 'com.squareup.retrofit2:converter-jackson:2.0.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
+    compile 'com.squareup.okhttp3:okhttp:3.0.1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.0.1'
+    compile 'com.squareup.okio:okio:1.6.0'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.wang.avi:library:2.1.3'
+
+    //Required by Dagger2
+    apt 'com.google.dagger:dagger-compiler:2.2'
+    compile 'com.google.dagger:dagger:2.2'
+    // Dagger 2 中会用到 @Generated 注解，而 Android SDK 中没有 javax.anotation.Generated.class，所以在 Android 项目要添加此句
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+    //log打印库
+    compile 'com.github.zhaokaiqiang.klog:library:1.4.0'
+    //代码家动画效果
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.daimajia.easing:library:1.0.1@aar'
+    compile 'com.daimajia.androidanimations:library:1.1.3@aar'
+    //实体转换为数据库
+    compile 'de.greenrobot:greendao:1.3.7'
+    //状态栏染色
+    compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+    //布局距离
+    compile 'com.dmitrymalkovich.android:material-design-dimens:1.2'
+    //绑定控件rx事件
+    compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.4.0'
+    //photoview库
+    compile 'com.github.chrisbanes:PhotoView:1.2.6'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.3.0'
+    compile 'jp.wasabeef:glide-transformations:2.0.1'
+    compile 'com.github.tianzhijiexian:CommonAdapter:1.2.1'
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="big_title">24sp</dimen><!--大标题-->
+
+    <dimen name="app_bar">20sp</dimen><!--appBar文字-->
+    <dimen name="medium">16sp</dimen>
+    <dimen name="small_title">16sp</dimen><!--小标题-->
+    <dimen name="small_text">14sp</dimen><!--正文按钮文字-->
+    <dimen name="micro_text">12sp</dimen><!--小字提示-->
+</resources>
