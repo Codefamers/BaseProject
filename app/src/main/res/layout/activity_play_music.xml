@@ -11,5 +11,6 @@
     tools:context="com.qhn.bhne.baseproject.mvp.ui.activities.PlayMusicActivity">
     <TextView
         android:layout_width="wrap_content"
+        android:text="tianj"
         android:layout_height="wrap_content" />
 </RelativeLayout>
