@@ -40,21 +40,16 @@ import com.qhn.bhne.baseproject.application.App;
 import com.qhn.bhne.baseproject.common.Constants;
 import com.socks.library.KLog;
 
-import java.io.IOException;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.lang.reflect.Field;
-import java.security.GeneralSecurityException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Map;
 
-import javax.crypto.Mac;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscription;
 
@@ -247,6 +242,7 @@ public class MyUtils {
             }
         });
     }
+
     //将大数字转换为小数字eg 51000-5.1万
     public static String dealBigNum(int listenCount) {
         if (listenCount > 9999) {
@@ -254,10 +250,41 @@ public class MyUtils {
             int small = listenCount % 10000 / 1000;
             if (small < 1)
                 small = 0;
-            return String.valueOf(wan) + "." + String.valueOf(small)+"万";
+            return String.valueOf(wan) + "." + String.valueOf(small) + "万";
         }
         return String.valueOf(listenCount);
     }
 
+    public static byte[] getImage(String address) {
+        //通过代码 模拟器浏览器访问图片的流程
+        URL url = null;
+        try {
+            url = new URL(address);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setConnectTimeout(5000);
+            //获取服务器返回回来的流
+            InputStream is = conn.getInputStream();
 
+
+            return getBytes(is);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static byte[] getBytes(InputStream is) throws Exception {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int len = 0;
+        while ((len = is.read(buffer)) != -1) {
+            bos.write(buffer, 0, len);
+        }
+        is.close();
+        bos.flush();
+        byte[] result = bos.toByteArray();
+        System.out.println(new String(result));
+        return result;
+    }
 }

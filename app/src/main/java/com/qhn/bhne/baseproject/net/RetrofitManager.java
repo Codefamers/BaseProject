@@ -102,22 +102,7 @@ public class RetrofitManager {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
-/*
-        if (hostType == HostType.MOBILECDN_KUGOU) {
 
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(ApiConstants.getHost(hostType))
-                    .client(getOkHttpClient())
-                    .addConverterFactory(GsonLenientConverterFactory.create())
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-
-
-                    .build();
-        } else {
-
-
-
-        }*/
 
 
         mNewsService = retrofit.create(NewsService.class);

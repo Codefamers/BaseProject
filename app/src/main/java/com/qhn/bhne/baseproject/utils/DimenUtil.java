@@ -24,9 +24,9 @@ import com.qhn.bhne.baseproject.application.App;
  * @version 1.0 2016/7/7
  */
 public class DimenUtil {
-    public static float dp2px(float dp) {
-        final float scale = App.getAppContext().getResources().getDisplayMetrics().density;
-        return dp * scale + 0.5f;
+    public static int dp2px(int dp) {
+        final int scale = (int) App.getAppContext().getResources().getDisplayMetrics().density;
+        return (int) (dp * scale + 0.5f);
     }
 
     public static float sp2px(float sp) {

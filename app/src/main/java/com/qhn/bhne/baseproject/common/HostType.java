@@ -22,8 +22,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * @author 咖枯
- * @version 1.0 2016/5/25
+ * 
+ * @author quhuainan
+ * created on 2017/1/16 0016
  */
 public class HostType {
 

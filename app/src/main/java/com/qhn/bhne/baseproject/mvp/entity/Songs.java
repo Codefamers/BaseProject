@@ -1,5 +1,7 @@
 package com.qhn.bhne.baseproject.mvp.entity;
 
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="http://schemas.android.com/tools">
     <string name="app_name">小海Music</string>
     <string name="version">v1.0</string>
 
@@ -11,7 +11,6 @@
     <string name="news">新闻</string>
     <string name="zhihu">知乎</string>
     <string name="photo">图片</string>
-    <string name="video">视频</string>
     <string name="tools">设置</string>
     <string name="no_photo_mode">无图模式</string>
     <string name="night_mode">夜间模式</string>
@@ -51,22 +50,7 @@
     <string name="picture_already_save_to">图片已保存至%1$s</string>
     <string name="set_wallpaper_success">设置壁纸成功</string>
     <string name="about_msg">
-        这是一款Material Design风格的新闻阅读App，采用MVP模式，基于Dagger2+RxJava+Retrofit2进行开发。
-        \n新闻模块数据来源于网易，图片模块数据来源于干货集中营。
 
-        \n\n项目源码：https://github.com/kaku2015/ColorfulNews
-
-        \n\n主要用到的开源库：Dagger2、RxJava、Retrofit2、Butterknife、Greendao、PhotoView、Glide、Picasso…
-
-        \n\n作者：咖枯
-
-        \n\nGitHub：https://github.com/kaku2015
-
-        \n\n简书：http://www.jianshu.com/users/dc68e267ea1c/latest_articles
-
-        \n\nCSDN：http://blog.csdn.net/kaku2013
-
-        \n\nEmail：kaku201313@163.com
     </string>
     <string name="action_settings">设置</string>
     <string name="all_listening">大家都在听</string>
@@ -86,5 +70,46 @@
     <string name="download_manager">下载管理</string>
     <string name="local_music">本地音乐</string>
     <string name="recently_play">最近播放</string>
+    <string name="action_share">分享</string>
+    <string name="video">Video</string>
+
+    <string name="audio">Audio</string>
+
+    <string name="text">Text</string>
+
+    <string name="retry">Retry</string>
+
+    <string name="selection_disabled">Disabled</string>
+
+    <string name="selection_default">Default</string>
+
+    <string name="selection_default_none">Default (none)</string>
+
+    <string name="unexpected_intent_action">Unexpected intent action: <xliff:g id="action">%1$s</xliff:g></string>
+
+    <string name="enable_random_adaptation">Enable random adaptation</string>
+
+    <string name="error_drm_not_supported">Protected content not supported on API levels below 18</string>
+
+    <string name="error_drm_unsupported_scheme">This device does not support the required DRM scheme</string>
+
+    <string name="error_drm_unknown">An unknown DRM error occurred</string>
+
+    <string name="error_no_decoder">This device does not provide a decoder for <xliff:g id="mime_type">%1$s</xliff:g></string>
+
+    <string name="error_no_secure_decoder">This device does not provide a secure decoder for <xliff:g id="mime_type">%1$s</xliff:g></string>
+
+    <string name="error_querying_decoders">Unable to query device decoders</string>
+
+    <string name="error_instantiating_decoder">Unable to instantiate decoder
+        <xliff:g id="decoder_name">%1$s</xliff:g></string>
+
+    <string name="error_unsupported_video">Media includes video tracks, but none are playable by this device</string>
+
+    <string name="error_unsupported_audio">Media includes audio tracks, but none are playable by this device</string>
+
+    <string name="storage_permission_denied">Permission to access storage was denied</string>
+
+    <string name="sample_list_load_error">One or more sample lists failed to load</string>
 
 </resources>

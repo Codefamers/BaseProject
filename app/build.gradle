@@ -10,8 +10,8 @@ android {
     }
     defaultConfig {
         applicationId "com.qhn.bhne.baseproject"
-        minSdkVersion 14
-        targetSdkVersion 24
+        minSdkVersion 19
+        targetSdkVersion 19
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -92,4 +92,5 @@ dependencies {
     compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.3.0'
     compile 'jp.wasabeef:glide-transformations:2.0.1'
     compile 'com.github.tianzhijiexian:CommonAdapter:1.2.1'
+    compile 'com.google.android.exoplayer:exoplayer:r2.2.0'
 }

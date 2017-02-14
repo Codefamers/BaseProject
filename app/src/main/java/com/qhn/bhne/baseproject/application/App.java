@@ -6,12 +6,20 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.StrictMode;
+
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.google.android.exoplayer2.upstream.HttpDataSource;
+import com.google.android.exoplayer2.util.Util;
 import com.qhn.bhne.baseproject.BuildConfig;
 import com.qhn.bhne.baseproject.common.Constants;
 import com.qhn.bhne.baseproject.di.component.ApplicationComponent;
 
 import com.qhn.bhne.baseproject.di.component.DaggerApplicationComponent;
 import com.qhn.bhne.baseproject.di.module.ApplicationModule;
+import com.qhn.bhne.baseproject.mvp.entity.Songs;
 import com.qhn.greendao.DaoMaster;
 import com.qhn.greendao.DaoSession;
 import com.qhn.greendao.NewsChannelTableDao;
@@ -19,6 +27,9 @@ import com.socks.library.KLog;
 
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
+
+import java.util.List;
+
 import de.greenrobot.dao.query.QueryBuilder;
 /**
  * Created by qhn
@@ -27,9 +38,14 @@ import de.greenrobot.dao.query.QueryBuilder;
 
 public class App extends Application {
     private RefWatcher refWatcher;//内存泄漏工具
+    private List<Songs> currentPlayMusicList;
+
+
+
     private static Context sAppContext;
     private static DaoSession mDaoSession;
     public ApplicationComponent mApplicationComponent;
+    private String userAgent;
 
     public ApplicationComponent getApplicationComponent() {
         return mApplicationComponent;
@@ -62,8 +78,16 @@ public class App extends Application {
         setupDatabase();//配置数据库
         initApplicationComponent();
 
+        userAgent = Util.getUserAgent(this, "ExoPlayerDemo");
+
+    }
+    public List<Songs> getCurrentPlayMusicList() {
+        return currentPlayMusicList;
     }
 
+    public void setCurrentPlayMusicList(List<Songs> currentPlayMusicList) {
+        this.currentPlayMusicList = currentPlayMusicList;
+    }
     private void setupDatabase() {
         // 通过 DaoMaster 的内部类 DevOpenHelper，你可以得到一个便利的 SQLiteOpenHelper 对象。
         // 可能你已经注意到了，你并不需要去编写「CREATE TABLE」这样的 SQL 语句，因为 greenDAO 已经帮你做了。
@@ -156,5 +180,19 @@ public class App extends Application {
     }
     private RefWatcher installLeakCanary() {
         return RefWatcher.DISABLED;
+    }
+
+
+    public DataSource.Factory buildDataSourceFactory(DefaultBandwidthMeter bandwidthMeter) {
+        return new DefaultDataSourceFactory(this, bandwidthMeter,
+                buildHttpDataSourceFactory(bandwidthMeter));
+    }
+
+    public HttpDataSource.Factory buildHttpDataSourceFactory(DefaultBandwidthMeter bandwidthMeter) {
+        return new DefaultHttpDataSourceFactory(userAgent, bandwidthMeter);
+    }
+
+    public boolean useExtensionRenderers() {
+        return BuildConfig.FLAVOR.equals("withExtensions");
     }
 }

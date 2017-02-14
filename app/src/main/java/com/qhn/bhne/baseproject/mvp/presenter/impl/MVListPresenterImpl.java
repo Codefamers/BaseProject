@@ -10,6 +10,7 @@ import com.qhn.bhne.baseproject.mvp.interactor.impl.MVListInteractorImpl;
 import com.qhn.bhne.baseproject.mvp.presenter.MVListPresenter;
 import com.qhn.bhne.baseproject.mvp.presenter.base.BasePresenterImpl;
 import com.qhn.bhne.baseproject.mvp.view.MVListView;
+import com.socks.library.KLog;
 
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +50,7 @@ public class MVListPresenterImpl extends BasePresenterImpl<MVListView,Map<String
     @Inject
     public MVListPresenterImpl(MVListInteractorImpl mvListMVListInteractor) {
         this.mvListMVListInteractor = mvListMVListInteractor;
+        KLog.d();
     }
 
     @Override
