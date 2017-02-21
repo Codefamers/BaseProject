@@ -56,10 +56,12 @@ public class HostType {
     * "http://mobilecdn.kugou.com/api/v3/"
     * */
     public static final int MOBILECDN_KUGOU = 5;
+
+    public static final int SONG_LIST = 6;
     /**
      * 替代枚举的方案，使用IntDef保证类型安全
      */
-    @IntDef({SEARCH_DONG_TING, API_SONGLIST_TTPOD, API_DONG_TING,FM_API_TTPOD,MOBILECDN_KUGOU})
+    @IntDef({SEARCH_DONG_TING, API_SONGLIST_TTPOD, API_DONG_TING,FM_API_TTPOD,MOBILECDN_KUGOU,SONG_LIST})
     @Retention(RetentionPolicy.SOURCE)
     public @interface HostTypeChecker {
 

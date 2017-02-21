@@ -14,6 +14,7 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +24,16 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.bumptech.glide.util.LogTime;
 import com.qhn.bhne.baseproject.R;
 import com.qhn.bhne.baseproject.mvp.entity.MusicData;
 import com.qhn.bhne.baseproject.utils.DisplayUtil;
+import com.socks.library.KLog;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import uk.co.senab.photoview.log.LoggerDefault;
 
 /**
  * Created by AchillesL on 2016/11/15.
@@ -105,6 +110,7 @@ public class DiscView extends RelativeLayout {
         void onMusicChanged(MusicChangedStatus musicChangedStatus);
     }
 
+    private static final String TAG = "DiscView";
     public DiscView(Context context) {
         this(context, null);
     }
@@ -195,7 +201,6 @@ public class DiscView extends RelativeLayout {
             //当滑动到新页面时回调
             @Override
             public void onPageSelected(int position) {
-
                 resetOtherDiscAnimation(position);
                 notifyMusicPicChanged(position);
                 if (position > currentItem) {
@@ -293,10 +298,10 @@ public class DiscView extends RelativeLayout {
             public void onAnimationEnd(Animator animator) {
                 //指针动画结束后，重新定义指针动画状态属性并开始播放/暂停唱盘动画
                 if (needleAnimatorStatus == NeedleAnimatorStatus.TO_NEAR_END) {
-                    needleAnimatorStatus = NeedleAnimatorStatus.IN_NEAR_END;
-                    int index = mVpContain.getCurrentItem();
-                    playDiscAnimator(index);
-                    musicStatus = MusicStatus.PLAY;
+                    needleAnimatorStatus = NeedleAnimatorStatus.IN_NEAR_END;//唱针停在唱盘上
+                    int index = mVpContain.getCurrentItem();//获取当前vp显示的位置
+                    playDiscAnimator(index);//播放唱盘的动画
+                    musicStatus = MusicStatus.PLAY;//音乐状态为播放
                 } else if (needleAnimatorStatus == NeedleAnimatorStatus.TO_FAR_END) {
                     needleAnimatorStatus = NeedleAnimatorStatus.IN_FAR_END;
                     if (musicStatus == MusicStatus.STOP) {
@@ -333,17 +338,41 @@ public class DiscView extends RelativeLayout {
         });
     }
 
+    //播放唱盘动画
+    private void playDiscAnimator(int index) {
+        ObjectAnimator objectAnimator = mDiscAnimators.get(index);
+        if (objectAnimator.isPaused()) {
+            objectAnimator.resume();
+        } else {
+            objectAnimator.start();
+        }
+
+        //唱盘动画可能执行多次，只有不是音乐不在播放状态，在回调执行播放
+        if (musicStatus != MusicStatus.PLAY) {
+            notifyMusicStatusChanged(MusicChangedStatus.PLAY);
+        }
+    }
+
+    /*暂停唱盘动画*/
+    private void pauseDiscAnimator(int index) {
+        ObjectAnimator objectAnimator = mDiscAnimators.get(index);
+        objectAnimator.pause();
+        mNeedleAnimator.reverse();
+    }
+
     private void doWithAnimatorOnPageScroll(int state) {
         switch (state) {
-            case ViewPager.SCROLL_STATE_IDLE:
-            case ViewPager.SCROLL_STATE_SETTLING: {
+            case ViewPager.SCROLL_STATE_IDLE://viewPage处于闲置状态
+            case ViewPager.SCROLL_STATE_SETTLING: {//viewPage处于滑动状态但是这种滑动状态是自己控制的
+                Log.d(TAG, "doWithAnimatorOnPageScroll: 滑动---自己控制");
                 mViewPagerIsOffset = false;
                 if (musicStatus == MusicStatus.PLAY) {
                     playAnimator();
                 }
                 break;
             }
-            case ViewPager.SCROLL_STATE_DRAGGING: {
+            case ViewPager.SCROLL_STATE_DRAGGING: {//viewPage处于滑动状态但是这种滑动状态是外界控制的
+                Log.d(TAG, "doWithAnimatorOnPageScroll: 滑动---不属于自己控制");
                 mViewPagerIsOffset = true;
                 pauseAnimator();
                 break;
@@ -351,24 +380,26 @@ public class DiscView extends RelativeLayout {
         }
     }
 
-
+    //注入回调接口
     public void setPlayInfoListener(IPlayInfo listener) {
         this.mIPlayInfo = listener;
     }
 
 
-    /**
-     * 得到唱盘图片
-     * 唱盘图片由空心圆盘及音乐专辑图片“合成”得到
-     */
+     // 得到唱盘图片唱盘图片由空心圆盘及音乐专辑图片“合成”得到
     private Drawable getDiscDrawable(int musicPicRes) {
         int discSize = (int) (mScreenWidth * DisplayUtil.SCALE_DISC_SIZE);
         int musicPicSize = (int) (mScreenWidth * DisplayUtil.SCALE_MUSIC_PIC_SIZE);
+        //根据屏幕尺寸来设置唱片和唱盘的大小
 
+        //唱盘
         Bitmap bitmapDisc = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R
                 .mipmap.ic_disc), discSize, discSize, false);
+        //唱片变成圆形
         Bitmap bitmapMusicPic = getMusicPicBitmap(musicPicSize, musicPicRes);
+
         BitmapDrawable discDrawable = new BitmapDrawable(bitmapDisc);
+
         RoundedBitmapDrawable roundMusicDrawable = RoundedBitmapDrawableFactory.create
                 (getResources(), bitmapMusicPic);
 
@@ -376,6 +407,7 @@ public class DiscView extends RelativeLayout {
         discDrawable.setAntiAlias(true);
         roundMusicDrawable.setAntiAlias(true);
 
+        //唱盘，唱片合体
         Drawable[] drawables = new Drawable[2];
         drawables[0] = roundMusicDrawable;
         drawables[1] = discDrawable;
@@ -390,18 +422,23 @@ public class DiscView extends RelativeLayout {
         return layerDrawable;
     }
 
+    //压缩图片资源，防止OOM
     private Bitmap getMusicPicBitmap(int musicPicSize, int musicPicRes) {
+
         BitmapFactory.Options options = new BitmapFactory.Options();
+
+        //则通过BitmapFactory.decodeResource();方法获取的bitmap对象只包含其边界信息而不给其分配内存空间
         options.inJustDecodeBounds = true;
-
         BitmapFactory.decodeResource(getResources(), musicPicRes, options);
-        int imageWidth = options.outWidth;
 
+        //计算采样率 注意：采样率大于1时图片才会被压缩
+        int imageWidth = options.outWidth;
         int sample = imageWidth / musicPicSize;
         int dstSample = 1;
         if (sample > dstSample) {
             dstSample = sample;
         }
+
         options.inJustDecodeBounds = false;
         //设置图片采样率
         options.inSampleSize = dstSample;
@@ -412,6 +449,7 @@ public class DiscView extends RelativeLayout {
                 musicPicRes, options), musicPicSize, musicPicSize, true);
     }
 
+    //注入数据源，初始化数据
     public void setMusicDataList(List<MusicData> musicDataList) {
         if (musicDataList.isEmpty()) return;
 
@@ -419,8 +457,7 @@ public class DiscView extends RelativeLayout {
         mMusicDatas.clear();
         mDiscAnimators.clear();
         mMusicDatas.addAll(musicDataList);
-
-        int i = 0;
+        //更改数据
         for (MusicData musicData : mMusicDatas) {
             View discLayout = LayoutInflater.from(getContext()).inflate(R.layout.layout_disc,
                     mVpContain, false);
@@ -428,7 +465,7 @@ public class DiscView extends RelativeLayout {
             ImageView disc = (ImageView) discLayout.findViewById(R.id.ivDisc);
             disc.setImageDrawable(getDiscDrawable(musicData.getMusicPicRes()));
 
-            mDiscAnimators.add(getDiscObjectAnimator(disc, i++));
+            mDiscAnimators.add(getDiscObjectAnimator(disc));
             mDiscLayouts.add(discLayout);
         }
         mViewPagerAdapter.notifyDataSetChanged();
@@ -440,15 +477,16 @@ public class DiscView extends RelativeLayout {
         }
     }
 
-    private ObjectAnimator getDiscObjectAnimator(ImageView disc, int i) {
+    //定义唱盘动画
+    private ObjectAnimator getDiscObjectAnimator(ImageView disc) {
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(disc, View.ROTATION, 0, 360);
         objectAnimator.setRepeatCount(ValueAnimator.INFINITE);
         objectAnimator.setDuration(20 * 1000);
         objectAnimator.setInterpolator(new LinearInterpolator());
-
         return objectAnimator;
     }
 
+    //activity结束时需要调用的方法
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
@@ -491,29 +529,6 @@ public class DiscView extends RelativeLayout {
         }
     }
 
-    /*播放唱盘动画*/
-    private void playDiscAnimator(int index) {
-        ObjectAnimator objectAnimator = mDiscAnimators.get(index);
-        if (objectAnimator.isPaused()) {
-            objectAnimator.resume();
-        } else {
-            objectAnimator.start();
-        }
-        /**
-         * 唱盘动画可能执行多次，只有不是音乐不在播放状态，在回调执行播放
-         * */
-        if (musicStatus != MusicStatus.PLAY) {
-            notifyMusicStatusChanged(MusicChangedStatus.PLAY);
-        }
-    }
-
-    /*暂停唱盘动画*/
-    private void pauseDiscAnimator(int index) {
-        ObjectAnimator objectAnimator = mDiscAnimators.get(index);
-        objectAnimator.pause();
-        mNeedleAnimator.reverse();
-    }
-
 
     public void notifyMusicPicChanged(int position) {
         if (mIPlayInfo != null) {
@@ -528,9 +543,7 @@ public class DiscView extends RelativeLayout {
         }
     }
 
-    private void play() {
-        playAnimator();
-
+    private void play() {playAnimator();
     }
 
 

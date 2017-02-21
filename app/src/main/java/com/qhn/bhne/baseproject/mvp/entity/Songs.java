@@ -1,7 +1,9 @@
 package com.qhn.bhne.baseproject.mvp.entity;
 
+import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,7 +11,7 @@ import java.util.List;
  * on 2016/11/4 0004.
  */
 
-public class Songs {
+public class Songs implements Parcelable {
 
     /**
      * albumId : 638762
@@ -714,4 +716,107 @@ public class Songs {
             this.url = url;
         }
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.albumId);
+        dest.writeString(this.albumName);
+        dest.writeString(this.alias);
+        dest.writeInt(this.audit);
+        dest.writeInt(this.commentCount);
+        dest.writeInt(this.composerId);
+        dest.writeInt(this.favorites);
+        dest.writeByte(this.firstHit ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.isExclusive);
+        dest.writeInt(this.lang);
+        dest.writeString(this.level);
+        dest.writeInt(this.librettistId);
+        dest.writeInt(this.listenCount);
+        dest.writeInt(this.mvBulletCount);
+        dest.writeInt(this.mvPickCount);
+        dest.writeString(this.name);
+        dest.writeInt(this.operType);
+        dest.writeInt(this.originalId);
+        dest.writeInt(this.outFlag);
+        dest.writeString(this.picUrl);
+        dest.writeInt(this.producer);
+        dest.writeInt(this.publisher);
+        dest.writeInt(this.releaseYear);
+        dest.writeString(this.remarks);
+        dest.writeInt(this.riskRank);
+        dest.writeInt(this.singerId);
+        dest.writeString(this.singerName);
+        dest.writeInt(this.singerSFlag);
+        dest.writeInt(this.songId);
+        dest.writeInt(this.status);
+        dest.writeInt(this.type);
+        dest.writeList(this.auditionList);
+        dest.writeList(this.mvList);
+        dest.writeList(this.outLinks);
+        dest.writeList(this.singers);
+        dest.writeList(this.urlList);
+    }
+
+    public Songs() {
+    }
+
+    protected Songs(Parcel in) {
+        this.albumId = in.readInt();
+        this.albumName = in.readString();
+        this.alias = in.readString();
+        this.audit = in.readInt();
+        this.commentCount = in.readInt();
+        this.composerId = in.readInt();
+        this.favorites = in.readInt();
+        this.firstHit = in.readByte() != 0;
+        this.isExclusive = in.readInt();
+        this.lang = in.readInt();
+        this.level = in.readString();
+        this.librettistId = in.readInt();
+        this.listenCount = in.readInt();
+        this.mvBulletCount = in.readInt();
+        this.mvPickCount = in.readInt();
+        this.name = in.readString();
+        this.operType = in.readInt();
+        this.originalId = in.readInt();
+        this.outFlag = in.readInt();
+        this.picUrl = in.readString();
+        this.producer = in.readInt();
+        this.publisher = in.readInt();
+        this.releaseYear = in.readInt();
+        this.remarks = in.readString();
+        this.rightKey = in.readParcelable(RightKeyBean.class.getClassLoader());
+        this.riskRank = in.readInt();
+        this.singerId = in.readInt();
+        this.singerName = in.readString();
+        this.singerSFlag = in.readInt();
+        this.songId = in.readInt();
+        this.status = in.readInt();
+        this.type = in.readInt();
+        this.auditionList = new ArrayList<AuditionListBean>();
+        in.readList(this.auditionList, AuditionListBean.class.getClassLoader());
+
+
+        this.singers = new ArrayList<SingersBean>();
+        in.readList(this.singers, SingersBean.class.getClassLoader());
+        this.urlList = new ArrayList<UrlListBean>();
+        in.readList(this.urlList, UrlListBean.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<Songs> CREATOR = new Parcelable.Creator<Songs>() {
+        @Override
+        public Songs createFromParcel(Parcel source) {
+            return new Songs(source);
+        }
+
+        @Override
+        public Songs[] newArray(int size) {
+            return new Songs[size];
+        }
+    };
 }

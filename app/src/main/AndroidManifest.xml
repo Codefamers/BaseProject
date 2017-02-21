@@ -22,12 +22,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".mvp.ui.activities.MainActivity"
-            android:launchMode="singleInstance"/>
-        <activity android:name=".mvp.ui.activities.PlayMusicActivity"
+        <activity
+            android:name=".mvp.ui.activities.MainActivity"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".mvp.ui.activities.PlayMusicActivity"
+            android:parentActivityName=".mvp.ui.activities.MainActivity" />
+        <activity android:name=".playmusicDemo.SampleChooserActivity" />
+        <activity android:name=".playmusicDemo.PlayerActivity" />
+        <activity android:name=".mvp.ui.activities.MusicListActivity"
             android:parentActivityName=".mvp.ui.activities.MainActivity"/>
-        <activity android:name=".playmusicDemo.SampleChooserActivity"/>
-        <activity android:name=".playmusicDemo.PlayerActivity"/>
     </application>
 
 </manifest>

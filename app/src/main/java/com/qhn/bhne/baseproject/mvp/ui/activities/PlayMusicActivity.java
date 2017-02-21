@@ -30,7 +30,6 @@ import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.audio.MediaCodecAudioRenderer;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.extractor.ExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
@@ -53,7 +52,6 @@ import com.qhn.bhne.baseproject.utils.DisplayUtil;
 import com.qhn.bhne.baseproject.utils.FastBlurUtil;
 import com.qhn.bhne.baseproject.wight.BackgroundAnimationRelativeLayout;
 import com.qhn.bhne.baseproject.wight.DiscView;
-import com.socks.library.KLog;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -99,7 +97,7 @@ public class PlayMusicActivity extends BaseActivity implements DiscView.IPlayInf
     public static final String PARAM_MUSIC_LIST = "PARAM_MUSIC_LIST";
     private MusicReceiver mMusicReceiver = new MusicReceiver();
     private List<MusicData> mMusicDatas = new ArrayList<>();
-    private List<Songs> mSongsList=new ArrayList<>();
+    private List<Songs> mSongsList = new ArrayList<>();
     private SimpleExoPlayer player;
     private Handler mMusicHandler = new Handler() {
         @Override
@@ -114,7 +112,8 @@ public class PlayMusicActivity extends BaseActivity implements DiscView.IPlayInf
 
     @Override
     protected void initViews() {
-        initMusicDatas();
+        makeStatusBarTransparent();
+        initMusicData();
         initMusicReceiver();
         initPlayer();
         mDisc.setPlayInfoListener(this);
@@ -126,10 +125,12 @@ public class PlayMusicActivity extends BaseActivity implements DiscView.IPlayInf
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 mTvMusicDuration.setText(duration2Time(progress));
             }
+
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 stopUpdateSeekBarProgress();
             }
+
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 seekTo(seekBar.getProgress());
@@ -146,21 +147,20 @@ public class PlayMusicActivity extends BaseActivity implements DiscView.IPlayInf
     private void initPlayer() {
 
         //1.创建渲染器TrackSelector
-        BandwidthMeter bandwidthMeter=new DefaultBandwidthMeter();
-        TrackSelection.Factory videoTrackSelectionFactory=new
+        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+        TrackSelection.Factory videoTrackSelectionFactory = new
                 AdaptiveVideoTrackSelection.Factory(bandwidthMeter);
-        TrackSelector trackSelector=new DefaultTrackSelector(videoTrackSelectionFactory);
+        TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
 
         //2.创建一个默认的加载控制器 loadControl
-        LoadControl loadControl=new DefaultLoadControl();
+        LoadControl loadControl = new DefaultLoadControl();
         //3.创建一个Player
-        player= ExoPlayerFactory.newSimpleInstance(this,trackSelector,loadControl);
-        DefaultBandwidthMeter bandwidthMete=new DefaultBandwidthMeter();
-        DataSource.Factory dataSourceFactory=new DefaultDataSourceFactory(this, Util.getUserAgent(this, "ExoPlayerDemo"),bandwidthMete);
-        ExtractorsFactory extractorsFactory=new DefaultExtractorsFactory();
-        Uri uri=Uri.parse("http://om5.alicdn.com/197/1964894197/2100285652/1775713590_59789536_l.mp3?" +
-                "auth_key=84e1627f5f5606c9131c30d54523ab03-1487559600-0-null");
-        MediaSource audioSource=new ExtractorMediaSource(uri,dataSourceFactory,extractorsFactory,null,null);
+        player = ExoPlayerFactory.newSimpleInstance(this, trackSelector, loadControl);
+        DefaultBandwidthMeter bandwidthMete = new DefaultBandwidthMeter();
+        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(this, Util.getUserAgent(this, "ExoPlayerDemo"), bandwidthMete);
+        ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+        Uri uri = Uri.parse("http://om6.alicdn.com/650/2650/14237/175791_1438267701.mp3?auth_key=e68768460a356a3b670f6ccde0572a9e-1488164400-0-null");
+        MediaSource audioSource = new ExtractorMediaSource(uri, dataSourceFactory, extractorsFactory, null, null);
         player.prepare(audioSource);
 
     }
@@ -220,7 +220,8 @@ public class PlayMusicActivity extends BaseActivity implements DiscView.IPlayInf
         }
     }
 
-    private void initMusicDatas() {
+    private void initMusicData() {
+        //Intent intent=getIntent();
         MusicData musicData1 = new MusicData(R.raw.music1, R.raw.ic_music1, "寻", "三亩地");
         MusicData musicData2 = new MusicData(R.raw.music2, R.raw.ic_music2, "Nightingale", "YANI");
         MusicData musicData3 = new MusicData(R.raw.music3, R.raw.ic_music3, "Cornfield Chase", "Hans Zimmer");

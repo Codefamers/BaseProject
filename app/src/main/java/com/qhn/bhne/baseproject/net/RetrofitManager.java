@@ -31,12 +31,14 @@ import com.qhn.bhne.baseproject.mvp.entity.ChannelList;
 import com.qhn.bhne.baseproject.mvp.entity.GirlData;
 import com.qhn.bhne.baseproject.mvp.entity.MVList;
 import com.qhn.bhne.baseproject.mvp.entity.MVType;
+import com.qhn.bhne.baseproject.mvp.entity.MusicList;
 import com.qhn.bhne.baseproject.mvp.entity.MusicRank;
 import com.qhn.bhne.baseproject.mvp.entity.NewsDetail;
 import com.qhn.bhne.baseproject.mvp.entity.NewsSummary;
 import com.qhn.bhne.baseproject.mvp.entity.RankList;
 import com.qhn.bhne.baseproject.mvp.entity.RecommendContent;
 import com.qhn.bhne.baseproject.mvp.entity.SongMenu;
+import com.qhn.bhne.baseproject.mvp.entity.Songs;
 import com.qhn.bhne.baseproject.utils.NetUtil;
 import com.socks.library.KLog;
 
@@ -72,7 +74,7 @@ import rx.Observable;
 public class RetrofitManager {
     private static RetrofitManager retrofitManager;
     private NewsService mNewsService;
-
+    private static final String TAG = "RetrofitManager";
     /**
      * 设缓存有效期为两天
      */
@@ -96,6 +98,7 @@ public class RetrofitManager {
     //根据hotsType来创建不同的service
     public RetrofitManager(@HostType.HostTypeChecker int hostType) {
         Retrofit retrofit;
+        Log.d(TAG, "RetrofitManager: "+ApiConstants.getHost(hostType));
         retrofit = new Retrofit.Builder()
                 .baseUrl(ApiConstants.getHost(hostType))
                 .client(getOkHttpClient())
@@ -243,7 +246,9 @@ public class RetrofitManager {
     public Observable<MVList> getMVListObservable(int id, int order, int page, int size) {
         return mNewsService.getMVList(id, order, page, size);
     }
-
+    public Observable<MusicList> getMusicListObservable(int id) {
+        return mNewsService.getMusicList(id);
+    }
     public Observable<MVType> getMVTypeObservable() {
         return mNewsService.getVideoType();
     }

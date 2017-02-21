@@ -4,9 +4,9 @@ import com.qhn.bhne.baseproject.mvp.presenter.base.BasePresenter;
 
 /**
  * Created by qhn
- * on 2016/11/9 0009.
+ * on 2017/2/14 0014.
  */
 
-public interface MusicRankPresenter extends BasePresenter {
-
+public interface MusicListPresenter extends BasePresenter{
+    void loadData();
 }

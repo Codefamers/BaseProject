@@ -8,6 +8,7 @@ import com.qhn.bhne.baseproject.di.module.ActivityModule;
 import com.qhn.bhne.baseproject.di.scope.ContextLife;
 import com.qhn.bhne.baseproject.di.scope.PerActivity;
 import com.qhn.bhne.baseproject.mvp.ui.activities.MainActivity;
+import com.qhn.bhne.baseproject.mvp.ui.activities.MusicListActivity;
 
 
 import dagger.Component;
@@ -30,6 +31,7 @@ public interface ActivityComponent {
 
     void inject(MainActivity mainActivity);
 
+    void inject(MusicListActivity musicListActivity);
   /* void inject(NewsDetailActivity newsDetailActivity);
 
     void inject(NewsChannelActivity newsChannelActivity);

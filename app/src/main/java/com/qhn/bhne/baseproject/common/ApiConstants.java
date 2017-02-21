@@ -33,6 +33,8 @@ public class ApiConstants {
     public static final String FM_API_TTPOD = "http://fm.api.ttpod.com/";
     //酷狗
     private static final String KUGOU_MOBILECDN = "http://mobilecdn.kugou.com/api/v3/";
+    //音乐列表
+    public static final String SONG_LIST_TTPOD = "http://api.songlist.ttpod.com/";
 
     public static final String NETEAST_HOST = "http://c.m.163.com/";
     public static final String END_URL = "-20.html";
@@ -195,6 +197,9 @@ public class ApiConstants {
                 break;
             case HostType.MOBILECDN_KUGOU:
                 host = KUGOU_MOBILECDN;
+                break;
+            case HostType.SONG_LIST:
+                host=SONG_LIST_TTPOD;
                 break;
             default:
                 host = "";

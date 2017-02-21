@@ -81,7 +81,8 @@ public class MainActivity extends BaseActivity {
         relMicroPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MainActivity.this,PlayMusicActivity.class);
+                Intent intent=new Intent(MainActivity.this,MusicListActivity.class);
+
                 startActivity(intent);
             }
         });
@@ -120,6 +121,7 @@ public class MainActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.action_download:
                 Toast.makeText(this, "下载", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this,PlayMusicActivity.class));
                 break;
             case R.id.action_search:
                 Toast.makeText(this, "搜索", Toast.LENGTH_SHORT).show();

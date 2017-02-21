@@ -22,12 +22,14 @@ import com.qhn.bhne.baseproject.mvp.entity.ChannelList;
 import com.qhn.bhne.baseproject.mvp.entity.GirlData;
 import com.qhn.bhne.baseproject.mvp.entity.MVList;
 import com.qhn.bhne.baseproject.mvp.entity.MVType;
+import com.qhn.bhne.baseproject.mvp.entity.MusicList;
 import com.qhn.bhne.baseproject.mvp.entity.MusicRank;
 import com.qhn.bhne.baseproject.mvp.entity.NewsDetail;
 import com.qhn.bhne.baseproject.mvp.entity.NewsSummary;
 import com.qhn.bhne.baseproject.mvp.entity.RankList;
 import com.qhn.bhne.baseproject.mvp.entity.RecommendContent;
 import com.qhn.bhne.baseproject.mvp.entity.SongMenu;
+import com.qhn.bhne.baseproject.mvp.entity.Songs;
 
 import java.util.List;
 import java.util.Map;
@@ -88,4 +90,7 @@ public interface NewsService {
     Observable<MVType> getVideoType();
     @GET("rank/list?apiver=4&withsong=1&showtype=2&plat=0&parentid=0&version=8352")
     Observable<MusicRank> getMusicRank();
+    @GET("songlists/{id}?")
+    Observable<MusicList> getMusicList(@Path("id") int id);
 }
+
