@@ -18,7 +18,7 @@ import javax.inject.Inject;
  * on 2016/11/9 0009.
  */
 
-public class MusicRankPresenterImpl extends BasePresenterImpl<MusicRankView,MusicRank>  {
+public class MusicRankPresenterImpl extends BasePresenterImpl<MusicRankView,MusicRank>   {
 
     private MusicRankInteractorImpl musicRankInteractor;
 
@@ -34,7 +34,6 @@ public class MusicRankPresenterImpl extends BasePresenterImpl<MusicRankView,Musi
 
     @Override
     public void success(MusicRank data) {
-        super.success(data);
         List<MusicRank.DataBean.InfoBean> infoBeanList=data.getData().getInfo();
         infoBeanList.remove(0);
         mView.loadSuccess(infoBeanList);

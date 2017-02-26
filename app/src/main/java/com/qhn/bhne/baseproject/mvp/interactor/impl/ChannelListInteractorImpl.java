@@ -57,7 +57,7 @@ public class ChannelListInteractorImpl implements ChannelListInteractor<ChannelL
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        listener.onError(MyUtils.analyzeNetworkError(e));
+                        listener.onFail(MyUtils.analyzeNetworkError(e));
                     }
 
                     @Override

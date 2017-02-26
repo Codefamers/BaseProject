@@ -86,7 +86,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     private void initDrawerLayout() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        toolbar.setLogo(R.mipmap.ic_default_photo);
         toolbar.setOnMenuItemClickListener(this);
         NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout,

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:zhy="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/ll_success_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/y16"
+                android:layout_marginLeft="@dimen/x8"
+                android:layout_marginRight="@dimen/x8"
+                android:layout_marginTop="@dimen/y16"
+                android:text="@string/hot_search"
+                android:textColor="@color/alpha_35_black"
+                android:textSize="14sp" />
+
+            <com.qhn.bhne.baseproject.wight.TagFlowLayout
+                android:id="@+id/tfl_hot_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x8"
+                android:layout_marginRight="@dimen/x8"
+                zhy:max_select="-1" />
+
+            <ImageView
+                android:id="@+id/img_cut_line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/y8"
+                android:layout_marginTop="@dimen/y8"
+                android:src="@drawable/ic_grey_cut_line" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rec_search_history"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x8"
+                android:layout_marginRight="@dimen/x8" />
+
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

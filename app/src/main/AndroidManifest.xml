@@ -30,8 +30,26 @@
             android:parentActivityName=".mvp.ui.activities.MainActivity" />
         <activity android:name=".playmusicDemo.SampleChooserActivity" />
         <activity android:name=".playmusicDemo.PlayerActivity" />
-        <activity android:name=".mvp.ui.activities.MusicListActivity"
-            android:parentActivityName=".mvp.ui.activities.MainActivity"/>
+        <activity
+            android:name=".mvp.ui.activities.MusicListActivity"
+            android:parentActivityName=".mvp.ui.activities.MainActivity" />
+
+        <service android:name=".mvp.ui.service.MusicService" />
+
+        <activity
+            android:name=".mvp.ui.activities.SearchActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".mvp.ui.activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        <activity android:name=".mvp.ui.activities.WebActivity"
+            android:parentActivityName=".mvp.ui.activities.SearchActivity"/>
     </application>
 
 </manifest>

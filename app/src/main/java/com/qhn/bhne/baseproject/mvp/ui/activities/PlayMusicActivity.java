@@ -1,19 +1,14 @@
 package com.qhn.bhne.baseproject.mvp.ui.activities;
 
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
+import android.content.ComponentName;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
@@ -26,40 +21,24 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.LoadControl;
-import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
-import com.google.android.exoplayer2.extractor.ExtractorsFactory;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
-import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.trackselection.AdaptiveVideoTrackSelection;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelection;
-import com.google.android.exoplayer2.trackselection.TrackSelector;
-import com.google.android.exoplayer2.upstream.BandwidthMeter;
-import com.google.android.exoplayer2.upstream.DataSource;
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.util.Util;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.qhn.bhne.baseproject.R;
-import com.qhn.bhne.baseproject.mvp.entity.MusicData;
+import com.qhn.bhne.baseproject.mvp.entity.CurrentPlayMusic;
 import com.qhn.bhne.baseproject.mvp.entity.Songs;
 import com.qhn.bhne.baseproject.mvp.ui.activities.base.BaseActivity;
 import com.qhn.bhne.baseproject.mvp.ui.service.MusicService;
-import com.qhn.bhne.baseproject.utils.DisplayUtil;
-import com.qhn.bhne.baseproject.utils.FastBlurUtil;
 import com.qhn.bhne.baseproject.wight.BackgroundAnimationRelativeLayout;
 import com.qhn.bhne.baseproject.wight.DiscView;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
+import javax.inject.Inject;
 
-import static com.qhn.bhne.baseproject.wight.DisView.DURATION_NEEDLE_ANIAMTOR;
+import butterknife.BindView;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class PlayMusicActivity extends BaseActivity implements DiscView.IPlayInfo, View
         .OnClickListener {
@@ -94,11 +73,10 @@ public class PlayMusicActivity extends BaseActivity implements DiscView.IPlayInf
     SeekBar mSeekBar;
     @BindView(R.id.activity_play_music)
     BackgroundAnimationRelativeLayout mRootLayout;
-    public static final String PARAM_MUSIC_LIST = "PARAM_MUSIC_LIST";
-    private MusicReceiver mMusicReceiver = new MusicReceiver();
-    private List<MusicData> mMusicDatas = new ArrayList<>();
-    private List<Songs> mSongsList = new ArrayList<>();
-    private SimpleExoPlayer player;
+
+    @Inject
+    CurrentPlayMusic currentPlayMusic;
+    private MusicService musicService;
     private Handler mMusicHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -109,81 +87,70 @@ public class PlayMusicActivity extends BaseActivity implements DiscView.IPlayInf
         }
     };
 
+    private ServiceConnection musicSC = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            MusicService.DataBinder dataBinder = (MusicService.DataBinder) service;
+            musicService = dataBinder.getMusicService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
+    private int mMusicQuality;//当前的歌曲品质
+    private Songs mCurrentSong;//当前播放的歌曲
+    private int playListPosition;//当前歌曲的播放位置
+    private List<Songs> mSongsList;//当前播放歌曲列表
 
     @Override
     protected void initViews() {
         makeStatusBarTransparent();
         initMusicData();
-        initMusicReceiver();
-        initPlayer();
+        Intent in = new Intent(this, MusicService.class);
+        startService(in);
+        bindService(in, musicSC, BIND_AUTO_CREATE);
         mDisc.setPlayInfoListener(this);
         mIvLast.setOnClickListener(this);
         mIvNext.setOnClickListener(this);
         mIvPlayOrPause.setOnClickListener(this);
+
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            //拖动滑块位置发生改变时触发的方法
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 mTvMusicDuration.setText(duration2Time(progress));
             }
 
+            //开始滑动
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                stopUpdateSeekBarProgress();
+                startUpdateSeekBarProgress();
+
             }
 
+            //停止滑动
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 seekTo(seekBar.getProgress());
-                startUpdateSeekBarProgress();
+                stopUpdateSeekBarProgress();
             }
         });
         mTvMusicDuration.setText(duration2Time(0));
         mTvTotalMusicDuration.setText(duration2Time(0));
-        mDisc.setMusicDataList(mMusicDatas);
-
-
-    }
-
-    private void initPlayer() {
-
-        //1.创建渲染器TrackSelector
-        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-        TrackSelection.Factory videoTrackSelectionFactory = new
-                AdaptiveVideoTrackSelection.Factory(bandwidthMeter);
-        TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
-
-        //2.创建一个默认的加载控制器 loadControl
-        LoadControl loadControl = new DefaultLoadControl();
-        //3.创建一个Player
-        player = ExoPlayerFactory.newSimpleInstance(this, trackSelector, loadControl);
-        DefaultBandwidthMeter bandwidthMete = new DefaultBandwidthMeter();
-        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(this, Util.getUserAgent(this, "ExoPlayerDemo"), bandwidthMete);
-        ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
-        Uri uri = Uri.parse("http://om6.alicdn.com/650/2650/14237/175791_1438267701.mp3?auth_key=e68768460a356a3b670f6ccde0572a9e-1488164400-0-null");
-        MediaSource audioSource = new ExtractorMediaSource(uri, dataSourceFactory, extractorsFactory, null, null);
-        player.prepare(audioSource);
+        mDisc.setMusicDataList(currentPlayMusic);
+        mDisc.play();
 
     }
-
 
     private void stopUpdateSeekBarProgress() {
         mMusicHandler.removeMessages(MUSIC_MESSAGE);
     }
 
-    private void initMusicReceiver() {
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(MusicService.ACTION_STATUS_MUSIC_PLAY);
-        intentFilter.addAction(MusicService.ACTION_STATUS_MUSIC_PAUSE);
-        intentFilter.addAction(MusicService.ACTION_STATUS_MUSIC_DURATION);
-        intentFilter.addAction(MusicService.ACTION_STATUS_MUSIC_COMPLETE);
-        /*注册本地广播*/
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMusicReceiver, intentFilter);
-    }
-
-
     @Override
     protected void initInjector() {
-
+        getmActivityComponent().inject(this);
     }
 
     @Override
@@ -202,9 +169,6 @@ public class PlayMusicActivity extends BaseActivity implements DiscView.IPlayInf
         return true;
     }
 
-    private void stopUpdateSeekBarProgree() {
-        mMusicHandler.removeMessages(MUSIC_MESSAGE);
-    }
 
     /*设置透明状态栏*/
     private void makeStatusBarTransparent() {
@@ -221,93 +185,29 @@ public class PlayMusicActivity extends BaseActivity implements DiscView.IPlayInf
     }
 
     private void initMusicData() {
-        //Intent intent=getIntent();
-        MusicData musicData1 = new MusicData(R.raw.music1, R.raw.ic_music1, "寻", "三亩地");
-        MusicData musicData2 = new MusicData(R.raw.music2, R.raw.ic_music2, "Nightingale", "YANI");
-        MusicData musicData3 = new MusicData(R.raw.music3, R.raw.ic_music3, "Cornfield Chase", "Hans Zimmer");
+        playListPosition = currentPlayMusic.getPlayPosition();
+        mMusicQuality = currentPlayMusic.getMusicQuality();
+        mSongsList = currentPlayMusic.getCurrentPlaySongList();
+        mCurrentSong = mSongsList.get(playListPosition);
 
-        mMusicDatas.add(musicData1);
-        mMusicDatas.add(musicData2);
-        mMusicDatas.add(musicData3);
+       // updateMusicDurationInfo(mCurrentSong.getUrlList().get(mMusicQuality).getDuration());
 
-        Intent intent = new Intent(this, MusicService.class);
-        intent.putExtra(PARAM_MUSIC_LIST, (Serializable) mMusicDatas);
-        startService(intent);
     }
 
-    private void try2UpdateMusicPicBackground(final int musicPicRes) {
+    private void try2UpdateMusicPicBackground(final String musicPicRes) {
         if (mRootLayout.isNeed2UpdateBackground(musicPicRes)) {
-            new Thread(new Runnable() {
+            Glide.with(getBaseContext()).load(musicPicRes).bitmapTransform(new BlurTransformation(getBaseContext(), 8)).into(new SimpleTarget<GlideDrawable>() {
                 @Override
-                public void run() {
-                    final Drawable foregroundDrawable = getForegroundDrawable(musicPicRes);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mRootLayout.setForeground(foregroundDrawable);
-                            mRootLayout.beginAnimation();
-                        }
-                    });
+                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                    resource.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+
+                    mRootLayout.setForeground(resource);
+                    mRootLayout.beginAnimation();
                 }
-            }).start();
+            });
         }
     }
 
-    private Drawable getForegroundDrawable(int musicPicRes) {
-        /*得到屏幕的宽高比，以便按比例切割图片一部分*/
-        final float widthHeightSize = (float) (DisplayUtil.getScreenWidth(PlayMusicActivity.this)
-                * 1.0 / DisplayUtil.getScreenHeight(this) * 1.0);
-
-        Bitmap bitmap = getForegroundBitmap(musicPicRes);
-        int cropBitmapWidth = (int) (widthHeightSize * bitmap.getHeight());
-        int cropBitmapWidthX = (int) ((bitmap.getWidth() - cropBitmapWidth) / 2.0);
-
-        /*切割部分图片*/
-        Bitmap cropBitmap = Bitmap.createBitmap(bitmap, cropBitmapWidthX, 0, cropBitmapWidth,
-                bitmap.getHeight());
-        /*缩小图片*/
-        Bitmap scaleBitmap = Bitmap.createScaledBitmap(cropBitmap, bitmap.getWidth() / 50, bitmap
-                .getHeight() / 50, false);
-        /*模糊化*/
-        final Bitmap blurBitmap = FastBlurUtil.doBlur(scaleBitmap, 8, true);
-
-        final Drawable foregroundDrawable = new BitmapDrawable(blurBitmap);
-        /*加入灰色遮罩层，避免图片过亮影响其他控件*/
-        foregroundDrawable.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
-        return foregroundDrawable;
-    }
-
-    private Bitmap getForegroundBitmap(int musicPicRes) {
-        int screenWidth = DisplayUtil.getScreenWidth(this);
-        int screenHeight = DisplayUtil.getScreenHeight(this);
-
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-
-        BitmapFactory.decodeResource(getResources(), musicPicRes, options);
-        int imageWidth = options.outWidth;
-        int imageHeight = options.outHeight;
-
-        if (imageWidth < screenWidth && imageHeight < screenHeight) {
-            return BitmapFactory.decodeResource(getResources(), musicPicRes);
-        }
-
-        int sample = 2;
-        int sampleX = imageWidth / DisplayUtil.getScreenWidth(this);
-        int sampleY = imageHeight / DisplayUtil.getScreenHeight(this);
-
-        if (sampleX > sampleY && sampleY > 1) {
-            sample = sampleX;
-        } else if (sampleY > sampleX && sampleX > 1) {
-            sample = sampleY;
-        }
-
-        options.inJustDecodeBounds = false;
-        options.inSampleSize = sample;
-        options.inPreferredConfig = Bitmap.Config.RGB_565;
-
-        return BitmapFactory.decodeResource(getResources(), musicPicRes, options);
-    }
 
     @Override
     public void onMusicInfoChanged(String musicName, String musicAuthor) {
@@ -316,33 +216,33 @@ public class PlayMusicActivity extends BaseActivity implements DiscView.IPlayInf
     }
 
     @Override
-    public void onMusicPicChanged(int musicPicRes) {
+    public void onMusicPicChanged(String musicPicRes) {
         try2UpdateMusicPicBackground(musicPicRes);
     }
 
     @Override
     public void onMusicChanged(DiscView.MusicChangedStatus musicChangedStatus) {
         switch (musicChangedStatus) {
-            case PLAY: {
+            case PLAY:
                 play();
                 break;
-            }
-            case PAUSE: {
+
+            case PAUSE:
                 pause();
                 break;
-            }
-            case NEXT: {
+
+            case NEXT:
+
                 next();
                 break;
-            }
-            case LAST: {
+
+            case LAST:
                 last();
                 break;
-            }
-            case STOP: {
+
+            case STOP:
                 stop();
                 break;
-            }
         }
     }
 
@@ -351,34 +251,30 @@ public class PlayMusicActivity extends BaseActivity implements DiscView.IPlayInf
     public void onClick(View v) {
         if (v == mIvPlayOrPause) {
             mDisc.playOrPause();
-
-
         } else if (v == mIvNext) {
-            mDisc.next();
+            mDisc.next(playListPosition);
         } else if (v == mIvLast) {
-            mDisc.last();
+            mDisc.last(playListPosition);
+
+
         }
     }
 
+
     private void play() {
         mIvPlayOrPause.setImageResource(R.drawable.ic_pause);
-
-        optMusic(MusicService.ACTION_OPT_MUSIC_PLAY);
+        musicService.getMusicAction(MusicService.ACTION_OPT_MUSIC_PLAY);
         startUpdateSeekBarProgress();
-
-        player.setPlayWhenReady(true);
-
     }
 
     private void pause() {
         mIvPlayOrPause.setImageResource(R.drawable.ic_play);
-        optMusic(MusicService.ACTION_OPT_MUSIC_PAUSE);
-        stopUpdateSeekBarProgree();
-        player.stop();
+        musicService.getMusicAction(MusicService.ACTION_OPT_MUSIC_PAUSE);
+        stopUpdateSeekBarProgress();
     }
 
     private void stop() {
-        stopUpdateSeekBarProgree();
+        stopUpdateSeekBarProgress();
         mIvPlayOrPause.setImageResource(R.drawable.ic_play);
         mTvMusicDuration.setText(duration2Time(0));
         mTvTotalMusicDuration.setText(duration2Time(0));
@@ -386,41 +282,30 @@ public class PlayMusicActivity extends BaseActivity implements DiscView.IPlayInf
     }
 
     private void next() {
+        stopUpdateSeekBarProgress();
+       // updateMusicDurationInfo(mCurrentSong.getUrlList().get(mMusicQuality).getDuration());
+        currentPlayMusic.setPlayPosition(playListPosition);
+        musicService.getMusicAction(MusicService.ACTION_OPT_MUSIC_PLAY);
 
-        mRootLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                optMusic(MusicService.ACTION_OPT_MUSIC_NEXT);
-            }
-        }, DURATION_NEEDLE_ANIAMTOR);
-        stopUpdateSeekBarProgree();
-        mTvMusicDuration.setText(duration2Time(0));
-        mTvTotalMusicDuration.setText(duration2Time(0));
+
     }
 
     private void last() {
-        mRootLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                optMusic(MusicService.ACTION_OPT_MUSIC_LAST);
-            }
-        }, DURATION_NEEDLE_ANIAMTOR);
-        stopUpdateSeekBarProgree();
-        mTvMusicDuration.setText(duration2Time(0));
-        mTvTotalMusicDuration.setText(duration2Time(0));
+        stopUpdateSeekBarProgress();
+       // updateMusicDurationInfo(mCurrentSong.getUrlList().get(mMusicQuality).getDuration());
+        currentPlayMusic.setPlayPosition(playListPosition);
+        musicService.getMusicAction(MusicService.ACTION_OPT_MUSIC_PLAY);
+
     }
 
     private void complete(boolean isOver) {
         if (isOver) {
             mDisc.stop();
         } else {
-            mDisc.next();
+            mDisc.next(playListPosition);
         }
     }
 
-    private void optMusic(final String action) {
-        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(action));
-    }
 
     private void seekTo(int position) {
         Intent intent = new Intent(MusicService.ACTION_OPT_MUSIC_SEEK_TO);
@@ -430,7 +315,7 @@ public class PlayMusicActivity extends BaseActivity implements DiscView.IPlayInf
 
     private void startUpdateSeekBarProgress() {
         /*避免重复发送Message*/
-        stopUpdateSeekBarProgree();
+        stopUpdateSeekBarProgress();
         mMusicHandler.sendEmptyMessageDelayed(0, 1000);
     }
 
@@ -450,37 +335,37 @@ public class PlayMusicActivity extends BaseActivity implements DiscView.IPlayInf
         startUpdateSeekBarProgress();
     }
 
-    class MusicReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action.equals(MusicService.ACTION_STATUS_MUSIC_PLAY)) {
-                mIvPlayOrPause.setImageResource(R.mipmap.ic_pause);
-                int currentPosition = intent.getIntExtra(MusicService.PARAM_MUSIC_CURRENT_POSITION, 0);
-                mSeekBar.setProgress(currentPosition);
-                if (!mDisc.isPlaying()) {
-                    mDisc.playOrPause();
-                }
-            } else if (action.equals(MusicService.ACTION_STATUS_MUSIC_PAUSE)) {
-                mIvPlayOrPause.setImageResource(R.drawable.ic_play);
-                if (mDisc.isPlaying()) {
-                    mDisc.playOrPause();
-                }
-            } else if (action.equals(MusicService.ACTION_STATUS_MUSIC_DURATION)) {
-                int duration = intent.getIntExtra(MusicService.PARAM_MUSIC_DURATION, 0);
-                updateMusicDurationInfo(duration);
-            } else if (action.equals(MusicService.ACTION_STATUS_MUSIC_COMPLETE)) {
-                boolean isOver = intent.getBooleanExtra(MusicService.PARAM_MUSIC_IS_OVER, true);
-                complete(isOver);
-            }
-        }
-    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMusicReceiver);
     }
 
 }
+/*
+class MusicReceiver extends BroadcastReceiver {
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        String action = intent.getAction();
+        if (action.equals(MusicService.ACTION_STATUS_MUSIC_PLAY)) {
+            mIvPlayOrPause.setImageResource(R.mipmap.ic_pause);
+            int currentPosition = intent.getIntExtra(MusicService.PARAM_MUSIC_CURRENT_POSITION, 0);
+            mSeekBar.setProgress(currentPosition);
+            if (!mDisc.isPlaying()) {
+                mDisc.playOrPause();
+            }
+        } else if (action.equals(MusicService.ACTION_STATUS_MUSIC_PAUSE)) {
+            mIvPlayOrPause.setImageResource(R.drawable.ic_play);
+            if (mDisc.isPlaying()) {
+                mDisc.playOrPause();
+            }
+        } else if (action.equals(MusicService.ACTION_STATUS_MUSIC_DURATION)) {
+            int duration = intent.getIntExtra(MusicService.PARAM_MUSIC_DURATION, 0);
+            updateMusicDurationInfo(duration);
+        } else if (action.equals(MusicService.ACTION_STATUS_MUSIC_COMPLETE)) {
+            boolean isOver = intent.getBooleanExtra(MusicService.PARAM_MUSIC_IS_OVER, true);
+            complete(isOver);
+        }
+    }
+}*/

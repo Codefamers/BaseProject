@@ -16,7 +16,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.qhn.bhne.baseproject.R;
+import com.qhn.bhne.baseproject.mvp.entity.CurrentPlayMusic;
 import com.qhn.bhne.baseproject.mvp.ui.activities.base.BaseActivity;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.OnLinePagerAdapter;
 import com.qhn.bhne.baseproject.mvp.ui.fragment.LocalMusicFragment;
@@ -24,10 +26,14 @@ import com.qhn.bhne.baseproject.mvp.ui.fragment.MVListFragment;
 import com.qhn.bhne.baseproject.mvp.ui.fragment.RankFragment;
 import com.qhn.bhne.baseproject.mvp.ui.fragment.RecommendMusicFragment;
 import com.qhn.bhne.baseproject.mvp.ui.fragment.SongMenuFragment;
+import com.socks.library.KLog;
+
 import java.util.ArrayList;
 import java.util.List;
-import butterknife.BindView;
 
+import javax.inject.Inject;
+
+import butterknife.BindView;
 
 
 public class MainActivity extends BaseActivity {
@@ -57,7 +63,10 @@ public class MainActivity extends BaseActivity {
     ImageButton btnNextMusic;
     @BindView(R.id.btn_play_music)
     ImageButton btnPlayMusic;
-
+    @Inject
+    CurrentPlayMusic currentPlayMusic;
+    // @Inject
+    //CurrentPlayMusic currentPlayMusic2;
 
     @Override
     protected void initInjector() {
@@ -81,9 +90,11 @@ public class MainActivity extends BaseActivity {
         relMicroPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MainActivity.this,MusicListActivity.class);
-
+                KLog.d("currentPlayMusic" + currentPlayMusic);
+               // KLog.d("\ncurrentPlayMusic" + currentPlayMusic2);
+                Intent intent = new Intent(MainActivity.this, MusicListActivity.class);
                 startActivity(intent);
+                //Toast.makeText(MainActivity.this, "播放位置"+currentPlayMusic.getPlayPosition(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -121,10 +132,11 @@ public class MainActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.action_download:
                 Toast.makeText(this, "下载", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(this,PlayMusicActivity.class));
+                startActivity(new Intent(this, PlayMusicActivity.class));
                 break;
             case R.id.action_search:
                 Toast.makeText(this, "搜索", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this,SearchActivity.class));
                 break;
         }
         return false;

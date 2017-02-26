@@ -66,9 +66,7 @@ public class MVListPresenterImpl extends BasePresenterImpl<MVListView,Map<String
 
     @Override
     public void success(Map<String, List<MVList.MVBean>> data) {
-        super.success(data);
         mView.loadSuccess(data);
-
     }
 
     @Override

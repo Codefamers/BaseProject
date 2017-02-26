@@ -50,7 +50,7 @@ public class MusicRankAdapter extends BaseRecyclerViewAdapter<MusicRank.DataBean
                     songInfoBeanList.get(2).getSongname());
         }
 
-        MyUtils.loadImageFormNet("http://p3.music.126.net/LgoU8FreFrdLvSY3ZTFu5g==/2902710698975677.jpg",
+        MyUtils.loadImageFormNet(mList.get(position).getImgurl().replace("{size}","400"),
                 itemViewHolder.imgRankPic,activity);
 
     }

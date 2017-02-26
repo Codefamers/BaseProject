@@ -1,10 +1,8 @@
 package com.qhn.bhne.baseproject.mvp.interactor.impl;
 
-import com.google.gson.Gson;
 import com.qhn.bhne.baseproject.common.HostType;
 import com.qhn.bhne.baseproject.listener.RequestCallBack;
 import com.qhn.bhne.baseproject.mvp.entity.MusicRank;
-import com.qhn.bhne.baseproject.mvp.entity.RecommendContent;
 import com.qhn.bhne.baseproject.mvp.interactor.MusicRankInteractor;
 import com.qhn.bhne.baseproject.net.RetrofitManager;
 import com.qhn.bhne.baseproject.utils.MyUtils;
@@ -61,7 +59,7 @@ public class MusicRankInteractorImpl implements MusicRankInteractor<MusicRank> {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        listener.onError(MyUtils.analyzeNetworkError(e));
+                        listener.onFail(MyUtils.analyzeNetworkError(e));
                     }
 
                     @Override

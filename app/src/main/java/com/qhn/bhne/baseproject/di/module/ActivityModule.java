@@ -3,8 +3,14 @@ package com.qhn.bhne.baseproject.di.module;
 import android.app.Activity;
 import android.content.Context;
 
+import com.qhn.bhne.baseproject.application.App;
 import com.qhn.bhne.baseproject.di.scope.ContextLife;
 import com.qhn.bhne.baseproject.di.scope.PerActivity;
+import com.qhn.bhne.baseproject.di.scope.PerApp;
+import com.qhn.bhne.baseproject.mvp.entity.CurrentPlayMusic;
+import com.socks.library.KLog;
+
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -36,4 +42,6 @@ public class ActivityModule {
     public Activity ProvideActivity() {
         return activity;
     }
+
+
 }

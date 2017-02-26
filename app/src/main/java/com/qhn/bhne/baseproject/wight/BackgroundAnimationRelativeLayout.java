@@ -12,6 +12,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.widget.RelativeLayout;
 
 import com.qhn.bhne.baseproject.R;
+import com.qhn.bhne.baseproject.utils.NetUtil;
 
 
 /**
@@ -31,7 +32,7 @@ public class BackgroundAnimationRelativeLayout extends RelativeLayout {
      */
     private LayerDrawable layerDrawable;
     private ObjectAnimator objectAnimator;
-    private int musicPicRes = -1;
+    private String musicPicRes ;
 
     public BackgroundAnimationRelativeLayout(Context context) {
         this(context, null);
@@ -54,7 +55,7 @@ public class BackgroundAnimationRelativeLayout extends RelativeLayout {
             backgroundDrawable = getContext().getDrawable(R.drawable.ic_blackground);
             Drawable[] drawables = new Drawable[2];
 
-        /*初始化时先将前景与背景颜色设为一致*/
+            /*初始化时先将前景与背景颜色设为一致*/
             drawables[INDEX_BACKGROUND] = backgroundDrawable;
             drawables[INDEX_FOREGROUND] = backgroundDrawable;
 
@@ -72,7 +73,10 @@ public class BackgroundAnimationRelativeLayout extends RelativeLayout {
             public void onAnimationUpdate(ValueAnimator animation) {
                 int foregroundAlpha = (int) ((float) animation.getAnimatedValue() * 255);
                 /*动态设置Drawable的透明度，让前景图逐渐显示*/
-                layerDrawable.getDrawable(INDEX_FOREGROUND).setAlpha(foregroundAlpha);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    layerDrawable.getDrawable(INDEX_FOREGROUND).setAlpha(foregroundAlpha);
+                }
+
                 BackgroundAnimationRelativeLayout.this.setBackground(layerDrawable);
             }
         });
@@ -113,8 +117,8 @@ public class BackgroundAnimationRelativeLayout extends RelativeLayout {
         objectAnimator.start();
     }
 
-    public boolean isNeed2UpdateBackground(int musicPicRes) {
-        if (this.musicPicRes == -1) return true;
+    public boolean isNeed2UpdateBackground(String musicPicRes) {
+        if (this.musicPicRes == null) return true;
         if (musicPicRes != this.musicPicRes) {
             return true;
         }

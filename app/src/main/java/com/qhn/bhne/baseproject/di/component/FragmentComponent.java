@@ -10,8 +10,16 @@ import com.qhn.bhne.baseproject.mvp.ui.fragment.MVListFragment;
 import com.qhn.bhne.baseproject.mvp.ui.fragment.OnlineMusicFragment;
 import com.qhn.bhne.baseproject.mvp.ui.fragment.RankFragment;
 import com.qhn.bhne.baseproject.mvp.ui.fragment.RecommendMusicFragment;
+import com.qhn.bhne.baseproject.mvp.ui.fragment.SearchAlbumFragment;
+import com.qhn.bhne.baseproject.mvp.ui.fragment.SearchMvFragment;
+import com.qhn.bhne.baseproject.mvp.ui.fragment.SearchRecommendFragment;
+import com.qhn.bhne.baseproject.mvp.ui.fragment.SearchResultFragment;
+import com.qhn.bhne.baseproject.mvp.ui.fragment.SearchSongMenuFragment;
+import com.qhn.bhne.baseproject.mvp.ui.fragment.SingleSongFragment;
 import com.qhn.bhne.baseproject.mvp.ui.fragment.SongMenuFragment;
 
+
+import javax.inject.Singleton;
 
 import dagger.Component;
 
@@ -22,17 +30,18 @@ import dagger.Component;
 @PerFragment
 @Component(dependencies = ApplicationComponent.class,modules = FragmentModule.class)
 public interface FragmentComponent {
-    @ContextLife("Activity")
+    @ContextLife("Fragment")
     Context getActivityContext();
-
-    @ContextLife("Application")
-    Context getApplicationContext();
-
     Activity getActivity();
-
     void inject(OnlineMusicFragment OnlineFragment);
     void inject(RecommendMusicFragment recommendFragment);
     void inject(SongMenuFragment songMenuFragment);
     void inject(MVListFragment mvListFragment);
     void inject(RankFragment rankFragment);
+    void inject(SearchRecommendFragment searchRecommendFragment);
+    void inject(SearchResultFragment searchResultFragment);
+    void inject(SingleSongFragment singleSongFragment);
+    void inject(SearchSongMenuFragment searchSongMenuFragment);
+    void inject(SearchAlbumFragment searchAlbumFragment);
+    void inject(SearchMvFragment searchMvFragment);
 }

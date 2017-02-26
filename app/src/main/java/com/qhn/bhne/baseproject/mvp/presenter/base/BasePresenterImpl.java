@@ -1,11 +1,13 @@
 package com.qhn.bhne.baseproject.mvp.presenter.base;
 
-import android.support.annotation.MenuRes;
 import android.support.annotation.NonNull;
 
 import com.qhn.bhne.baseproject.listener.RequestCallBack;
 import com.qhn.bhne.baseproject.mvp.view.base.BaseView;
 import com.qhn.bhne.baseproject.utils.MyUtils;
+import com.qhn.bhne.baseproject.utils.RxBus;
+
+import javax.inject.Inject;
 
 import rx.Subscription;
 
@@ -14,8 +16,8 @@ import rx.Subscription;
  * on 2016/10/28 0028.
  */
 
-public class BasePresenterImpl<T extends BaseView,E>implements BasePresenter,RequestCallBack<E> {
-    protected  T mView;
+public abstract class BasePresenterImpl<T extends BaseView, E> implements BasePresenter, RequestCallBack<E> {
+    protected T mView;
 
     public T getView() {
         return mView;
@@ -26,33 +28,30 @@ public class BasePresenterImpl<T extends BaseView,E>implements BasePresenter,Req
     }
 
     protected Subscription mSubscription;
+    @Inject
+    public RxBus rxBus;
+
     @Override
     public void beforeRequest() {
         mView.loadBefore();
     }
 
     @Override
-    public void success(E data) {
-        //mView.hideProgress();
-//        mView.loadSuccess(data);
-
-    }
+    public abstract void success(E data);
 
     @Override
-    public void onError(String errorMsg) {
-       // mView.hideProgress();
+    public void onFail(String errorMsg) {
+        // mView.hideProgress();
         mView.loadFail(errorMsg);
     }
 
     @Override
-    public void create() {
-
-    }
+    public abstract void create();
 
     //实例化view
     @Override
     public void attachView(@NonNull BaseView view) {
-        mView=(T)view;
+        mView = (T) view;
     }
 
     @Override

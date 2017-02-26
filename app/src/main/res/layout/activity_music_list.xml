@@ -12,27 +12,29 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:paddingTop="24dp"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:navigationIcon="@mipmap/ic_arrow_back_white_24dp"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:subtitleTextAppearance="@style/toolbar_subTitle_text"
-            app:subtitleTextColor="@color/alpha_35_white"
-            app:title="123"
-            app:titleTextAppearance="@style/toolbar_title_text"
-            app:titleTextColor="@color/white" />
+
 
         <RelativeLayout
+            android:id="@+id/rel_cover"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/alpha_15_black">
-
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:paddingTop="24dp"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:navigationIcon="@mipmap/ic_arrow_back_white_24dp"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:subtitleTextAppearance="@style/toolbar_subTitle_text"
+                app:subtitleTextColor="@color/alpha_35_white"
+                app:title="123"
+                app:titleTextAppearance="@style/toolbar_title_text"
+                app:titleTextColor="@color/white" />
             <FrameLayout
+                android:layout_below="@id/toolbar"
                 android:id="@+id/fra_music_list_cover"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

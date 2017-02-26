@@ -40,11 +40,13 @@ import com.qhn.bhne.baseproject.application.App;
 import com.qhn.bhne.baseproject.common.Constants;
 import com.socks.library.KLog;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -286,5 +288,23 @@ public class MyUtils {
         byte[] result = bos.toByteArray();
         System.out.println(new String(result));
         return result;
+    }
+    public static BufferedInputStream getInputStream(String musicPicRes) {
+        URL iconUrl = null;
+        try {
+            iconUrl = new URL(musicPicRes);
+            URLConnection conn = iconUrl.openConnection();
+            HttpURLConnection http = (HttpURLConnection) conn;
+
+            int length = http.getContentLength();
+
+            conn.connect();
+            // 获得图像的字符流
+            BufferedInputStream bis = new BufferedInputStream(conn.getInputStream(), length);
+            return bis;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

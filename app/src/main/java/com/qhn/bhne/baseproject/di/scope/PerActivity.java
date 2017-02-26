@@ -18,6 +18,7 @@ import javax.inject.Scope;
  * 使用该值)。
  * @Documented: 将此注解包含在Javadoc中
  */
+//该注释所注释的在该Activity内保持单例模式
 @Scope
 @Documented
 @Retention(RetentionPolicy.RUNTIME)//表示该annotation的具体实现可以在运行时用类反射来实现

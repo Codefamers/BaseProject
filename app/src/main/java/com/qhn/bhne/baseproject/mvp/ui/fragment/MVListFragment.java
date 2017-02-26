@@ -33,8 +33,6 @@ public class MVListFragment extends BaseFragment implements MVListView {
     MVListPresenterImpl mvListPresenter;
     @BindView(R.id.rec_mv_list)
     RecyclerView recMvList;
-    /* @BindView(R.id.txt_choose_mv_category)
-     TextView txtMVCategory;*/
     @BindView(R.id.sp_choose_category)
     Spinner spChoose;
     private MVListAdapter adapter;
@@ -53,13 +51,6 @@ public class MVListFragment extends BaseFragment implements MVListView {
     protected void initViews(View mFragmentView) {
         initPresenter();
         initSpinner();
-        initRecyclerView();
-    }
-
-    private void initRecyclerView() {
-       // Map<String, List<MVList.MVBean>> adapterData = (Map<String, List<MVList.MVBean>>) data;
-
-
 
     }
 
@@ -83,10 +74,7 @@ public class MVListFragment extends BaseFragment implements MVListView {
         });
     }
 
-    //选择音乐类型
-    private void chooseCategory() {
 
-    }
 
     private void initPresenter() {
         mPresenter = mvListPresenter;

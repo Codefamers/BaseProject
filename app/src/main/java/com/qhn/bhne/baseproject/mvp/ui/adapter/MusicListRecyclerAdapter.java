@@ -14,9 +14,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.qhn.bhne.baseproject.R;
+import com.qhn.bhne.baseproject.common.MusicConstants;
+import com.qhn.bhne.baseproject.mvp.entity.CurrentPlayMusic;
 import com.qhn.bhne.baseproject.mvp.entity.Songs;
 import com.qhn.bhne.baseproject.mvp.ui.activities.PlayMusicActivity;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.base.BaseRecyclerViewAdapter;
+import com.socks.library.KLog;
 
 import java.util.List;
 
@@ -33,10 +36,21 @@ import butterknife.ButterKnife;
 public class MusicListRecyclerAdapter extends BaseRecyclerViewAdapter<Songs> {
 
     private List<Songs> songsList;
+    private CurrentPlayMusic currentPlayMusic;
+
+    public CurrentPlayMusic getCurrentPlayMusic() {
+        return currentPlayMusic;
+    }
+
+    public void setCurrentPlayMusic(CurrentPlayMusic currentPlayMusic) {
+        this.currentPlayMusic = currentPlayMusic;
+    }
+
+
     @Inject
     public MusicListRecyclerAdapter() {
         super(null);
-        songsList=getList();
+        songsList = getList();
     }
 
     @Override
@@ -48,19 +62,19 @@ public class MusicListRecyclerAdapter extends BaseRecyclerViewAdapter<Songs> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        Songs songs=getList().get(position);
+        Songs songs = getList().get(position);
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
-        itemViewHolder.txtMusicId.setText(String.valueOf(position+1));
-        String songName=songs.getName();
-        String songIntroduce=songs.getSingerName()+"-"+songs.getAlbumName();
+        itemViewHolder.txtMusicId.setText(String.valueOf(position + 1));
+        String songName = songs.getAlbum_name();
+        String songIntroduce = songs.getSingername() + "-" + songs.getAlbum_name();
 
-        SpannableStringBuilder spannableStringBuilder=new SpannableStringBuilder();
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
         spannableStringBuilder.append(songIntroduce);
-        ForegroundColorSpan colorSpan=new ForegroundColorSpan(Color.parseColor("#59FFFFFF"));
-        spannableStringBuilder.setSpan(colorSpan,0,songIntroduce.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        AbsoluteSizeSpan absoluteSizeSpan=new AbsoluteSizeSpan(20);
-        spannableStringBuilder.setSpan(absoluteSizeSpan,0,songIntroduce.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        itemViewHolder.txtMusicName.setText(songName+"\n"+spannableStringBuilder.toString());
+        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#59FFFFFF"));
+        spannableStringBuilder.setSpan(colorSpan, 0, songIntroduce.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        AbsoluteSizeSpan absoluteSizeSpan = new AbsoluteSizeSpan(20);
+        spannableStringBuilder.setSpan(absoluteSizeSpan, 0, songIntroduce.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        itemViewHolder.txtMusicName.setText(songName + "\n" + spannableStringBuilder.toString());
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -74,11 +88,20 @@ public class MusicListRecyclerAdapter extends BaseRecyclerViewAdapter<Songs> {
         public ItemViewHolder(final View view) {
             super(view);
             ButterKnife.bind(this, view);
-            final Context context=view.getContext();
+            final Context context = view.getContext();
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    context.startActivity(new Intent(context, PlayMusicActivity.class));
+                    // myApp.setCurrentPlayMusicList(getList());
+                    // intent.putExtra("position",getAdapterPosition());
+
+                    Intent intent = new Intent(context, PlayMusicActivity.class);
+
+                    currentPlayMusic.setPlayPosition(getAdapterPosition());
+                    KLog.d("点击的位置"+getAdapterPosition());
+                    currentPlayMusic.setMusicStatus(MusicConstants.MusicStatus.PLAY);
+                    context.startActivity(intent);
+
                 }
             });
 

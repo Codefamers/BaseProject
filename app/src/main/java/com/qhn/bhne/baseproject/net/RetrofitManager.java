@@ -21,6 +21,7 @@ import android.util.Log;
 import android.util.SparseArray;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
@@ -28,17 +29,19 @@ import com.qhn.bhne.baseproject.application.App;
 import com.qhn.bhne.baseproject.common.ApiConstants;
 import com.qhn.bhne.baseproject.common.HostType;
 import com.qhn.bhne.baseproject.mvp.entity.ChannelList;
-import com.qhn.bhne.baseproject.mvp.entity.GirlData;
+import com.qhn.bhne.baseproject.mvp.entity.HotMusicTag;
 import com.qhn.bhne.baseproject.mvp.entity.MVList;
 import com.qhn.bhne.baseproject.mvp.entity.MVType;
 import com.qhn.bhne.baseproject.mvp.entity.MusicList;
 import com.qhn.bhne.baseproject.mvp.entity.MusicRank;
 import com.qhn.bhne.baseproject.mvp.entity.NewsDetail;
-import com.qhn.bhne.baseproject.mvp.entity.NewsSummary;
 import com.qhn.bhne.baseproject.mvp.entity.RankList;
 import com.qhn.bhne.baseproject.mvp.entity.RecommendContent;
+import com.qhn.bhne.baseproject.mvp.entity.SearchAlbum;
+import com.qhn.bhne.baseproject.mvp.entity.SearchMV;
+import com.qhn.bhne.baseproject.mvp.entity.SearchSongMenu;
+import com.qhn.bhne.baseproject.mvp.entity.SingleSong;
 import com.qhn.bhne.baseproject.mvp.entity.SongMenu;
-import com.qhn.bhne.baseproject.mvp.entity.Songs;
 import com.qhn.bhne.baseproject.utils.NetUtil;
 import com.socks.library.KLog;
 
@@ -48,7 +51,6 @@ import java.io.StringReader;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -99,6 +101,7 @@ public class RetrofitManager {
     public RetrofitManager(@HostType.HostTypeChecker int hostType) {
         Retrofit retrofit;
         Log.d(TAG, "RetrofitManager: "+ApiConstants.getHost(hostType));
+
         retrofit = new Retrofit.Builder()
                 .baseUrl(ApiConstants.getHost(hostType))
                 .client(getOkHttpClient())
@@ -200,15 +203,7 @@ public class RetrofitManager {
         return NetUtil.isNetworkAvailable() ? CACHE_CONTROL_AGE : CACHE_CONTROL_CACHE;
     }
 
-    /**
-     * example：http://c.m.163.com/nc/article/headline/T1348647909107/0-20.html
-     *
-     * @param newsType ：headline为头条,house为房产，list为其他
-     */
-    public Observable<Map<String, List<NewsSummary>>> getNewsListObservable(
-            String newsType, String newsId, int startPage) {
-        return mNewsService.getNewsList(getCacheControl(), newsType, newsId, startPage);
-    }
+
 
     /**
      * example：http://c.m.163.com/nc/article/BG6CGA9M00264N2N/full.html
@@ -223,9 +218,7 @@ public class RetrofitManager {
         return mNewsService.getNewsBodyHtmlPhoto(photoPath);
     }
 
-    public Observable<GirlData> getPhotoListObservable(int size, int page) {
-        return mNewsService.getPhotoList(size, page);
-    }
+
 
     public Observable<RecommendContent> getRecommendContent() {
         return mNewsService.getRecommendContent();
@@ -253,6 +246,25 @@ public class RetrofitManager {
         return mNewsService.getVideoType();
     }
 
+    public Observable<HotMusicTag> getHotMusicTagObservable(int count) {
+        return mNewsService.getHotMusicTag(count);
+    }
+    //搜索单曲
+    public Observable<SingleSong> getSingleSongObservable(String tagType,String keyword,int page,int pageSize) {
+        return mNewsService.getSingleSong(tagType,keyword,page,pageSize);
+    }
+    //搜索歌单
+    public Observable<SearchSongMenu> getSearchSongMenuObservable( String keyword, int page, int pageSize) {
+        return mNewsService.getSearchSongMenu(keyword,page,pageSize);
+    }
+    //搜索专辑
+    public Observable<SearchAlbum> getSearchAlbumObservable(String keyword, int page, int pageSize) {
+        return mNewsService.getSearchAlbum(keyword,page,pageSize);
+    }
+    //搜索MV
+    public Observable<SearchMV> getSearchMVObservable(String keyword, int page, int pageSize) {
+        return mNewsService.getSearchMV(keyword,page,pageSize);
+    }
     public Observable<MusicRank> getMusicRankObservable() {
         return mNewsService.getMusicRank();
     }

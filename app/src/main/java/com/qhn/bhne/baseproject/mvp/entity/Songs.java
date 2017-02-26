@@ -3,6 +3,8 @@ package com.qhn.bhne.baseproject.mvp.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,707 +16,300 @@ import java.util.List;
 public class Songs implements Parcelable {
 
     /**
-     * albumId : 638762
-     * albumName : 那爱
-     * alias :
-     * audit : 0
-     * auditionList : [{"bitRate":32,"duration":194000,"size":805344,"suffix":"m4a","typeDescription":"流畅品质","url":"http://om32.alicdn.com/538/119538/782937818/1772288099_11046019_l.m4a?auth_key=dec3f81a040fa4aee2531ddf13c46d00-1478746800-0-null"},{"bitRate":128,"duration":194000,"size":3113732,"suffix":"mp3","typeDescription":"标准品质","url":"http://m5.file.xiami.com/538/119538/782937818/1772288099_11046019_l.mp3?auth_key=a9fb47fe764ec613fdcaa651a05c699d-1478746800-0-null"},{"bitRate":320,"duration":194000,"size":7781500,"suffix":"mp3","typeDescription":"超高品质","url":"http://m6.file.xiami.com/538/119538/782937818/1772288099_11046019_h.mp3?auth_key=d0aa71b139209ae4b81d744f5018c16d-1478746800-0-null"}]
-     * commentCount : 0
-     * composerId : 0
-     * favorites : 5734
-     * firstHit : false
-     * isExclusive : 0
-     * lang : 7
-     * level : 2
-     * librettistId : 0
-     * listenCount : 0
-     * mvBulletCount : 0
-     * mvList : []
-     * mvPickCount : 0
-     * name : 爱
-     * operType : 0
-     * originalId : 6776635
-     * outFlag : 0
-     * outLinks : []
-     * picUrl : http://img.xiami.net/images/album/img38/119538/7829378181420692341_4.jpg
-     * producer : 0
-     * publisher : 0
-     * releaseYear : 0
-     * remarks :
-     * rightKey : {"albumPackage":[],"loginStatus":0,"musicPackage":[],"orderType":0,"paymentUnite":0,"price":0,"songRights":[{"auditionRightFlag":0,"bitRate":32,"downBuyFlag":false,"downFlag":true,"downloadRightFlag":0,"listenBuyFlag":false,"listenFlag":true},{"auditionRightFlag":0,"bitRate":320,"downBuyFlag":false,"downFlag":true,"downloadRightFlag":0,"listenBuyFlag":false,"listenFlag":true},{"auditionRightFlag":0,"bitRate":128,"downBuyFlag":false,"downFlag":true,"downloadRightFlag":0,"listenBuyFlag":false,"listenFlag":true}]}
-     * riskRank : 11
-     * singerId : 64211
-     * singerName : Mi2
-     * singerSFlag : 1
-     * singers : [{"shopId":0,"singerId":64211,"singerName":"Mi2","singerSFlag":1}]
-     * songId : 6776635
-     * status : 1
-     * type : 0
-     * urlList : [{"bitRate":32,"duration":194000,"size":805344,"suffix":"m4a","typeDescription":"流畅品质","url":"http://om32.alicdn.com/538/119538/782937818/1772288099_11046019_l.m4a?auth_key=dec3f81a040fa4aee2531ddf13c46d00-1478746800-0-null"},{"bitRate":128,"duration":194000,"size":3113732,"suffix":"mp3","typeDescription":"标准品质","url":"http://m5.file.xiami.com/538/119538/782937818/1772288099_11046019_l.mp3?auth_key=a9fb47fe764ec613fdcaa651a05c699d-1478746800-0-null"},{"bitRate":320,"duration":194000,"size":7781500,"suffix":"mp3","typeDescription":"超高品质","url":"http://m6.file.xiami.com/538/119538/782937818/1772288099_11046019_h.mp3?auth_key=d0aa71b139209ae4b81d744f5018c16d-1478746800-0-null"}]
+     * 320filesize : 8926080
+     * 320hash : 7d7826ab507f3d1cf50c97bc669dc8cc
+     * 320privilege : 0
+     * Accompany : 1
+     * album_id : 1974548
+     * album_name : 歌手2017</em> 第六期
+     * bitrate : 128
+     * duration : 223
+     * extname : mp3
+     * feetype : 0
+     * filename : 林忆莲 - 盛夏光年 - 歌手2017</em>第一季第六期现场
+     * filesize : 3569927
+     * group : []
+     * hash : 5d17f645d11c9a96be7d1412869b0fa9
+     * isnew : 1
+     * m4afilesize : 918733
+     * mvhash :
+     * othername : 歌手2017</em>第一季第六期现场
+     * ownercount : 0
+     * privilege : 0
+     * singername : 林忆莲
+     * songname : 盛夏光年
+     * source :
+     * sourceid : 0
+     * sqfilesize : 28336832
+     * sqhash : c251e77645fefbbe3fcf71d8af194f36
+     * sqprivilege : 0
+     * srctype : 1
+     * topic :
      */
 
-    private int albumId;
-    private String albumName;
-    private String alias;
-    private int audit;
-    private int commentCount;
-    private int composerId;
-    private int favorites;
-    private boolean firstHit;
-    private int isExclusive;
-    private int lang;
-    private String level;
-    private int librettistId;
-    private int listenCount;
-    private int mvBulletCount;
-    private int mvPickCount;
-    private String name;
-    private int operType;
-    private int originalId;
-    private int outFlag;
-    private String picUrl;
-    private int producer;
-    private int publisher;
-    private int releaseYear;
-    private String remarks;
-    /**
-     * albumPackage : []
-     * loginStatus : 0
-     * musicPackage : []
-     * orderType : 0
-     * paymentUnite : 0
-     * price : 0
-     * songRights : [{"auditionRightFlag":0,"bitRate":32,"downBuyFlag":false,"downFlag":true,"downloadRightFlag":0,"listenBuyFlag":false,"listenFlag":true},{"auditionRightFlag":0,"bitRate":320,"downBuyFlag":false,"downFlag":true,"downloadRightFlag":0,"listenBuyFlag":false,"listenFlag":true},{"auditionRightFlag":0,"bitRate":128,"downBuyFlag":false,"downFlag":true,"downloadRightFlag":0,"listenBuyFlag":false,"listenFlag":true}]
-     */
+    @SerializedName("320filesize")
+    private int value320filesize;
+    @SerializedName("320hash")
+    private String value320hash;
+    @SerializedName("320privilege")
+    private int value320privilege;
+    private int Accompany;
+    private String album_id;
+    private String album_name;
+    private int bitrate;
+    private int duration;
+    private String extname;
+    private int feetype;
+    private String filename;
+    private int filesize;
+    private String hash;
+    private int isnew;
+    private int m4afilesize;
+    private String mvhash;
+    private String othername;
+    private int ownercount;
+    private int privilege;
+    private String singername;
+    private String songname;
+    private String source;
+    private int sourceid;
+    private int sqfilesize;
+    private String sqhash;
+    private int sqprivilege;
+    private int srctype;
+    private String topic;
+    private List<Object> group;
 
-    private RightKeyBean rightKey;
-    private int riskRank;
-    private int singerId;
-    private String singerName;
-    private int singerSFlag;
-    private int songId;
-    private int status;
-    private int type;
-    /**
-     * bitRate : 32
-     * duration : 194000
-     * size : 805344
-     * suffix : m4a
-     * typeDescription : 流畅品质
-     * url : http://om32.alicdn.com/538/119538/782937818/1772288099_11046019_l.m4a?auth_key=dec3f81a040fa4aee2531ddf13c46d00-1478746800-0-null
-     */
-
-    private List<AuditionListBean> auditionList;
-    private List<?> mvList;
-    private List<?> outLinks;
-    /**
-     * shopId : 0
-     * singerId : 64211
-     * singerName : Mi2
-     * singerSFlag : 1
-     */
-
-    private List<SingersBean> singers;
-    /**
-     * bitRate : 32
-     * duration : 194000
-     * size : 805344
-     * suffix : m4a
-     * typeDescription : 流畅品质
-     * url : http://om32.alicdn.com/538/119538/782937818/1772288099_11046019_l.m4a?auth_key=dec3f81a040fa4aee2531ddf13c46d00-1478746800-0-null
-     */
-
-    private List<UrlListBean> urlList;
-
-    public int getAlbumId() {
-        return albumId;
-    }
-
-    public void setAlbumId(int albumId) {
-        this.albumId = albumId;
-    }
-
-    public String getAlbumName() {
-        return albumName;
-    }
-
-    public void setAlbumName(String albumName) {
-        this.albumName = albumName;
-    }
-
-    public String getAlias() {
-        return alias;
-    }
-
-    public void setAlias(String alias) {
-        this.alias = alias;
-    }
-
-    public int getAudit() {
-        return audit;
-    }
-
-    public void setAudit(int audit) {
-        this.audit = audit;
-    }
-
-    public int getCommentCount() {
-        return commentCount;
-    }
-
-    public void setCommentCount(int commentCount) {
-        this.commentCount = commentCount;
-    }
-
-    public int getComposerId() {
-        return composerId;
-    }
-
-    public void setComposerId(int composerId) {
-        this.composerId = composerId;
+    public int getValue320filesize() {
+        return value320filesize;
     }
 
-    public int getFavorites() {
-        return favorites;
+    public void setValue320filesize(int value320filesize) {
+        this.value320filesize = value320filesize;
     }
 
-    public void setFavorites(int favorites) {
-        this.favorites = favorites;
+    public String getValue320hash() {
+        return value320hash;
     }
 
-    public boolean isFirstHit() {
-        return firstHit;
+    public void setValue320hash(String value320hash) {
+        this.value320hash = value320hash;
     }
 
-    public void setFirstHit(boolean firstHit) {
-        this.firstHit = firstHit;
+    public int getValue320privilege() {
+        return value320privilege;
     }
 
-    public int getIsExclusive() {
-        return isExclusive;
+    public void setValue320privilege(int value320privilege) {
+        this.value320privilege = value320privilege;
     }
 
-    public void setIsExclusive(int isExclusive) {
-        this.isExclusive = isExclusive;
+    public int getAccompany() {
+        return Accompany;
     }
 
-    public int getLang() {
-        return lang;
+    public void setAccompany(int Accompany) {
+        this.Accompany = Accompany;
     }
 
-    public void setLang(int lang) {
-        this.lang = lang;
+    public String getAlbum_id() {
+        return album_id;
     }
 
-    public String getLevel() {
-        return level;
+    public void setAlbum_id(String album_id) {
+        this.album_id = album_id;
     }
 
-    public void setLevel(String level) {
-        this.level = level;
+    public String getAlbum_name() {
+        return album_name;
     }
 
-    public int getLibrettistId() {
-        return librettistId;
+    public void setAlbum_name(String album_name) {
+        this.album_name = album_name;
     }
 
-    public void setLibrettistId(int librettistId) {
-        this.librettistId = librettistId;
+    public int getBitrate() {
+        return bitrate;
     }
 
-    public int getListenCount() {
-        return listenCount;
+    public void setBitrate(int bitrate) {
+        this.bitrate = bitrate;
     }
 
-    public void setListenCount(int listenCount) {
-        this.listenCount = listenCount;
+    public int getDuration() {
+        return duration;
     }
 
-    public int getMvBulletCount() {
-        return mvBulletCount;
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 
-    public void setMvBulletCount(int mvBulletCount) {
-        this.mvBulletCount = mvBulletCount;
+    public String getExtname() {
+        return extname;
     }
 
-    public int getMvPickCount() {
-        return mvPickCount;
+    public void setExtname(String extname) {
+        this.extname = extname;
     }
 
-    public void setMvPickCount(int mvPickCount) {
-        this.mvPickCount = mvPickCount;
+    public int getFeetype() {
+        return feetype;
     }
 
-    public String getName() {
-        return name;
+    public void setFeetype(int feetype) {
+        this.feetype = feetype;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getFilename() {
+        return filename;
     }
 
-    public int getOperType() {
-        return operType;
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 
-    public void setOperType(int operType) {
-        this.operType = operType;
+    public int getFilesize() {
+        return filesize;
     }
 
-    public int getOriginalId() {
-        return originalId;
+    public void setFilesize(int filesize) {
+        this.filesize = filesize;
     }
 
-    public void setOriginalId(int originalId) {
-        this.originalId = originalId;
+    public String getHash() {
+        return hash;
     }
 
-    public int getOutFlag() {
-        return outFlag;
+    public void setHash(String hash) {
+        this.hash = hash;
     }
 
-    public void setOutFlag(int outFlag) {
-        this.outFlag = outFlag;
+    public int getIsnew() {
+        return isnew;
     }
 
-    public String getPicUrl() {
-        return picUrl;
+    public void setIsnew(int isnew) {
+        this.isnew = isnew;
     }
 
-    public void setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
+    public int getM4afilesize() {
+        return m4afilesize;
     }
 
-    public int getProducer() {
-        return producer;
+    public void setM4afilesize(int m4afilesize) {
+        this.m4afilesize = m4afilesize;
     }
 
-    public void setProducer(int producer) {
-        this.producer = producer;
+    public String getMvhash() {
+        return mvhash;
     }
 
-    public int getPublisher() {
-        return publisher;
+    public void setMvhash(String mvhash) {
+        this.mvhash = mvhash;
     }
 
-    public void setPublisher(int publisher) {
-        this.publisher = publisher;
+    public String getOthername() {
+        return othername;
     }
 
-    public int getReleaseYear() {
-        return releaseYear;
+    public void setOthername(String othername) {
+        this.othername = othername;
     }
 
-    public void setReleaseYear(int releaseYear) {
-        this.releaseYear = releaseYear;
+    public int getOwnercount() {
+        return ownercount;
     }
 
-    public String getRemarks() {
-        return remarks;
+    public void setOwnercount(int ownercount) {
+        this.ownercount = ownercount;
     }
 
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
+    public int getPrivilege() {
+        return privilege;
     }
 
-    public RightKeyBean getRightKey() {
-        return rightKey;
+    public void setPrivilege(int privilege) {
+        this.privilege = privilege;
     }
 
-    public void setRightKey(RightKeyBean rightKey) {
-        this.rightKey = rightKey;
+    public String getSingername() {
+        return singername;
     }
 
-    public int getRiskRank() {
-        return riskRank;
+    public void setSingername(String singername) {
+        this.singername = singername;
     }
 
-    public void setRiskRank(int riskRank) {
-        this.riskRank = riskRank;
+    public String getSongname() {
+        return songname;
     }
 
-    public int getSingerId() {
-        return singerId;
+    public void setSongname(String songname) {
+        this.songname = songname;
     }
 
-    public void setSingerId(int singerId) {
-        this.singerId = singerId;
+    public String getSource() {
+        return source;
     }
 
-    public String getSingerName() {
-        return singerName;
+    public void setSource(String source) {
+        this.source = source;
     }
 
-    public void setSingerName(String singerName) {
-        this.singerName = singerName;
+    public int getSourceid() {
+        return sourceid;
     }
 
-    public int getSingerSFlag() {
-        return singerSFlag;
+    public void setSourceid(int sourceid) {
+        this.sourceid = sourceid;
     }
 
-    public void setSingerSFlag(int singerSFlag) {
-        this.singerSFlag = singerSFlag;
+    public int getSqfilesize() {
+        return sqfilesize;
     }
 
-    public int getSongId() {
-        return songId;
+    public void setSqfilesize(int sqfilesize) {
+        this.sqfilesize = sqfilesize;
     }
 
-    public void setSongId(int songId) {
-        this.songId = songId;
+    public String getSqhash() {
+        return sqhash;
     }
 
-    public int getStatus() {
-        return status;
+    public void setSqhash(String sqhash) {
+        this.sqhash = sqhash;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public int getSqprivilege() {
+        return sqprivilege;
     }
 
-    public int getType() {
-        return type;
+    public void setSqprivilege(int sqprivilege) {
+        this.sqprivilege = sqprivilege;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public int getSrctype() {
+        return srctype;
     }
 
-    public List<AuditionListBean> getAuditionList() {
-        return auditionList;
+    public void setSrctype(int srctype) {
+        this.srctype = srctype;
     }
-
-    public void setAuditionList(List<AuditionListBean> auditionList) {
-        this.auditionList = auditionList;
-    }
-
-    public List<?> getMvList() {
-        return mvList;
-    }
-
-    public void setMvList(List<?> mvList) {
-        this.mvList = mvList;
-    }
-
-    public List<?> getOutLinks() {
-        return outLinks;
-    }
-
-    public void setOutLinks(List<?> outLinks) {
-        this.outLinks = outLinks;
-    }
-
-    public List<SingersBean> getSingers() {
-        return singers;
-    }
-
-    public void setSingers(List<SingersBean> singers) {
-        this.singers = singers;
-    }
-
-    public List<UrlListBean> getUrlList() {
-        return urlList;
-    }
-
-    public void setUrlList(List<UrlListBean> urlList) {
-        this.urlList = urlList;
-    }
-
-    public static class RightKeyBean {
-        private int loginStatus;
-        private int orderType;
-        private int paymentUnite;
-        private int price;
-        private List<?> albumPackage;
-        private List<?> musicPackage;
-        /**
-         * auditionRightFlag : 0
-         * bitRate : 32
-         * downBuyFlag : false
-         * downFlag : true
-         * downloadRightFlag : 0
-         * listenBuyFlag : false
-         * listenFlag : true
-         */
-
-        private List<SongRightsBean> songRights;
-
-        public int getLoginStatus() {
-            return loginStatus;
-        }
-
-        public void setLoginStatus(int loginStatus) {
-            this.loginStatus = loginStatus;
-        }
-
-        public int getOrderType() {
-            return orderType;
-        }
-
-        public void setOrderType(int orderType) {
-            this.orderType = orderType;
-        }
-
-        public int getPaymentUnite() {
-            return paymentUnite;
-        }
-
-        public void setPaymentUnite(int paymentUnite) {
-            this.paymentUnite = paymentUnite;
-        }
-
-        public int getPrice() {
-            return price;
-        }
 
-        public void setPrice(int price) {
-            this.price = price;
-        }
-
-        public List<?> getAlbumPackage() {
-            return albumPackage;
-        }
-
-        public void setAlbumPackage(List<?> albumPackage) {
-            this.albumPackage = albumPackage;
-        }
-
-        public List<?> getMusicPackage() {
-            return musicPackage;
-        }
-
-        public void setMusicPackage(List<?> musicPackage) {
-            this.musicPackage = musicPackage;
-        }
-
-        public List<SongRightsBean> getSongRights() {
-            return songRights;
-        }
-
-        public void setSongRights(List<SongRightsBean> songRights) {
-            this.songRights = songRights;
-        }
-
-        public static class SongRightsBean {
-            private int auditionRightFlag;
-            private int bitRate;
-            private boolean downBuyFlag;
-            private boolean downFlag;
-            private int downloadRightFlag;
-            private boolean listenBuyFlag;
-            private boolean listenFlag;
-
-            public int getAuditionRightFlag() {
-                return auditionRightFlag;
-            }
-
-            public void setAuditionRightFlag(int auditionRightFlag) {
-                this.auditionRightFlag = auditionRightFlag;
-            }
-
-            public int getBitRate() {
-                return bitRate;
-            }
-
-            public void setBitRate(int bitRate) {
-                this.bitRate = bitRate;
-            }
-
-            public boolean isDownBuyFlag() {
-                return downBuyFlag;
-            }
-
-            public void setDownBuyFlag(boolean downBuyFlag) {
-                this.downBuyFlag = downBuyFlag;
-            }
-
-            public boolean isDownFlag() {
-                return downFlag;
-            }
-
-            public void setDownFlag(boolean downFlag) {
-                this.downFlag = downFlag;
-            }
-
-            public int getDownloadRightFlag() {
-                return downloadRightFlag;
-            }
-
-            public void setDownloadRightFlag(int downloadRightFlag) {
-                this.downloadRightFlag = downloadRightFlag;
-            }
-
-            public boolean isListenBuyFlag() {
-                return listenBuyFlag;
-            }
-
-            public void setListenBuyFlag(boolean listenBuyFlag) {
-                this.listenBuyFlag = listenBuyFlag;
-            }
-
-            public boolean isListenFlag() {
-                return listenFlag;
-            }
-
-            public void setListenFlag(boolean listenFlag) {
-                this.listenFlag = listenFlag;
-            }
-        }
+    public String getTopic() {
+        return topic;
     }
-
-    public static class AuditionListBean {
-        private int bitRate;
-        private int duration;
-        private int size;
-        private String suffix;
-        private String typeDescription;
-        private String url;
-
-        public int getBitRate() {
-            return bitRate;
-        }
-
-        public void setBitRate(int bitRate) {
-            this.bitRate = bitRate;
-        }
-
-        public int getDuration() {
-            return duration;
-        }
-
-        public void setDuration(int duration) {
-            this.duration = duration;
-        }
 
-        public int getSize() {
-            return size;
-        }
-
-        public void setSize(int size) {
-            this.size = size;
-        }
-
-        public String getSuffix() {
-            return suffix;
-        }
-
-        public void setSuffix(String suffix) {
-            this.suffix = suffix;
-        }
-
-        public String getTypeDescription() {
-            return typeDescription;
-        }
-
-        public void setTypeDescription(String typeDescription) {
-            this.typeDescription = typeDescription;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
-
-    public static class SingersBean {
-        private int shopId;
-        private int singerId;
-        private String singerName;
-        private int singerSFlag;
-
-        public int getShopId() {
-            return shopId;
-        }
-
-        public void setShopId(int shopId) {
-            this.shopId = shopId;
-        }
-
-        public int getSingerId() {
-            return singerId;
-        }
-
-        public void setSingerId(int singerId) {
-            this.singerId = singerId;
-        }
-
-        public String getSingerName() {
-            return singerName;
-        }
 
-        public void setSingerName(String singerName) {
-            this.singerName = singerName;
-        }
-
-        public int getSingerSFlag() {
-            return singerSFlag;
-        }
-
-        public void setSingerSFlag(int singerSFlag) {
-            this.singerSFlag = singerSFlag;
-        }
+    public List<?> getGroup() {
+        return group;
     }
-
-    public static class UrlListBean {
-        private int bitRate;
-        private int duration;
-        private int size;
-        private String suffix;
-        private String typeDescription;
-        private String url;
-
-        public int getBitRate() {
-            return bitRate;
-        }
-
-        public void setBitRate(int bitRate) {
-            this.bitRate = bitRate;
-        }
-
-        public int getDuration() {
-            return duration;
-        }
-
-        public void setDuration(int duration) {
-            this.duration = duration;
-        }
-
-        public int getSize() {
-            return size;
-        }
-
-        public void setSize(int size) {
-            this.size = size;
-        }
-
-        public String getSuffix() {
-            return suffix;
-        }
-
-        public void setSuffix(String suffix) {
-            this.suffix = suffix;
-        }
-
-        public String getTypeDescription() {
-            return typeDescription;
-        }
-
-        public void setTypeDescription(String typeDescription) {
-            this.typeDescription = typeDescription;
-        }
-
-        public String getUrl() {
-            return url;
-        }
 
-        public void setUrl(String url) {
-            this.url = url;
-        }
+    public void setGroup(List<Object> group) {
+        this.group = group;
     }
 
     @Override
@@ -724,88 +319,71 @@ public class Songs implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.albumId);
-        dest.writeString(this.albumName);
-        dest.writeString(this.alias);
-        dest.writeInt(this.audit);
-        dest.writeInt(this.commentCount);
-        dest.writeInt(this.composerId);
-        dest.writeInt(this.favorites);
-        dest.writeByte(this.firstHit ? (byte) 1 : (byte) 0);
-        dest.writeInt(this.isExclusive);
-        dest.writeInt(this.lang);
-        dest.writeString(this.level);
-        dest.writeInt(this.librettistId);
-        dest.writeInt(this.listenCount);
-        dest.writeInt(this.mvBulletCount);
-        dest.writeInt(this.mvPickCount);
-        dest.writeString(this.name);
-        dest.writeInt(this.operType);
-        dest.writeInt(this.originalId);
-        dest.writeInt(this.outFlag);
-        dest.writeString(this.picUrl);
-        dest.writeInt(this.producer);
-        dest.writeInt(this.publisher);
-        dest.writeInt(this.releaseYear);
-        dest.writeString(this.remarks);
-        dest.writeInt(this.riskRank);
-        dest.writeInt(this.singerId);
-        dest.writeString(this.singerName);
-        dest.writeInt(this.singerSFlag);
-        dest.writeInt(this.songId);
-        dest.writeInt(this.status);
-        dest.writeInt(this.type);
-        dest.writeList(this.auditionList);
-        dest.writeList(this.mvList);
-        dest.writeList(this.outLinks);
-        dest.writeList(this.singers);
-        dest.writeList(this.urlList);
+        dest.writeInt(this.value320filesize);
+        dest.writeString(this.value320hash);
+        dest.writeInt(this.value320privilege);
+        dest.writeInt(this.Accompany);
+        dest.writeString(this.album_id);
+        dest.writeString(this.album_name);
+        dest.writeInt(this.bitrate);
+        dest.writeInt(this.duration);
+        dest.writeString(this.extname);
+        dest.writeInt(this.feetype);
+        dest.writeString(this.filename);
+        dest.writeInt(this.filesize);
+        dest.writeString(this.hash);
+        dest.writeInt(this.isnew);
+        dest.writeInt(this.m4afilesize);
+        dest.writeString(this.mvhash);
+        dest.writeString(this.othername);
+        dest.writeInt(this.ownercount);
+        dest.writeInt(this.privilege);
+        dest.writeString(this.singername);
+        dest.writeString(this.songname);
+        dest.writeString(this.source);
+        dest.writeInt(this.sourceid);
+        dest.writeInt(this.sqfilesize);
+        dest.writeString(this.sqhash);
+        dest.writeInt(this.sqprivilege);
+        dest.writeInt(this.srctype);
+        dest.writeString(this.topic);
+        dest.writeList(this.group);
     }
 
     public Songs() {
     }
 
     protected Songs(Parcel in) {
-        this.albumId = in.readInt();
-        this.albumName = in.readString();
-        this.alias = in.readString();
-        this.audit = in.readInt();
-        this.commentCount = in.readInt();
-        this.composerId = in.readInt();
-        this.favorites = in.readInt();
-        this.firstHit = in.readByte() != 0;
-        this.isExclusive = in.readInt();
-        this.lang = in.readInt();
-        this.level = in.readString();
-        this.librettistId = in.readInt();
-        this.listenCount = in.readInt();
-        this.mvBulletCount = in.readInt();
-        this.mvPickCount = in.readInt();
-        this.name = in.readString();
-        this.operType = in.readInt();
-        this.originalId = in.readInt();
-        this.outFlag = in.readInt();
-        this.picUrl = in.readString();
-        this.producer = in.readInt();
-        this.publisher = in.readInt();
-        this.releaseYear = in.readInt();
-        this.remarks = in.readString();
-        this.rightKey = in.readParcelable(RightKeyBean.class.getClassLoader());
-        this.riskRank = in.readInt();
-        this.singerId = in.readInt();
-        this.singerName = in.readString();
-        this.singerSFlag = in.readInt();
-        this.songId = in.readInt();
-        this.status = in.readInt();
-        this.type = in.readInt();
-        this.auditionList = new ArrayList<AuditionListBean>();
-        in.readList(this.auditionList, AuditionListBean.class.getClassLoader());
-
-
-        this.singers = new ArrayList<SingersBean>();
-        in.readList(this.singers, SingersBean.class.getClassLoader());
-        this.urlList = new ArrayList<UrlListBean>();
-        in.readList(this.urlList, UrlListBean.class.getClassLoader());
+        this.value320filesize = in.readInt();
+        this.value320hash = in.readString();
+        this.value320privilege = in.readInt();
+        this.Accompany = in.readInt();
+        this.album_id = in.readString();
+        this.album_name = in.readString();
+        this.bitrate = in.readInt();
+        this.duration = in.readInt();
+        this.extname = in.readString();
+        this.feetype = in.readInt();
+        this.filename = in.readString();
+        this.filesize = in.readInt();
+        this.hash = in.readString();
+        this.isnew = in.readInt();
+        this.m4afilesize = in.readInt();
+        this.mvhash = in.readString();
+        this.othername = in.readString();
+        this.ownercount = in.readInt();
+        this.privilege = in.readInt();
+        this.singername = in.readString();
+        this.songname = in.readString();
+        this.source = in.readString();
+        this.sourceid = in.readInt();
+        this.sqfilesize = in.readInt();
+        this.sqhash = in.readString();
+        this.sqprivilege = in.readInt();
+        this.srctype = in.readInt();
+        this.topic = in.readString();
+        this.group = new ArrayList<Object>();
+        in.readList(this.group, Object.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<Songs> CREATOR = new Parcelable.Creator<Songs>() {

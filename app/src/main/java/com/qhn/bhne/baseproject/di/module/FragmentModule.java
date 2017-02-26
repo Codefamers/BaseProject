@@ -36,6 +36,13 @@ public class FragmentModule {
     }
 
     @Provides
+    @ContextLife("Fragment")
+    @PerFragment
+    public Context provideContext() {
+        return fragment.getContext();
+    }
+
+    @Provides
     @PerFragment
     public Fragment provideFragment() {
         return fragment;

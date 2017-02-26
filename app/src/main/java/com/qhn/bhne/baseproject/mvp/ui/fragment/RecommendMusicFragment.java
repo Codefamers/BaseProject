@@ -11,13 +11,10 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.qhn.bhne.baseproject.R;
-import com.qhn.bhne.baseproject.event.PlayMusicEvent;
 import com.qhn.bhne.baseproject.mvp.entity.RecommendContent;
 import com.qhn.bhne.baseproject.mvp.presenter.impl.RecommendPresenterImpl;
-import com.qhn.bhne.baseproject.mvp.ui.activities.PlayMusicActivity;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.HotMusicRecyclerAdapter;
 import com.qhn.bhne.baseproject.playmusicDemo.SampleChooserActivity;
-import com.qhn.bhne.baseproject.utils.RxBus;
 import com.qhn.bhne.baseproject.wight.BannerView;
 import com.qhn.bhne.baseproject.mvp.view.RecommendView;
 import com.qhn.bhne.baseproject.utils.MyUtils;
@@ -89,6 +86,8 @@ public class RecommendMusicFragment extends BaseFragment
         return successView;
     }
 
+
+
     @Override
     protected void initInjector() {
         fragmentComponent.inject(this);
@@ -101,7 +100,6 @@ public class RecommendMusicFragment extends BaseFragment
 
     @Override
     protected void initViews(View mFragmentView) {
-        setNeedLoadData(true);
         initPresenter();
         initSwipeRefreshLayout();
     }
@@ -128,7 +126,6 @@ public class RecommendMusicFragment extends BaseFragment
         }
         List<RecommendContent.DataBean> data = (List<RecommendContent.DataBean>) object;
         initRecyclerView(data);
-       // RxBus.getInstance().post(new PlayMusicEvent(data.get(2).getData().get(1).));
         refreshBanner();
     }
 

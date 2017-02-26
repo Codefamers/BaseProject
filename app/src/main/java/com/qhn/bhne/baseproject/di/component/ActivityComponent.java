@@ -7,8 +7,11 @@ import com.qhn.bhne.baseproject.di.module.ActivityModule;
 
 import com.qhn.bhne.baseproject.di.scope.ContextLife;
 import com.qhn.bhne.baseproject.di.scope.PerActivity;
+import com.qhn.bhne.baseproject.mvp.entity.CurrentPlayMusic;
 import com.qhn.bhne.baseproject.mvp.ui.activities.MainActivity;
 import com.qhn.bhne.baseproject.mvp.ui.activities.MusicListActivity;
+import com.qhn.bhne.baseproject.mvp.ui.activities.PlayMusicActivity;
+import com.qhn.bhne.baseproject.mvp.ui.activities.SearchActivity;
 
 
 import dagger.Component;
@@ -32,13 +35,8 @@ public interface ActivityComponent {
     void inject(MainActivity mainActivity);
 
     void inject(MusicListActivity musicListActivity);
-  /* void inject(NewsDetailActivity newsDetailActivity);
 
-    void inject(NewsChannelActivity newsChannelActivity);
+    void inject(PlayMusicActivity playMusicActivity);
+    void inject(SearchActivity searchActivity);
 
-    void inject(NewsPhotoDetailActivity newsPhotoDetailActivity);
-
-    void inject(PhotoActivity photoActivity);
-
-    void inject(PhotoDetailActivity photoDetailActivity);*/
 }

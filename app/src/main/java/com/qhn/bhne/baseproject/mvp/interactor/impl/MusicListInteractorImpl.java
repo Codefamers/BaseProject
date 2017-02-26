@@ -1,10 +1,7 @@
 package com.qhn.bhne.baseproject.mvp.interactor.impl;
 
-import android.util.Log;
-
 import com.qhn.bhne.baseproject.common.HostType;
 import com.qhn.bhne.baseproject.listener.RequestCallBack;
-import com.qhn.bhne.baseproject.mvp.entity.MVType;
 import com.qhn.bhne.baseproject.mvp.entity.MusicList;
 import com.qhn.bhne.baseproject.mvp.interactor.MusicListInteractor;
 import com.qhn.bhne.baseproject.net.RetrofitManager;
@@ -17,7 +14,6 @@ import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-import uk.co.senab.photoview.log.LoggerDefault;
 
 /**
  * Created by qhn
@@ -54,7 +50,7 @@ public class MusicListInteractorImpl implements MusicListInteractor<MusicList> {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        listener.onError(MyUtils.analyzeNetworkError(e));
+                        listener.onFail(MyUtils.analyzeNetworkError(e));
                     }
 
                     @Override

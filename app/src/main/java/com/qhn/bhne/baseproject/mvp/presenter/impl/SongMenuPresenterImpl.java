@@ -9,8 +9,8 @@ import com.qhn.bhne.baseproject.mvp.interactor.SongMenuInteractor;
 import com.qhn.bhne.baseproject.mvp.interactor.impl.ChannelListInteractorImpl;
 import com.qhn.bhne.baseproject.mvp.presenter.SongMenuPresenter;
 import com.qhn.bhne.baseproject.mvp.presenter.base.BasePresenterImpl;
-import com.qhn.bhne.baseproject.mvp.view.base.BaseView;
 import com.qhn.bhne.baseproject.mvp.view.SongMenuView;
+import com.qhn.bhne.baseproject.mvp.view.base.BaseView;
 
 import javax.inject.Inject;
 
@@ -22,13 +22,13 @@ import javax.inject.Inject;
 public class SongMenuPresenterImpl extends BasePresenterImpl<SongMenuView, ChannelList> implements SongMenuPresenter {
     private SongMenuInteractor<SongMenu> songMenuInteractor;
     private ChannelListInteractor<ChannelList> channelListInteractor;
-    private String defaultTag="运动";
-    private int currentPage=0;
+    private String defaultTag = "运动";
+    private int currentPage = 0;
 
 
     @Inject
-    public SongMenuPresenterImpl( ChannelListInteractorImpl channelListInteractor) {
-        this.channelListInteractor=channelListInteractor;
+    public SongMenuPresenterImpl(ChannelListInteractorImpl channelListInteractor) {
+        this.channelListInteractor = channelListInteractor;
     }
 
 
@@ -43,12 +43,11 @@ public class SongMenuPresenterImpl extends BasePresenterImpl<SongMenuView, Chann
 
     @Override
     public void success(ChannelList data) {
-        super.success(data);
-        if (data==null||data.getData().size()==0) {
+        if (data == null || data.getData().size() == 0) {
             mView.loadDataEmpty();
-        }else if(currentPage!=0) {
+        } else if (currentPage != 0) {
             mView.loadMore(data.getData());
-        }else
+        } else
             mView.loadSuccess(data.getData());
 
     }

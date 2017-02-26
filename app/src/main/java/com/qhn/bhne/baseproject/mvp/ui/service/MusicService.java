@@ -1,26 +1,42 @@
 package com.qhn.bhne.baseproject.mvp.ui.service;
 
 import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Binder;
 import android.os.IBinder;
-import android.support.v4.content.LocalBroadcastManager;
 
+import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.LoadControl;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.trackselection.AdaptiveVideoTrackSelection;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelection;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.upstream.BandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
+import com.qhn.bhne.baseproject.application.App;
+import com.qhn.bhne.baseproject.common.MusicConstants;
+import com.qhn.bhne.baseproject.di.component.DaggerServiceComponent;
+import com.qhn.bhne.baseproject.mvp.entity.CurrentPlayMusic;
 import com.qhn.bhne.baseproject.mvp.entity.Songs;
-import com.qhn.bhne.baseproject.mvp.ui.activities.PlayMusicActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * Created by AchillesL on 2016/11/18.
  */
 
-public class MusicService extends Service implements MediaPlayer.OnCompletionListener {
+public class MusicService extends Service {
 
     /*操作指令*/
     public static final String ACTION_OPT_MUSIC_PLAY = "ACTION_OPT_MUSIC_PLAY";
@@ -41,89 +57,110 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     public static final String PARAM_MUSIC_IS_OVER = "PARAM_MUSIC_IS_OVER";
 
     private int mCurrentMusicIndex = 0;
+    private int mCurrentMusicQuality = MusicConstants.MUSIC_QUALITY_STANDARD;
+    private int lastIndex;//上一次播放的位置
     private boolean mIsMusicPause = false;
     private List<Songs> mMusicDatas = new ArrayList<>();
-
-    private MusicReceiver mMusicReceiver = new MusicReceiver();
-    private MediaPlayer mMediaPlayer = new MediaPlayer();
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        initMusicDatas(intent);
-        return super.onStartCommand(intent, flags, startId);
-    }
+    private SimpleExoPlayer player;
+    private final IBinder dataBinder = new DataBinder();
+    private DefaultDataSourceFactory dataSourceFactory;
+    private DefaultExtractorsFactory extractorsFactory;
+    private MediaSource audioSource;
+    @Inject
+    CurrentPlayMusic currentPlayMusic;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        initBoardCastReceiver();
+        DaggerServiceComponent.builder()
+                .applicationComponent(((App) getApplication()).
+                        getApplicationComponent())
+                .build()
+                .inject(this);
+        initData();
+        initPlayer();
     }
 
-    private void initMusicDatas(Intent intent) {
-        if (intent == null) return;
-        List<Songs> musicDatas = (List<Songs>) intent.getSerializableExtra(PlayMusicActivity.PARAM_MUSIC_LIST);
-        mMusicDatas.addAll(musicDatas);
+    private void initPlayer() {
+        //1.创建渲染器TrackSelector
+        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+        TrackSelection.Factory videoTrackSelectionFactory = new
+                AdaptiveVideoTrackSelection.Factory(bandwidthMeter);
+        TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
+
+        //2.创建一个默认的加载控制器 loadControl
+        LoadControl loadControl = new DefaultLoadControl();
+        //3.创建一个Player
+        player = ExoPlayerFactory.newSimpleInstance(this, trackSelector, loadControl);
+        DefaultBandwidthMeter bandwidthMete = new DefaultBandwidthMeter();
+        dataSourceFactory = new DefaultDataSourceFactory(this, Util.getUserAgent(this, "ExoPlayerDemo"), bandwidthMete);
+        extractorsFactory = new DefaultExtractorsFactory();
+
+
+        player.prepare(getAudioSource(mCurrentMusicIndex, MusicConstants.MUSIC_QUALITY_STANDARD));
     }
 
-    private void initBoardCastReceiver() {
-        IntentFilter intentFilter = new IntentFilter();
+    private MediaSource getAudioSource(int index, @MusicConstants.MusicQuality int qualityCategory) {
+        if (audioSource != null) {
+            audioSource.releaseSource();
+        }
+       // List<Songs.UrlListBean> urlList = mMusicDatas.get(index).getUrlList();
+        Uri uri = Uri.parse("");//urlList.get(qualityCategory).getUrl());
+        return audioSource = new ExtractorMediaSource(uri, dataSourceFactory, extractorsFactory, null, null);
 
-        intentFilter.addAction(ACTION_OPT_MUSIC_PLAY);
-        intentFilter.addAction(ACTION_OPT_MUSIC_PAUSE);
-        intentFilter.addAction(ACTION_OPT_MUSIC_NEXT);
-        intentFilter.addAction(ACTION_OPT_MUSIC_LAST);
-        intentFilter.addAction(ACTION_OPT_MUSIC_SEEK_TO);
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMusicReceiver, intentFilter);
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+
+        return dataBinder;
+    }
+
+    private void initData() {
+        mCurrentMusicIndex = currentPlayMusic.getPlayPosition();
+        mMusicDatas = currentPlayMusic.getCurrentPlaySongList();
+        mCurrentMusicQuality = currentPlayMusic.getMusicQuality();
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        return super.onUnbind(intent);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mMediaPlayer.release();
-        mMediaPlayer = null;
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMusicReceiver);
+        player.release();
+        player = null;
+
     }
 
-    private void play(final int index) {
-        if (index >= mMusicDatas.size()) return;
-        if (mCurrentMusicIndex == index && mIsMusicPause) {
-            mMediaPlayer.start();
-        } else {
-            mMediaPlayer.stop();
-            mMediaPlayer = null;
-            Uri uri=Uri.parse(mMusicDatas.get(index)
-                    .getUrlList().get(0).getUrl());
-            mMediaPlayer = MediaPlayer.create(getApplicationContext(),uri );
-            mMediaPlayer.start();
-            mMediaPlayer.setOnCompletionListener(this);
-            mCurrentMusicIndex = index;
-            mIsMusicPause = false;
+    private void play() {
+        initData();
+        if (lastIndex != mCurrentMusicIndex) {
+            player.prepare(getAudioSource(currentPlayMusic.getPlayPosition(), currentPlayMusic.getMusicQuality()));
 
-            int duration = mMediaPlayer.getDuration();
-            sendMusicDurationBroadCast(duration);
         }
-        sendMusicStatusBroadCast(ACTION_STATUS_MUSIC_PLAY);
+        player.setPlayWhenReady(true);
+        currentPlayMusic.setMusicStatus(MusicConstants.MusicStatus.PLAY);
+        lastIndex = mCurrentMusicIndex;
+
     }
 
     private void pause() {
-        mMediaPlayer.pause();
+        player.setPlayWhenReady(false);
         mIsMusicPause = true;
-        sendMusicStatusBroadCast(ACTION_STATUS_MUSIC_PAUSE);
+        currentPlayMusic.setMusicStatus(MusicConstants.MusicStatus.STOP);
     }
 
     private void stop() {
-        mMediaPlayer.stop();
+        player.stop();
     }
 
     private void next() {
         if (mCurrentMusicIndex + 1 < mMusicDatas.size()) {
-            play(mCurrentMusicIndex + 1);
+           // play(mCurrentMusicIndex + 1, mCurrentMusicQuality);
         } else {
             stop();
         }
@@ -131,59 +168,37 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
 
     private void last() {
         if (mCurrentMusicIndex != 0) {
-            play(mCurrentMusicIndex - 1);
+
+            //play(mCurrentMusicIndex - 1, mCurrentMusicQuality);
         }
     }
 
     private void seekTo(Intent intent) {
-        if (mMediaPlayer.isPlaying()) {
+        if (player.isLoading()) {
             int position = intent.getIntExtra(PARAM_MUSIC_SEEK_TO, 0);
-            mMediaPlayer.seekTo(position);
+            player.seekTo(position);
         }
     }
 
-    @Override
-    public void onCompletion(MediaPlayer mp) {
-        sendMusicCompleteBroadCast();
-    }
 
-    class MusicReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action.equals(ACTION_OPT_MUSIC_PLAY)) {
-                play(mCurrentMusicIndex);
-            } else if (action.equals(ACTION_OPT_MUSIC_PAUSE)) {
-                pause();
-            } else if (action.equals(ACTION_OPT_MUSIC_LAST)) {
-                last();
-            } else if (action.equals(ACTION_OPT_MUSIC_NEXT)) {
-                next();
-            } else if (action.equals(ACTION_OPT_MUSIC_SEEK_TO)) {
-                seekTo(intent);
-            }
+    public class DataBinder extends Binder {
+        public MusicService getMusicService() {
+            return MusicService.this;
         }
     }
 
-    private void sendMusicCompleteBroadCast() {
-        Intent intent = new Intent(ACTION_STATUS_MUSIC_COMPLETE);
-        intent.putExtra(PARAM_MUSIC_IS_OVER, (mCurrentMusicIndex == mMusicDatas.size() - 1));
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-    }
 
-    private void sendMusicDurationBroadCast(int duration) {
-        Intent intent = new Intent(ACTION_STATUS_MUSIC_DURATION);
-        intent.putExtra(PARAM_MUSIC_DURATION, duration);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-    }
-
-    private void sendMusicStatusBroadCast(String action) {
-        Intent intent = new Intent(action);
-        if (action.equals(ACTION_STATUS_MUSIC_PLAY)) {
-            intent.putExtra(PARAM_MUSIC_CURRENT_POSITION, mMediaPlayer.getCurrentPosition());
+    public void getMusicAction(String action) {
+        if (action.equals(ACTION_OPT_MUSIC_PLAY)) {
+            play();
+        } else if (action.equals(ACTION_OPT_MUSIC_PAUSE)) {
+            pause();
+        } else if (action.equals(ACTION_OPT_MUSIC_LAST)) {
+            last();
+        } else if (action.equals(ACTION_OPT_MUSIC_NEXT)) {
+            next();
+        } else if (action.equals(ACTION_OPT_MUSIC_SEEK_TO)) {
+            //seekTo(intent);
         }
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
-
 }

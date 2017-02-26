@@ -111,5 +111,7 @@
     <string name="storage_permission_denied">Permission to access storage was denied</string>
 
     <string name="sample_list_load_error">One or more sample lists failed to load</string>
+    <string name="hot_search">热门搜索</string>
+    <string name="search_music">搜索音乐、歌手、歌词、...</string>
 
 </resources>

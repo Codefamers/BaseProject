@@ -6,18 +6,24 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.qhn.bhne.baseproject.R;
 import com.qhn.bhne.baseproject.application.App;
 import com.qhn.bhne.baseproject.di.component.DaggerFragmentComponent;
 import com.qhn.bhne.baseproject.di.component.FragmentComponent;
 import com.qhn.bhne.baseproject.di.module.FragmentModule;
+import com.qhn.bhne.baseproject.event.RetryConnectNetEvent;
 import com.qhn.bhne.baseproject.mvp.presenter.base.BasePresenter;
 import com.qhn.bhne.baseproject.mvp.view.base.BaseView;
 import com.qhn.bhne.baseproject.utils.MyUtils;
+import com.qhn.bhne.baseproject.utils.RxBus;
 import com.socks.library.KLog;
 import com.squareup.leakcanary.RefWatcher;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import rx.Subscription;
@@ -34,12 +40,13 @@ public abstract class BaseFragment<V extends BasePresenter> extends Fragment imp
     private View failView;//加载失败布局
     private View successView;//加载成功布局
 
-
+    private Button btnRetry;
     private static int LOADING_VIEW = 1;
     private static int SUCCESS_VIEW = 2;
     private static int EMPTY_VIEW = 3;
     private static int FAIL_VIEW = 4;
     private FrameLayout root;
+
 
     public FragmentComponent getFragmentComponent() {
         return fragmentComponent;
@@ -57,15 +64,8 @@ public abstract class BaseFragment<V extends BasePresenter> extends Fragment imp
 
     private View mFragmentView;
     protected Subscription mSubscription;
-    private boolean isNeedLoadData;
-
-    public boolean isNeedLoadData() {
-        return isNeedLoadData;
-    }
-
-    public void setNeedLoadData(boolean needLoadData) {
-        isNeedLoadData = needLoadData;
-    }
+    @Inject
+    RxBus rxBus;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,8 +93,6 @@ public abstract class BaseFragment<V extends BasePresenter> extends Fragment imp
             ButterKnife.bind(this, mFragmentView);
             initViews(mFragmentView);
         }
-
-
         return mFragmentView;
     }
 
@@ -118,6 +116,13 @@ public abstract class BaseFragment<V extends BasePresenter> extends Fragment imp
     @Override
     public void loadFail(String message) {
         chooseShowView(FAIL_VIEW);
+        btnRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rxBus.post(new RetryConnectNetEvent());
+            }
+        });
+
     }
 
     @Override
@@ -131,7 +136,7 @@ public abstract class BaseFragment<V extends BasePresenter> extends Fragment imp
     }
 
     private void chooseShowView(int whichOne) {
-        if (loadingView == null) {
+        if (loadingView == null) {//判断视图是否已经初始化过
             initExtraView();
         }
         if (loadingView.getVisibility() != View.GONE)
@@ -157,12 +162,13 @@ public abstract class BaseFragment<V extends BasePresenter> extends Fragment imp
     }
 
     private void initExtraView() {
+
         root = (FrameLayout) mFragmentView.findViewById(R.id.root);
-        KLog.d("实例化数据");
         successView = getSuccessView();
         loadingView = LayoutInflater.from(getActivity()).inflate(R.layout.item_loading_message, null);
         emptyView = LayoutInflater.from(getActivity()).inflate(R.layout.item_loading_empty, null);
         failView = LayoutInflater.from(getActivity()).inflate(R.layout.item_loading_fail, null);
+        btnRetry= (Button) failView.findViewById(R.id.btn_restart_load);
         root.addView(loadingView);
         root.addView(emptyView);
         root.addView(failView);

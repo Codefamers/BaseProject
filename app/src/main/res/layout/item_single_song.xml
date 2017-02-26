@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/txt_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/x4"
+        android:drawableBottom="@drawable/ic_drawable_cut_line"
+        android:drawablePadding="@dimen/y8"
+        android:gravity="center|start"
+        android:paddingTop="@dimen/y8"
+        android:lineSpacingExtra="4dp"
+        android:text="张信哲"
+        android:textColor="@color/alpha_55_black"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/img_more_operation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/x8"
+        android:layout_gravity="right|center"
+        android:src="@mipmap/ic_more_operation" />
+
+
+</FrameLayout>

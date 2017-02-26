@@ -69,7 +69,7 @@ public class MVListInteractorImpl implements MVListInteractor<Map<String,List<MV
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        listener.onError(MyUtils.analyzeNetworkError(e));
+                        listener.onFail(MyUtils.analyzeNetworkError(e));
                     }
 
                     @Override
@@ -108,7 +108,7 @@ public class MVListInteractorImpl implements MVListInteractor<Map<String,List<MV
                                     @Override
                                     public void onError(Throwable e) {
                                         e.printStackTrace();
-                                        listener.onError(MyUtils.analyzeNetworkError(e));
+                                        listener.onFail(MyUtils.analyzeNetworkError(e));
                                     }
 
                                     @Override

@@ -1,6 +1,5 @@
 package com.qhn.bhne.baseproject.mvp.interactor.impl;
 
-import com.qhn.bhne.baseproject.common.ApiConstants;
 import com.qhn.bhne.baseproject.common.HostType;
 import com.qhn.bhne.baseproject.listener.RequestCallBack;
 import com.qhn.bhne.baseproject.mvp.entity.SongMenu;
@@ -61,7 +60,7 @@ public class SongMenuInteractorImpl implements SongMenuInteractor<SongMenu> {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        listener.onError(MyUtils.analyzeNetworkError(e));
+                        listener.onFail(MyUtils.analyzeNetworkError(e));
                     }
 
                     @Override

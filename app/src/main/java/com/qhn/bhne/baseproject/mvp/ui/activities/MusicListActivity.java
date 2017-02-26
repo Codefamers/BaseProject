@@ -1,5 +1,8 @@
 package com.qhn.bhne.baseproject.mvp.ui.activities;
 
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,21 +12,31 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.qhn.bhne.baseproject.R;
+import com.qhn.bhne.baseproject.application.App;
+import com.qhn.bhne.baseproject.mvp.entity.CurrentPlayMusic;
 import com.qhn.bhne.baseproject.mvp.entity.MusicList;
 import com.qhn.bhne.baseproject.mvp.presenter.impl.MusicListPresentImpl;
 import com.qhn.bhne.baseproject.mvp.ui.activities.base.BaseActivity;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.MusicListRecyclerAdapter;
 import com.qhn.bhne.baseproject.mvp.view.MusicListView;
 import com.qhn.bhne.baseproject.utils.MyUtils;
+import com.socks.library.KLog;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-
+import jp.wasabeef.glide.transformations.BlurTransformation;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 
 public class MusicListActivity extends BaseActivity implements MusicListView {
@@ -31,6 +44,8 @@ public class MusicListActivity extends BaseActivity implements MusicListView {
 
     @BindView(R.id.txt_list_title)
     TextView txtListTitle;
+    @BindView(R.id.rel_cover)
+    RelativeLayout relCover;
     @BindView(R.id.rec_music_list)
     RecyclerView recMusicList;
     @BindView(R.id.toolbar)
@@ -56,9 +71,12 @@ public class MusicListActivity extends BaseActivity implements MusicListView {
     @BindView(R.id.activity_music_list)
     ScrollView activityMusicList;
 
-    private MusicListRecyclerAdapter adapter;
+    @Inject
+    MusicListRecyclerAdapter adapter;
     @Inject
     MusicListPresentImpl musicListPresent;
+    @Inject
+    CurrentPlayMusic currentPlayMusic;
 
     @Override
     protected void initViews() {
@@ -67,6 +85,7 @@ public class MusicListActivity extends BaseActivity implements MusicListView {
         toolbar.setTitle("歌单");
         toolbar.setSubtitle("编辑推荐:那些一专成绝响却给我们留下难忘记的回忆");
         initRecycleView();
+        //KLog.d("currentPlayMusic"+currentPlayMusic+"\ncurrentPlayMusic2"+currentPlayMusic2);
     }
 
     private void initRecycleView() {
@@ -101,6 +120,8 @@ public class MusicListActivity extends BaseActivity implements MusicListView {
     @Override
     public void loadSuccess(Object data) {
         adapter.setList(((MusicList) data).getSongs());
+        currentPlayMusic.setCurrentPlaySongList(((MusicList) data).getSongs());
+        adapter.setCurrentPlayMusic(currentPlayMusic);
         adapter.notifyDataSetChanged();
         updateToolBar((MusicList) data);
         updateCoverInfo((MusicList) data);
@@ -119,9 +140,17 @@ public class MusicListActivity extends BaseActivity implements MusicListView {
         txtShare.setText(shareNum);
         txtCollect.setText(favoriteNum);
         txtListTitle.setText(data.getTitle());
-
-        MyUtils.loadImageFormNet(data.getImage().getPic(),imgMusicListCover,this);
-        MyUtils.loadImageFormNet(data.getOwner().getPortrait_pic(),imgAuthorHeader,this);
+       // Glide.with(this).load(data.getImage().getPic()).bitmapTransform(new BlurTransformation(this,20)).into(imgMusicListCover);
+        Glide.with(this).load(data.getOwner().getPortrait_pic()).bitmapTransform(new CropCircleTransformation(this)).into(imgAuthorHeader);
+        Glide.with(this).load(data.getImage().getPic()).bitmapTransform(new BlurTransformation(this,20)).into(new SimpleTarget<GlideDrawable>() {
+            @Override
+            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                resource.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+                relCover.setBackground(resource);
+            }
+        });
+         MyUtils.loadImageFormNet(data.getImage().getPic(),imgMusicListCover,this);
+        //MyUtils.loadImageFormNet(data.getOwner().getPortrait_pic(),imgAuthorHeader,this);
 
 
     }
