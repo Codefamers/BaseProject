@@ -1,6 +1,5 @@
 package com.qhn.bhne.baseproject.wight;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -15,12 +14,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.bumptech.glide.Glide;
 import com.qhn.bhne.baseproject.R;
-import com.qhn.bhne.baseproject.mvp.entity.RecommendContent;
+import com.qhn.bhne.baseproject.mvp.entity.BannerContent;
 import com.qhn.bhne.baseproject.utils.DimenUtil;
 import com.qhn.bhne.baseproject.utils.MyUtils;
-import com.socks.library.KLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,13 +43,17 @@ public class BannerView extends FrameLayout {
     private int[] imagesResIds;
 
 
-
     //从网络加载的资源url
-    private List<String> imageUrlList;
+    private List<BannerContent.DataBean.Banner> imageUrlList;
 
     //放轮播图片的ImageView的list
     private List<ImageView> imageViewsList;
     //放圆点的View的list
+
+    public void setBannerViewOnclickListener(BannerViewOnclickListener bannerViewOnclickListener) {
+        this.bannerViewOnclickListener = bannerViewOnclickListener;
+    }
+
     private List<View> dotViewsList;
     private ViewPager viewPager;
     //当前轮播页
@@ -67,16 +68,19 @@ public class BannerView extends FrameLayout {
             viewPager.setCurrentItem(currentItem);
         }
     };
-    public List<String> getImageUrlList() {
+    private BannerViewOnclickListener bannerViewOnclickListener;
+
+    public List<BannerContent.DataBean.Banner> getImageUrlList() {
         return imageUrlList;
     }
 
-    public void setImageUrlList(List<String> imageUrlList,Context context) {
+    public void setImageUrlList(List<BannerContent.DataBean.Banner> imageUrlList, Context context) {
         this.imageUrlList = imageUrlList;
         initUI(context);
         invalidate();
 
     }
+
     //Code中实例化一个View会调用
     public BannerView(Context context) {
         this(context, null);
@@ -93,6 +97,7 @@ public class BannerView extends FrameLayout {
         super(context, attrs, defStyle);
         initData();
         initUI(context);
+
         if (isAutoPlay) {
             startPlay();
         }
@@ -139,11 +144,11 @@ public class BannerView extends FrameLayout {
     private void initUI(Context context) {
         LayoutInflater.from(context).inflate(R.layout.layout_slideshow, this, true);
         LinearLayout llDot = (LinearLayout) findViewById(R.id.ll_dot);
-        imageUrlList=getImageUrlList();
+        imageUrlList = getImageUrlList();
         imageViewsList.clear();
         dotViewsList.clear();
         llDot.removeAllViews();
-        if (imageUrlList==null) {
+        if (imageUrlList == null) {
             for (int imageID : imagesResIds) {
                 ImageView view = new ImageView(context);
                 view.setImageResource(imageID);
@@ -163,10 +168,10 @@ public class BannerView extends FrameLayout {
                 dotViewsList.add(dotView);
                 llDot.addView(dotView);
             }
-        }else {
-            for (String imageUrl : imageUrlList) {
+        } else {
+            for (BannerContent.DataBean.Banner banner : imageUrlList) {
                 ImageView view = new ImageView(context);
-                MyUtils.loadImageFormNet(imageUrl,view, (Activity) context);
+                MyUtils.loadImageFormNet(banner.getImgurl(), view, context);
                 view.setScaleType(ImageView.ScaleType.FIT_XY);
                 imageViewsList.add(view);
                 ImageView dotView = new ImageView(context);
@@ -186,13 +191,15 @@ public class BannerView extends FrameLayout {
         }
 
 
-
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setFocusable(true);
         viewPager.setAdapter(new MyPagerAdapter());
         viewPager.setOnPageChangeListener(new MyPageChangeListener());
-    }
 
+    }
+   public interface BannerViewOnclickListener{
+        void onClickBanner(View v, int currentItem);
+    }
     private class MyPagerAdapter extends PagerAdapter {
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
@@ -205,8 +212,14 @@ public class BannerView extends FrameLayout {
         }
 
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public Object instantiateItem(ViewGroup container, final int position) {
             container.addView(imageViewsList.get(position));
+            imageViewsList.get(position).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    bannerViewOnclickListener.onClickBanner(v,position);
+                }
+            });
             return imageViewsList.get(position);
 
         }

@@ -14,18 +14,19 @@ import butterknife.BindView;
 public class WebActivity extends BaseActivity {
 
 
+    public static final String JUMP_URL = "JUMP_URL";
+    public static final String TITLE = "title";
     @BindView(R.id.web_show_album)
     WebView webShowAlbum;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+
     @Override
     protected void initViews() {
         initWeb();
     }
 
     private void initWeb() {
-        String jumpUrl = getIntent().getStringExtra("JUMP_URL");
-        String keyWord = getIntent().getStringExtra("KEY_WORD");
+        String jumpUrl = getIntent().getStringExtra(JUMP_URL);
+        String keyWord = getIntent().getStringExtra(TITLE);
         toolbar.setTitle(keyWord);
         WebSettings settings = webShowAlbum.getSettings();
         webShowAlbum.getSettings().setJavaScriptEnabled(true);

@@ -1,5 +1,6 @@
 package com.qhn.bhne.baseproject.mvp.ui.adapter.base;
 
+import android.content.Context;
 import android.support.annotation.AnimRes;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +12,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 
+import com.qhn.bhne.baseproject.di.scope.ContextLife;
+
 import java.util.List;
+
+import javax.inject.Inject;
 
 import retrofit2.http.PUT;
 

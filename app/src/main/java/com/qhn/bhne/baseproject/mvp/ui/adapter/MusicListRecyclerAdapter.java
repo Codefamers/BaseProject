@@ -17,6 +17,7 @@ import com.qhn.bhne.baseproject.R;
 import com.qhn.bhne.baseproject.common.MusicConstants;
 import com.qhn.bhne.baseproject.mvp.entity.CurrentPlayMusic;
 import com.qhn.bhne.baseproject.mvp.entity.Songs;
+import com.qhn.bhne.baseproject.mvp.entity.SpecialSong;
 import com.qhn.bhne.baseproject.mvp.ui.activities.PlayMusicActivity;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.base.BaseRecyclerViewAdapter;
 import com.socks.library.KLog;
@@ -33,9 +34,9 @@ import butterknife.ButterKnife;
  * on 2017/2/14 0014.
  */
 
-public class MusicListRecyclerAdapter extends BaseRecyclerViewAdapter<Songs> {
+public class MusicListRecyclerAdapter extends BaseRecyclerViewAdapter<SpecialSong> {
 
-    private List<Songs> songsList;
+
     private CurrentPlayMusic currentPlayMusic;
 
     public CurrentPlayMusic getCurrentPlayMusic() {
@@ -50,7 +51,7 @@ public class MusicListRecyclerAdapter extends BaseRecyclerViewAdapter<Songs> {
     @Inject
     public MusicListRecyclerAdapter() {
         super(null);
-        songsList = getList();
+
     }
 
     @Override
@@ -62,11 +63,11 @@ public class MusicListRecyclerAdapter extends BaseRecyclerViewAdapter<Songs> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        Songs songs = getList().get(position);
+        SpecialSong songs = getList().get(position);
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
         itemViewHolder.txtMusicId.setText(String.valueOf(position + 1));
-        String songName = songs.getAlbum_name();
-        String songIntroduce = songs.getSingername() + "-" + songs.getAlbum_name();
+        //String songName = songs.getF;
+        String songIntroduce = songs.getFilename();
 
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
         spannableStringBuilder.append(songIntroduce);
@@ -74,7 +75,7 @@ public class MusicListRecyclerAdapter extends BaseRecyclerViewAdapter<Songs> {
         spannableStringBuilder.setSpan(colorSpan, 0, songIntroduce.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         AbsoluteSizeSpan absoluteSizeSpan = new AbsoluteSizeSpan(20);
         spannableStringBuilder.setSpan(absoluteSizeSpan, 0, songIntroduce.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        itemViewHolder.txtMusicName.setText(songName + "\n" + spannableStringBuilder.toString());
+        itemViewHolder.txtMusicName.setText(songs.getRemark() + "\n" + spannableStringBuilder.toString());
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {

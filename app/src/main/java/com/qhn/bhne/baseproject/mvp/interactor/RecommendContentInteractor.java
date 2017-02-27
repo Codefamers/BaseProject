@@ -10,5 +10,6 @@ import rx.Subscription;
  */
 
 public interface RecommendContentInteractor<T> {
-    Subscription loadRecommendContent(RequestCallBack<T> listener,Boolean isShowProgress);
+    Subscription loadRecommendContent(RequestCallBack<T> listener);
+
 }

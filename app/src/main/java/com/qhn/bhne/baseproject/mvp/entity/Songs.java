@@ -47,6 +47,7 @@ public class Songs implements Parcelable {
      * topic :
      */
 
+
     @SerializedName("320filesize")
     private int value320filesize;
     @SerializedName("320hash")

@@ -6,12 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.qhn.bhne.baseproject.R;
-import com.qhn.bhne.baseproject.mvp.entity.ChannelList;
+import com.qhn.bhne.baseproject.mvp.entity.BroadcastDetail;
 import com.qhn.bhne.baseproject.mvp.entity.SongMenu;
-import com.qhn.bhne.baseproject.mvp.presenter.impl.SongMenuPresenterImpl;
+import com.qhn.bhne.baseproject.mvp.presenter.impl.BroadcastPresenterImpl;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.ContactsPersonAdapter;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.SongMenuRecyclerAdapter;
-import com.qhn.bhne.baseproject.mvp.view.SongMenuView;
+import com.qhn.bhne.baseproject.mvp.view.BroadcastView;
+import com.socks.library.KLog;
 
 import java.util.List;
 
@@ -24,12 +25,12 @@ import butterknife.BindView;
  * on 2016/11/7 0007.
  */
 
-public class SongMenuFragment extends BaseFragment implements SongMenuView {
+public class BroadcastFragment extends BaseFragment implements BroadcastView {
 
     @BindView(R.id.rec_song_menu)
     RecyclerView recSongMenu;
     @Inject
-    SongMenuPresenterImpl songMenuPresenter;
+    BroadcastPresenterImpl songMenuPresenter;
     @Inject
     SongMenuRecyclerAdapter songMenuAdapter;
 
@@ -68,7 +69,10 @@ public class SongMenuFragment extends BaseFragment implements SongMenuView {
     }
 
     private void initRecyclerView(Object data) {
-        ContactsPersonAdapter adapter = new ContactsPersonAdapter(getActivity(), (List<ChannelList.ChannelBean>) data);
+        KLog.d("执行次数");
+        List<List<BroadcastDetail.DataBean>> broadcastDetails= (List<List<BroadcastDetail.DataBean>>) data;
+
+        ContactsPersonAdapter adapter = new ContactsPersonAdapter(getContext(), broadcastDetails);
         GridLayoutManager linearLayoutManager = new GridLayoutManager(getActivity(), 2);
         recSongMenu.setItemAnimator(new DefaultItemAnimator());
         recSongMenu.setLayoutManager(linearLayoutManager);

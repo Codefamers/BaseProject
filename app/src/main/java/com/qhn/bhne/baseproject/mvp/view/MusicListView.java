@@ -1,5 +1,6 @@
 package com.qhn.bhne.baseproject.mvp.view;
 
+import com.qhn.bhne.baseproject.mvp.entity.RecommendContent;
 import com.qhn.bhne.baseproject.mvp.view.base.BaseView;
 
 /**
@@ -8,4 +9,5 @@ import com.qhn.bhne.baseproject.mvp.view.base.BaseView;
  */
 
 public interface MusicListView extends BaseView{
+    void updateSongMenuInfo(RecommendContent.DataBean.InfoBean.CustomSpecialBean.SpecialBean specialBean);
 }

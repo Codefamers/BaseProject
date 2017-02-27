@@ -46,7 +46,7 @@ public class HostType {
     /**
      * "api.dongting.com/"
      */
-    public static final int API_DONG_TING = 3;
+    public static final int API_KU_GOUT_RECOMMEND = 3;
     /*
     * "fm.api.ttpod.com/"
     * */
@@ -59,13 +59,23 @@ public class HostType {
 
     public static final int SONG_LIST = 6;
     /*
-    * http://mobilecdn.kugou.com/api/v3/search/hot?
+    * http://mobilecdn.kugou.com/api/v3/search/
     * */
     public static final int HOT_TAG_SEARCH = 8;
+    /*
+    * http://ads.service.kugou.com/v1/
+    * */
+    public static final int KU_GOU_BANNER = 9;
+
+    /*
+    * http://fm.service.kugou.com/v1
+    * */
+    public static final int KU_GOU_FM_TYPE = 10;
     /**
      * 替代枚举的方案，使用IntDef保证类型安全
      */
-    @IntDef({SEARCH_DONG_TING, API_SONGLIST_TTPOD, API_DONG_TING,FM_API_TTPOD,MOBILECDN_KUGOU,SONG_LIST,HOT_TAG_SEARCH})
+    @IntDef({SEARCH_DONG_TING, API_SONGLIST_TTPOD, API_KU_GOUT_RECOMMEND,FM_API_TTPOD,MOBILECDN_KUGOU,SONG_LIST,HOT_TAG_SEARCH,KU_GOU_BANNER
+    ,KU_GOU_FM_TYPE})
     @Retention(RetentionPolicy.SOURCE)
     public @interface HostTypeChecker {
 

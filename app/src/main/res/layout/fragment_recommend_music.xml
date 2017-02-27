@@ -49,7 +49,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
-                            android:contentDescription="@string/all_listening"
+                            android:contentDescription="@string/private_fm"
                             android:gravity="center"
                             android:src="@drawable/ic_all_listening" />
 
@@ -59,7 +59,7 @@
                             android:layout_marginTop="@dimen/y4"
                             android:alpha="0.87"
                             android:gravity="center"
-                            android:text="@string/all_listening"
+                            android:text="@string/private_fm"
 
                             android:textColor="@color/alpha_55_black"
                             android:textSize="12sp" />
@@ -153,29 +153,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp">
 
-                    <TextView
-                        style="@style/recommend_title_text"
-                        android:drawableLeft="@mipmap/ic_exclusive_report"
-                        android:drawableStart="@mipmap/ic_exclusive_report"
-                        android:text="@string/exclusive_report" />
-
-                    <Button
-                        android:id="@+id/btn_exclusive_report"
-                        style="@style/recommend_more_btn" />
-                </RelativeLayout>
-
-                <com.qhn.bhne.baseproject.wight.DisableScrollRecyclerView
-                    android:id="@+id/rec_exclusive_report"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -223,6 +201,29 @@
 
                 <com.qhn.bhne.baseproject.wight.DisableScrollRecyclerView
                     android:id="@+id/rec_good_mv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp">
+
+                    <TextView
+                        style="@style/recommend_title_text"
+                        android:drawableLeft="@mipmap/ic_exclusive_report"
+                        android:drawableStart="@mipmap/ic_exclusive_report"
+                        android:text="@string/exclusive_report" />
+
+                    <Button
+                        android:id="@+id/btn_exclusive_report"
+                        style="@style/recommend_more_btn" />
+                </RelativeLayout>
+
+                <com.qhn.bhne.baseproject.wight.DisableScrollRecyclerView
+                    android:id="@+id/rec_exclusive_report"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp" />

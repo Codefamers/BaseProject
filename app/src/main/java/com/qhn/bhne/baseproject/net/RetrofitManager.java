@@ -28,8 +28,13 @@ import com.google.gson.stream.JsonReader;
 import com.qhn.bhne.baseproject.application.App;
 import com.qhn.bhne.baseproject.common.ApiConstants;
 import com.qhn.bhne.baseproject.common.HostType;
+import com.qhn.bhne.baseproject.mvp.entity.BannerContent;
+import com.qhn.bhne.baseproject.mvp.entity.BroadcastDetail;
+import com.qhn.bhne.baseproject.mvp.entity.BroadcastType;
 import com.qhn.bhne.baseproject.mvp.entity.ChannelList;
+import com.qhn.bhne.baseproject.mvp.entity.ClassListBody;
 import com.qhn.bhne.baseproject.mvp.entity.HotMusicTag;
+import com.qhn.bhne.baseproject.mvp.entity.KuGouSong;
 import com.qhn.bhne.baseproject.mvp.entity.MVList;
 import com.qhn.bhne.baseproject.mvp.entity.MVType;
 import com.qhn.bhne.baseproject.mvp.entity.MusicList;
@@ -41,6 +46,7 @@ import com.qhn.bhne.baseproject.mvp.entity.SearchAlbum;
 import com.qhn.bhne.baseproject.mvp.entity.SearchMV;
 import com.qhn.bhne.baseproject.mvp.entity.SearchSongMenu;
 import com.qhn.bhne.baseproject.mvp.entity.SingleSong;
+import com.qhn.bhne.baseproject.mvp.entity.SongListFM;
 import com.qhn.bhne.baseproject.mvp.entity.SongMenu;
 import com.qhn.bhne.baseproject.utils.NetUtil;
 import com.socks.library.KLog;
@@ -202,30 +208,13 @@ public class RetrofitManager {
     private String getCacheControl() {
         return NetUtil.isNetworkAvailable() ? CACHE_CONTROL_AGE : CACHE_CONTROL_CACHE;
     }
-
-
-
-    /**
-     * example：http://c.m.163.com/nc/article/BG6CGA9M00264N2N/full.html
-     */
-    public Observable<Map<String, NewsDetail>> getNewsDetailObservable(String postId) {
-        KLog.d(Thread.currentThread().getName());
-
-        return mNewsService.getNewDetail(getCacheControl(), postId);
-    }
-
-    public Observable<ResponseBody> getNewsBodyHtmlPhoto(String photoPath) {
-        return mNewsService.getNewsBodyHtmlPhoto(photoPath);
-    }
-
-
-
+    //首页推荐
     public Observable<RecommendContent> getRecommendContent() {
         return mNewsService.getRecommendContent();
     }
-
-    public Observable<RankList> getRankListObservable(int ranklist, int page) {
-        return mNewsService.getRankList(ranklist);
+    //首页轮播图
+    public Observable<BannerContent> getBannerContent() {
+        return mNewsService.getRecommendBanner();
     }
 
     public Observable<SongMenu> getSongMenuObservable(String tag, int page, int size) {
@@ -264,6 +253,18 @@ public class RetrofitManager {
     //搜索MV
     public Observable<SearchMV> getSearchMVObservable(String keyword, int page, int pageSize) {
         return mNewsService.getSearchMV(keyword,page,pageSize);
+    }
+    //搜索MV
+    public Observable<KuGouSong> getKugouSongObservable(int SpecialId, int page, int pageSize) {
+        return mNewsService.getSpecialSong(SpecialId,page,pageSize);
+    }
+    //电台类别
+    public Observable<BroadcastType> getBroadcastTypeObservable(ClassListBody classListBody) {
+        return mNewsService.getBroadcastType(classListBody);
+    }
+    //电台内容
+    public Observable<BroadcastDetail> getBroadcastDetailObservable(SongListFM songListFM) {
+        return mNewsService.getBroadcastDetail(songListFM);
     }
     public Observable<MusicRank> getMusicRankObservable() {
         return mNewsService.getMusicRank();

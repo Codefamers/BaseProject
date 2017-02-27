@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.qhn.bhne.baseproject.R;
+import com.qhn.bhne.baseproject.mvp.entity.BannerContent;
 import com.qhn.bhne.baseproject.mvp.entity.RecommendContent;
 import com.qhn.bhne.baseproject.mvp.presenter.impl.RecommendPresenterImpl;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.HotMusicRecyclerAdapter;
@@ -136,12 +137,12 @@ public class RecommendMusicFragment extends BaseFragment
         imageUrlList.add("http://pic.xiami.net/images/trade/ams_homepage/160/58325730a150a_8038592_1479694128.jpg");
         imageUrlList.add("http://pic.xiami.net/images/trade/ams_homepage/191/58233bde52e46_9583561_1478704094.jpg");
         imageUrlList.add("http://pic.xiami.net/images/trade/ams_homepage/80/581995338de95_4026804_1478071603.jpg");
-        imgBanner.setImageUrlList(imageUrlList,getActivity());
+
 
     }
 
     private void initRecyclerView(List<RecommendContent.DataBean> data) {
-        hotAdapter.setList(data.get(3).getData());
+       /* hotAdapter.setList(data.get(3).getData());
         hotAdapter.setCategory(HOT_ADAPTER);
         MyUtils.setGridRecyclerStyle(getActivity(), recHotMusic, 3,hotAdapter);
 
@@ -156,7 +157,7 @@ public class RecommendMusicFragment extends BaseFragment
 
         goodMvAdapter.setList(data.get(6).getData());
         goodMvAdapter.setCategory(GOOD_MV_ADAPTER);
-        MyUtils.setGridRecyclerStyle(getActivity(), recGoodMV, 3,goodMvAdapter);
+        MyUtils.setGridRecyclerStyle(getActivity(), recGoodMV, 3,goodMvAdapter);*/
     }
 
     @Override
@@ -190,5 +191,15 @@ public class RecommendMusicFragment extends BaseFragment
                 Toast.makeText(activity, "推荐MV", Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    @Override
+    public void refreshBanner(BannerContent bannerContents) {
+
+    }
+
+    @Override
+    public void refreshRec(RecommendContent.DataBean.InfoBean infoBean) {
+
     }
 }

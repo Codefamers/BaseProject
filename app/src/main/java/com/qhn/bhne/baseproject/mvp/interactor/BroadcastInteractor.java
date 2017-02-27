@@ -10,7 +10,7 @@ import rx.Subscription;
  * on 2016/11/7 0007.
  */
 
-public interface SongMenuInteractor<T> {
-    Subscription loadSongMenu(String tag,int page,int size,RequestCallBack<T> listener);
+public interface BroadcastInteractor<T> {
+    Subscription loadBroadDetail( RequestCallBack<T> listener);
 
 }

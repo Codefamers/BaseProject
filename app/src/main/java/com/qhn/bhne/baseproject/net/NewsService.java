@@ -17,8 +17,13 @@
 package com.qhn.bhne.baseproject.net;
 
 
+import com.qhn.bhne.baseproject.mvp.entity.BannerContent;
+import com.qhn.bhne.baseproject.mvp.entity.BroadcastDetail;
+import com.qhn.bhne.baseproject.mvp.entity.BroadcastType;
 import com.qhn.bhne.baseproject.mvp.entity.ChannelList;
+import com.qhn.bhne.baseproject.mvp.entity.ClassListBody;
 import com.qhn.bhne.baseproject.mvp.entity.HotMusicTag;
+import com.qhn.bhne.baseproject.mvp.entity.KuGouSong;
 import com.qhn.bhne.baseproject.mvp.entity.MVList;
 import com.qhn.bhne.baseproject.mvp.entity.MVType;
 import com.qhn.bhne.baseproject.mvp.entity.MusicList;
@@ -30,39 +35,33 @@ import com.qhn.bhne.baseproject.mvp.entity.SearchAlbum;
 import com.qhn.bhne.baseproject.mvp.entity.SearchMV;
 import com.qhn.bhne.baseproject.mvp.entity.SearchSongMenu;
 import com.qhn.bhne.baseproject.mvp.entity.SingleSong;
+import com.qhn.bhne.baseproject.mvp.entity.SongListFM;
 import com.qhn.bhne.baseproject.mvp.entity.SongMenu;
+import com.qhn.bhne.baseproject.mvp.entity.Songs;
 
 import java.util.Map;
 
 import okhttp3.ResponseBody;
+import retrofit2.http.Body;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
 import rx.Observable;
 
-/**
- * @author 咖枯
- * @version 1.0 2016/5/24
- */
+
 public interface NewsService {
-
-
-    @GET("nc/article/{postId}/full.html")
-    Observable<Map<String, NewsDetail>> getNewDetail(
-            @Header("Cache-Control") String cacheControl,
-            @Path("postId") String postId);
-
-    @GET
-    Observable<ResponseBody> getNewsBodyHtmlPhoto(
-            @Url String photoPath);
-    //@Url，它允许我们直接传入一个请求的URL。这样以来我们可以将上一个请求的获得的url直接传入进来，baseUrl将被无视
-    // baseUrl 需要符合标准，为空、""、或不合法将会报错
-
-
-    @GET("frontpage/frontpage?v=v8.1.5.2016110613&s=s310")
+    //获取推荐
+    @GET("recommend?plat=0&type=8&operator=3&version=8493")
     Observable<RecommendContent> getRecommendContent();
+    //获取推荐页轮播图
+    @GET("mobile_fmbanner?isvip=0&mid=271163335621854377768999610192375722565&clienttime=1488095989605&appid=1100&plat=0&userid=0&networktype=1&phonebrand=vivo&operator=3&ismonthly=0&clientver=8" +
+            "493&key=024ba790ab865019f1790679f860bb48&version=8493&type=4")
+    Observable<BannerContent> getRecommendBanner();
+
 
     @GET("channel/ranklist/{rankId}/songs?2")
     Observable<RankList> getRankList(@Path("rankId") int rankId);
@@ -89,10 +88,10 @@ public interface NewsService {
 
     @GET("songlists/{id}?")
     Observable<MusicList> getMusicList(@Path("id") int id);
-
+    //获取热门搜索
     @GET("hot?")
     Observable<HotMusicTag> getHotMusicTag(@Query("count") int count);
-
+    //获取搜索单曲
     @GET("song?")
     Observable<SingleSong> getSingleSong(
             @Query("tagtype") String tagtype,
@@ -100,23 +99,52 @@ public interface NewsService {
             @Query("page") int page,
             @Query("pagesize") int pagesize
     );
+    //获取搜索歌单
     @GET("special?")
     Observable<SearchSongMenu> getSearchSongMenu(
             @Query("keyword") String keyword,
             @Query("page") int page,
             @Query("pagesize") int pagesize
     );
+
+    //获取搜索专辑
     @GET("album?")
     Observable<SearchAlbum> getSearchAlbum(
             @Query("keyword") String keyword,
             @Query("page") int page,
             @Query("pagesize") int pagesize
     );
+    //获取搜索MV
     @GET("mv?")
     Observable<SearchMV> getSearchMV(
             @Query("keyword") String keyword,
             @Query("page") int page,
             @Query("pagesize") int pagesize
     );
+    //获取搜索MV
+    @GET("special/song?")
+    Observable<KuGouSong> getSpecialSong(
+            @Query("specialid") int specialid,
+            @Query("page") int page,
+            @Query("pagesize") int pagesize
+    );
+    //获取电台类型
+    @POST("class_list")
+    Observable<BroadcastType> getBroadcastType(
+            @Body ClassListBody classListBody
+    );
+    //获取电台详情
+    @POST("song_list_fmclass")
+    Observable<BroadcastDetail> getBroadcastDetail(
+            @Body SongListFM classListBody
+    );
+
 }
 
+/*
+* "platform": "android",
+	"appid": "1005",
+	"mid": "271163335621854377768999610192375722565",
+	"clienttime": "1488112355",
+	"key": "216770e5216f9035d8e2dfbaec76ba89",
+	"clientver": "8493"*/

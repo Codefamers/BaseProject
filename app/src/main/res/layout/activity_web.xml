@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:paddingTop="24dp"
-        android:title="123"
+        app:title="123"
         app:layout_scrollFlags="scroll|enterAlways"
         app:navigationIcon="@mipmap/ic_arrow_back_white_24dp"
         app:popupTheme="@style/AppTheme.PopupOverlay"

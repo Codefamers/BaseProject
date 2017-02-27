@@ -206,7 +206,7 @@ public class MyUtils {
     }
 
     //从Url中加载图片
-    public static void loadImageFormNet(String url, ImageView imageView, Activity activity) {
+    public static void loadImageFormNet(String url, ImageView imageView, Context activity) {
         Glide.with(activity).load(url).placeholder(R.drawable.ic_placeholder).into(imageView);
         //Glide.with(activity).load(url).bitmapTransform(new RoundedCornersTransformation(activity, 200, 0, RoundedCornersTransformation.CornerType.TOP)).crossFade().into(imageView);
     }

@@ -1,17 +1,37 @@
 package com.qhn.bhne.baseproject.mvp.presenter.impl;
 
+import com.qhn.bhne.baseproject.common.HostType;
+import com.qhn.bhne.baseproject.event.RetryConnectNetEvent;
+import com.qhn.bhne.baseproject.mvp.entity.KuGouSong;
 import com.qhn.bhne.baseproject.mvp.entity.MusicList;
 import com.qhn.bhne.baseproject.mvp.interactor.MusicListInteractor;
 import com.qhn.bhne.baseproject.mvp.interactor.impl.MusicListInteractorImpl;
 import com.qhn.bhne.baseproject.mvp.presenter.base.BasePresenterImpl;
 import com.qhn.bhne.baseproject.mvp.view.MusicListView;
+import com.qhn.bhne.baseproject.net.RetrofitManager;
 
 import javax.inject.Inject;
 
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
-public class MusicListPresentImpl extends BasePresenterImpl<MusicListView, MusicList> {
+
+public class MusicListPresentImpl extends BasePresenterImpl<MusicListView, KuGouSong> {
     //private MusicRankInteractorImpl musicRankInteractor;
     private MusicListInteractor<MusicList> musicListInteractor;
+    private int specialid;
+    private int pageSize = 30;
+    private int page = 1;
+
+    public int getSpecialid() {
+        return specialid;
+    }
+
+    public void setSpecialid(int specialid) {
+        this.specialid = specialid;
+    }
 
     @Inject
     public MusicListPresentImpl(MusicListInteractorImpl musicRankInteractor) {
@@ -19,17 +39,49 @@ public class MusicListPresentImpl extends BasePresenterImpl<MusicListView, Music
     }
 
     @Override
-    public void create() {
-        musicListInteractor.loadMusicList(306952426, this);
-    }
-
-    @Override
-    public void success(MusicList data) {
+    public void success(KuGouSong data) {
         mView.loadSuccess(data);
     }
 
     @Override
-    public void onDestroy() {
-
+    public void create() {
+        mSubscription = rxBus.toObservable(RetryConnectNetEvent.class).subscribe(new Action1<RetryConnectNetEvent>() {
+            @Override
+            public void call(RetryConnectNetEvent retryConnectNetEvent) {
+                loadData(specialid);
+            }
+        });
+        loadData(specialid);
     }
+
+    private void loadData(int specialid) {
+        RetrofitManager.getInstance(HostType.MOBILECDN_KUGOU)
+                .getKugouSongObservable(specialid, page, pageSize)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<KuGouSong>() {
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(KuGouSong kuGouSong) {
+                        success(kuGouSong);
+                    }
+                });
+    }
+
+
 }

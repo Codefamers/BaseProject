@@ -1,9 +1,7 @@
 package com.qhn.bhne.baseproject.mvp.ui.activities;
 
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,23 +18,24 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
 import com.qhn.bhne.baseproject.R;
-import com.qhn.bhne.baseproject.application.App;
 import com.qhn.bhne.baseproject.mvp.entity.CurrentPlayMusic;
+import com.qhn.bhne.baseproject.mvp.entity.KuGouSong;
 import com.qhn.bhne.baseproject.mvp.entity.MusicList;
+import com.qhn.bhne.baseproject.mvp.entity.RecommendContent;
 import com.qhn.bhne.baseproject.mvp.presenter.impl.MusicListPresentImpl;
 import com.qhn.bhne.baseproject.mvp.ui.activities.base.BaseActivity;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.MusicListRecyclerAdapter;
 import com.qhn.bhne.baseproject.mvp.view.MusicListView;
 import com.qhn.bhne.baseproject.utils.MyUtils;
-import com.socks.library.KLog;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
+import static com.qhn.bhne.baseproject.common.Constants.SONG_MENU;
 
 
 public class MusicListActivity extends BaseActivity implements MusicListView {
@@ -77,15 +76,42 @@ public class MusicListActivity extends BaseActivity implements MusicListView {
     MusicListPresentImpl musicListPresent;
     @Inject
     CurrentPlayMusic currentPlayMusic;
+    private RecommendContent.DataBean.InfoBean.CustomSpecialBean.SpecialBean specialBean;
 
     @Override
     protected void initViews() {
+        specialBean = getIntent().getParcelableExtra(SONG_MENU);
         musicListPresent.attachView(this);
+        musicListPresent.setSpecialid(specialBean.getSpecialid());
         musicListPresent.create();
-        toolbar.setTitle("歌单");
-        toolbar.setSubtitle("编辑推荐:那些一专成绝响却给我们留下难忘记的回忆");
         initRecycleView();
-        //KLog.d("currentPlayMusic"+currentPlayMusic+"\ncurrentPlayMusic2"+currentPlayMusic2);
+        updateSongMenuInfo(specialBean);
+
+    }
+
+    @Override
+    public void updateSongMenuInfo(RecommendContent.DataBean.InfoBean.CustomSpecialBean.SpecialBean specialBean) {
+        toolbar.setTitle("歌单");
+        toolbar.setSubtitle(specialBean.getIntro());
+        String authorName = specialBean.getUser_name() == null ? "暂无" : specialBean.getUser_name();
+        int commentNum = specialBean.getSlid() == 0 ? 0 : specialBean.getSlid();
+        String favoriteNum = specialBean.getCollectcount() == 0 ? "暂无" : String.valueOf(specialBean.getCollectcount());
+        txtListenCount.setText(MyUtils.dealBigNum(specialBean.getPlay_count()));
+        txtAuthorName.setText(authorName);
+        txtComment.setText(String.valueOf(commentNum));
+        //txtShare.setText(shareNum);
+        txtCollect.setText(favoriteNum);
+        txtListTitle.setText(specialBean.getSpecialname());
+        // Glide.with(this).load(data.getImage().getPic()).bitmapTransform(new BlurTransformation(this,20)).into(imgMusicListCover);
+        Glide.with(this).load(specialBean.getImgurl().replace("{size}", "400")).bitmapTransform(new CropCircleTransformation(this)).into(imgAuthorHeader);
+        Glide.with(this).load(specialBean.getImgurl().replace("{size}", "400")).bitmapTransform(new BlurTransformation(this, 20)).into(new SimpleTarget<GlideDrawable>() {
+            @Override
+            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                resource.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+                relCover.setBackground(resource);
+            }
+        });
+        MyUtils.loadImageFormNet(specialBean.getImgurl().replace("{size}", "400"), imgMusicListCover, this);
     }
 
     private void initRecycleView() {
@@ -119,45 +145,12 @@ public class MusicListActivity extends BaseActivity implements MusicListView {
 
     @Override
     public void loadSuccess(Object data) {
-        adapter.setList(((MusicList) data).getSongs());
-        currentPlayMusic.setCurrentPlaySongList(((MusicList) data).getSongs());
-        adapter.setCurrentPlayMusic(currentPlayMusic);
+        adapter.setList(((KuGouSong) data).getData().getInfo());
+        //currentPlayMusic.setCurrentPlaySongList(((MusicList) data).getSongs());
+        //adapter.setCurrentPlayMusic(currentPlayMusic);
         adapter.notifyDataSetChanged();
-        updateToolBar((MusicList) data);
-        updateCoverInfo((MusicList) data);
-    }
-
-    //更新封面信息
-    private void updateCoverInfo(MusicList data) {
-        String authorName=data.getOwner().getNick_name()==null?"暂无":data.getOwner().getNick_name();
-        String commentNum=data.getComment_count()==null?"暂无":data.getComment_count();
-        String shareNum=data.getShare_count()==0?"暂无":String.valueOf(data.getShare_count());
-        String favoriteNum=data.getFavorite_count()==0?"暂无":String.valueOf(data.getFavorite_count());
-
-        txtListenCount.setText(MyUtils.dealBigNum(data.getListen_count()));
-        txtAuthorName.setText(authorName);
-        txtComment.setText(commentNum);
-        txtShare.setText(shareNum);
-        txtCollect.setText(favoriteNum);
-        txtListTitle.setText(data.getTitle());
-       // Glide.with(this).load(data.getImage().getPic()).bitmapTransform(new BlurTransformation(this,20)).into(imgMusicListCover);
-        Glide.with(this).load(data.getOwner().getPortrait_pic()).bitmapTransform(new CropCircleTransformation(this)).into(imgAuthorHeader);
-        Glide.with(this).load(data.getImage().getPic()).bitmapTransform(new BlurTransformation(this,20)).into(new SimpleTarget<GlideDrawable>() {
-            @Override
-            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                resource.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
-                relCover.setBackground(resource);
-            }
-        });
-         MyUtils.loadImageFormNet(data.getImage().getPic(),imgMusicListCover,this);
-        //MyUtils.loadImageFormNet(data.getOwner().getPortrait_pic(),imgAuthorHeader,this);
 
 
-    }
-
-    //更新toolBar上信息
-    private void updateToolBar(MusicList data) {
-        toolbar.setSubtitle(data.getDesc());
     }
 
     @Override

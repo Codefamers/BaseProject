@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.qhn.bhne.baseproject.R;
 import com.qhn.bhne.baseproject.application.App;
@@ -20,7 +19,6 @@ import com.qhn.bhne.baseproject.mvp.presenter.base.BasePresenter;
 import com.qhn.bhne.baseproject.mvp.view.base.BaseView;
 import com.qhn.bhne.baseproject.utils.MyUtils;
 import com.qhn.bhne.baseproject.utils.RxBus;
-import com.socks.library.KLog;
 import com.squareup.leakcanary.RefWatcher;
 
 import javax.inject.Inject;
@@ -33,7 +31,7 @@ import rx.Subscription;
  * on 2016/10/27 0027.
  */
 
-public abstract class BaseFragment<V extends BasePresenter> extends Fragment implements BaseView{
+public abstract class BaseFragment<V extends BasePresenter> extends Fragment implements BaseView {
     protected FragmentComponent fragmentComponent;
     private View emptyView;//加载为空布局
     private View loadingView;//加载中布局
@@ -107,7 +105,6 @@ public abstract class BaseFragment<V extends BasePresenter> extends Fragment imp
     }
 
 
-
     @Override
     public void loadSuccess(Object data) {
         chooseShowView(SUCCESS_VIEW);
@@ -168,7 +165,7 @@ public abstract class BaseFragment<V extends BasePresenter> extends Fragment imp
         loadingView = LayoutInflater.from(getActivity()).inflate(R.layout.item_loading_message, null);
         emptyView = LayoutInflater.from(getActivity()).inflate(R.layout.item_loading_empty, null);
         failView = LayoutInflater.from(getActivity()).inflate(R.layout.item_loading_fail, null);
-        btnRetry= (Button) failView.findViewById(R.id.btn_restart_load);
+        btnRetry = (Button) failView.findViewById(R.id.btn_restart_load);
         root.addView(loadingView);
         root.addView(emptyView);
         root.addView(failView);

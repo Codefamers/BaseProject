@@ -22,8 +22,9 @@ package com.qhn.bhne.baseproject.common;
  */
 public class ApiConstants {
     //推荐
-    public static final String DONG_TING_API = "http://api.dongting.com/";
-
+    public static final String KU_GOU_RECOMMEND = "http://service.mobile.kugou.com/v1/yueku/";
+    //轮播图
+    public static final String KU_GOU_BAANER = "http://ads.service.kugou.com/v1/";
 
     public static final String DONG_TING_SEARCH = "http://search.dongting.com/";
 
@@ -39,6 +40,8 @@ public class ApiConstants {
 
     //酷狗热门搜索标签//酷狗歌曲搜索
     private static final String SEARCH_HOT="http://mobilecdn.kugou.com/api/v3/search/";
+    //酷狗电台类别
+    public static final String KU_GOU_FM_TYPE = "http://fm.service.kugou.com/v1/";
 
 
     public static final String NETEAST_HOST = "http://c.m.163.com/";
@@ -91,10 +94,10 @@ public class ApiConstants {
                 host = DONG_TING_SEARCH;
                 break;
             case HostType.API_SONGLIST_TTPOD:
-                host = DONG_TING_API;
+                host = KU_GOU_RECOMMEND;
                 break;
-            case HostType.API_DONG_TING:
-                host = DONG_TING_API;
+            case HostType.API_KU_GOUT_RECOMMEND:
+                host = KU_GOU_RECOMMEND;
                 break;
             case HostType.FM_API_TTPOD:
                 host = FM_API_TTPOD;
@@ -107,6 +110,12 @@ public class ApiConstants {
                 break;
             case HostType.HOT_TAG_SEARCH:
                 host=SEARCH_HOT;
+                break;
+            case HostType.KU_GOU_BANNER:
+                host=KU_GOU_BAANER;
+                break;
+            case HostType.KU_GOU_FM_TYPE:
+                host=KU_GOU_FM_TYPE;
                 break;
             default:
                 host = "";

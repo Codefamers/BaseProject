@@ -47,7 +47,7 @@ public class MVListInteractorImpl implements MVListInteractor<Map<String,List<MV
 
     @Override
     public Subscription loadMVList( final int order, final int page, final int size, final RequestCallBack listener) {
-        return RetrofitManager.getInstance(HostType.API_DONG_TING)
+        return RetrofitManager.getInstance(HostType.API_KU_GOUT_RECOMMEND)
                 .getMVTypeObservable()
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
@@ -86,7 +86,7 @@ public class MVListInteractorImpl implements MVListInteractor<Map<String,List<MV
                                         KLog.d(mvSubTypeBean.getName());
                                         titleList.add(mvSubTypeBean.getName());
 
-                                        return RetrofitManager.getInstance(HostType.API_DONG_TING)
+                                        return RetrofitManager.getInstance(HostType.API_KU_GOUT_RECOMMEND)
                                                 .getMVListObservable(mvSubTypeBean.getId(), order, page, getSize(mvSubTypeBean.getOrder()));
                                     }
 

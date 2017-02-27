@@ -110,8 +110,8 @@ public class SearchRecommendFragment extends BaseFragment implements SearchMusic
 
     private void startWeb(HotMusicTag.DataBean.HotTagInfo hotTagInfo) {
         Intent intent = new Intent(getContext(), WebActivity.class);
-        intent.putExtra("JUMP_URL", hotTagInfo.getJumpurl());
-        intent.putExtra("KEY_WORD", hotTagInfo.getKeyword());
+        intent.putExtra(WebActivity.JUMP_URL, hotTagInfo.getJumpurl());
+        intent.putExtra(WebActivity.TITLE, hotTagInfo.getKeyword());
         startActivity(intent);
     }
 
