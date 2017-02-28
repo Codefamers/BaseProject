@@ -45,6 +45,15 @@ public class ContactsPersonAdapter extends RecyclerView.Adapter {
     private static final int TYPE_TITLE = 1;//title类型
     private final HashMap<Integer, String> titleDataMap;//标题数据
     private List<List<BroadcastDetail.DataBean>> contentData;//内容数据
+
+    public List<List<BroadcastDetail.DataBean>> getContentData() {
+        return contentData;
+    }
+
+    public void setContentData(List<List<BroadcastDetail.DataBean>> contentData) {
+        this.contentData = contentData;
+    }
+
     private Map<Integer, BroadcastDetail.DataBean> posItemMap;//记录item与position对应关系
 
     Context context;//上下文环境
@@ -56,7 +65,10 @@ public class ContactsPersonAdapter extends RecyclerView.Adapter {
         this.contentData = contentData;
         posItemMap = new HashMap<>();
         titleDataMap = new HashMap<>();
-        initTitleData();//将标题中的数据位置与recyclerView中的位置对齐
+        if (contentData!=null) {
+            initTitleData();//将标题中的数据位置与recyclerView中的位置对齐
+
+        }
     }
 
     private void initTitleData() {

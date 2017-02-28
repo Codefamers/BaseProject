@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
@@ -15,11 +16,13 @@ import android.widget.TextView;
 
 import com.qhn.bhne.baseproject.R;
 import com.qhn.bhne.baseproject.common.MusicConstants;
+import com.qhn.bhne.baseproject.di.scope.ContextLife;
 import com.qhn.bhne.baseproject.mvp.entity.CurrentPlayMusic;
 import com.qhn.bhne.baseproject.mvp.entity.Songs;
 import com.qhn.bhne.baseproject.mvp.entity.SpecialSong;
 import com.qhn.bhne.baseproject.mvp.ui.activities.PlayMusicActivity;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.base.BaseRecyclerViewAdapter;
+import com.qhn.bhne.baseproject.utils.DimenUtil;
 import com.socks.library.KLog;
 
 import java.util.List;
@@ -48,6 +51,7 @@ public class MusicListRecyclerAdapter extends BaseRecyclerViewAdapter<SpecialSon
     }
 
 
+    private Context context;
     @Inject
     public MusicListRecyclerAdapter() {
         super(null);
@@ -57,6 +61,9 @@ public class MusicListRecyclerAdapter extends BaseRecyclerViewAdapter<SpecialSon
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = getView(parent, R.layout.item_music_list);
+        if (context==null) {
+            context=parent.getContext();
+        }
         return new ItemViewHolder(view);
     }
 
@@ -66,16 +73,17 @@ public class MusicListRecyclerAdapter extends BaseRecyclerViewAdapter<SpecialSon
         SpecialSong songs = getList().get(position);
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
         itemViewHolder.txtMusicId.setText(String.valueOf(position + 1));
-        //String songName = songs.getF;
         String songIntroduce = songs.getFilename();
+        String songName=songs.getRemark();
 
-        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
-        spannableStringBuilder.append(songIntroduce);
-        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#59FFFFFF"));
-        spannableStringBuilder.setSpan(colorSpan, 0, songIntroduce.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        AbsoluteSizeSpan absoluteSizeSpan = new AbsoluteSizeSpan(20);
-        spannableStringBuilder.setSpan(absoluteSizeSpan, 0, songIntroduce.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        itemViewHolder.txtMusicName.setText(songs.getRemark() + "\n" + spannableStringBuilder.toString());
+
+        //使用spannableStringBuilder时要注意setText时只有包含spannableString对象
+        SpannableStringBuilder spannableString = new SpannableStringBuilder(songName);
+        spannableString.append("\n"+songIntroduce);
+        ForegroundColorSpan colorSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.alpha_85_black));
+        spannableString.setSpan(new AbsoluteSizeSpan((int) DimenUtil.sp2px(16)), 0, songName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(colorSpan, 0, songName.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+        itemViewHolder.txtMusicName.setText(spannableString);
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {

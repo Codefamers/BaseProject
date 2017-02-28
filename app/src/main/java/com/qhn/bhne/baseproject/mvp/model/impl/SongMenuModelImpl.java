@@ -1,9 +1,10 @@
-package com.qhn.bhne.baseproject.mvp.interactor.impl;
+package com.qhn.bhne.baseproject.mvp.model.impl;
+
 
 import com.qhn.bhne.baseproject.common.HostType;
 import com.qhn.bhne.baseproject.listener.RequestCallBack;
-import com.qhn.bhne.baseproject.mvp.entity.MusicList;
-import com.qhn.bhne.baseproject.mvp.interactor.MusicListInteractor;
+import com.qhn.bhne.baseproject.mvp.entity.SongMenuData;
+import com.qhn.bhne.baseproject.mvp.model.SongMenuModel;
 import com.qhn.bhne.baseproject.net.RetrofitManager;
 import com.qhn.bhne.baseproject.utils.MyUtils;
 import com.socks.library.KLog;
@@ -16,30 +17,27 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by qhn
- * on 2017/2/14 0014.
+ * Created by Administrator on 2017/02/27
  */
 
-public class MusicListInteractorImpl implements MusicListInteractor<MusicList> {
+public class SongMenuModelImpl implements SongMenuModel<SongMenuData> {
     @Inject
-    public MusicListInteractorImpl() {
+    public SongMenuModelImpl() {
     }
 
-    private static final String TAG = "MusicListInteractorImpl";
 
     @Override
-    public Subscription loadMusicList(int musicListID, final RequestCallBack<MusicList> listener) {
-        return RetrofitManager.getInstance(HostType.SONG_LIST)
-                .getMusicListObservable(musicListID)
+    public Subscription loadSongMenu(int categoryID,int page, int pageSize,  final RequestCallBack<SongMenuData> listener) {
+        return RetrofitManager.getInstance(HostType.MOBILECDN_KUGOU)
+                .getSongMenuObservable(categoryID,page,pageSize)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<MusicList>() {
+                .subscribe(new Subscriber<SongMenuData>() {
                     @Override
                     public void onStart() {
                         super.onStart();
                         listener.beforeRequest();
-
 
                     }
 
@@ -54,12 +52,11 @@ public class MusicListInteractorImpl implements MusicListInteractor<MusicList> {
                     }
 
                     @Override
-                    public void onNext(MusicList musicList) {
+                    public void onNext(SongMenuData songMenu) {
                         KLog.d("请求成功");
-                        listener.success(musicList);
+                        listener.success(songMenu);
+
                     }
-
-
                 });
     }
 }

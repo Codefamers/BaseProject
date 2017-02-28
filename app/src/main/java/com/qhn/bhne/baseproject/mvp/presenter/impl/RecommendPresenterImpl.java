@@ -1,25 +1,17 @@
 package com.qhn.bhne.baseproject.mvp.presenter.impl;
 
-import com.qhn.bhne.baseproject.common.HostType;
 import com.qhn.bhne.baseproject.event.RecommendEvent;
 import com.qhn.bhne.baseproject.event.RetryConnectNetEvent;
-import com.qhn.bhne.baseproject.mvp.entity.BannerContent;
-import com.qhn.bhne.baseproject.mvp.entity.RecommendContent;
-import com.qhn.bhne.baseproject.mvp.interactor.RecommendContentInteractor;
-import com.qhn.bhne.baseproject.mvp.interactor.impl.RecommendInteractorImpl;
+import com.qhn.bhne.baseproject.mvp.model.RecommendContentInteractor;
+import com.qhn.bhne.baseproject.mvp.model.impl.RecommendInteractorImpl;
 import com.qhn.bhne.baseproject.mvp.presenter.RecommendPresenter;
 import com.qhn.bhne.baseproject.mvp.presenter.base.BasePresenterImpl;
 import com.qhn.bhne.baseproject.mvp.view.RecommendView;
-import com.qhn.bhne.baseproject.net.RetrofitManager;
-import com.qhn.bhne.baseproject.utils.MyUtils;
 import com.socks.library.KLog;
 
 import javax.inject.Inject;
 
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by qhn

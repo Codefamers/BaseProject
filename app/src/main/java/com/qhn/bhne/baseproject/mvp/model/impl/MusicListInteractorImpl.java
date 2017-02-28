@@ -1,9 +1,9 @@
-package com.qhn.bhne.baseproject.mvp.interactor.impl;
+package com.qhn.bhne.baseproject.mvp.model.impl;
 
 import com.qhn.bhne.baseproject.common.HostType;
 import com.qhn.bhne.baseproject.listener.RequestCallBack;
-import com.qhn.bhne.baseproject.mvp.entity.ChannelList;
-import com.qhn.bhne.baseproject.mvp.interactor.ChannelListInteractor;
+import com.qhn.bhne.baseproject.mvp.entity.MusicList;
+import com.qhn.bhne.baseproject.mvp.model.MusicListInteractor;
 import com.qhn.bhne.baseproject.net.RetrofitManager;
 import com.qhn.bhne.baseproject.utils.MyUtils;
 import com.socks.library.KLog;
@@ -17,36 +17,29 @@ import rx.schedulers.Schedulers;
 
 /**
  * Created by qhn
- * on 2016/11/8 0008.
+ * on 2017/2/14 0014.
  */
 
-public class ChannelListInteractorImpl implements ChannelListInteractor<ChannelList> {
-    private boolean isShowProgress=true;
-    public boolean isShowProgress() {
-        return isShowProgress;
-    }
-
-    public void setShowProgress(boolean showProgress) {
-        isShowProgress = showProgress;
-    }
-
+public class MusicListInteractorImpl implements MusicListInteractor<MusicList> {
     @Inject
-    public ChannelListInteractorImpl() {
+    public MusicListInteractorImpl() {
     }
+
+    private static final String TAG = "MusicListInteractorImpl";
+
     @Override
-    public Subscription loadChannelList(final RequestCallBack listener) {
-        return RetrofitManager.getInstance(HostType.FM_API_TTPOD)
-                .getChannelListObservable()
+    public Subscription loadMusicList(int musicListID, final RequestCallBack<MusicList> listener) {
+        return RetrofitManager.getInstance(HostType.SONG_LIST)
+                .getMusicListObservable(musicListID)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ChannelList>() {
+                .subscribe(new Subscriber<MusicList>() {
                     @Override
                     public void onStart() {
                         super.onStart();
-                        if (isShowProgress) {
-                            listener.beforeRequest();
-                        }
+                        listener.beforeRequest();
+
 
                     }
 
@@ -61,10 +54,12 @@ public class ChannelListInteractorImpl implements ChannelListInteractor<ChannelL
                     }
 
                     @Override
-                    public void onNext(ChannelList channelList) {
+                    public void onNext(MusicList musicList) {
                         KLog.d("请求成功");
-                        listener.success(channelList);
+                        listener.success(musicList);
                     }
+
+
                 });
     }
 }

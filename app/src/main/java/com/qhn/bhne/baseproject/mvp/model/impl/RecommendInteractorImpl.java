@@ -1,14 +1,13 @@
-package com.qhn.bhne.baseproject.mvp.interactor.impl;
+package com.qhn.bhne.baseproject.mvp.model.impl;
 
 import com.qhn.bhne.baseproject.common.HostType;
 import com.qhn.bhne.baseproject.event.RecommendEvent;
 import com.qhn.bhne.baseproject.listener.RequestCallBack;
 import com.qhn.bhne.baseproject.mvp.entity.BannerContent;
 import com.qhn.bhne.baseproject.mvp.entity.RecommendContent;
-import com.qhn.bhne.baseproject.mvp.interactor.RecommendContentInteractor;
+import com.qhn.bhne.baseproject.mvp.model.RecommendContentInteractor;
 import com.qhn.bhne.baseproject.net.RetrofitManager;
 import com.qhn.bhne.baseproject.utils.MyUtils;
-import com.socks.library.KLog;
 
 import javax.inject.Inject;
 

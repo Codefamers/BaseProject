@@ -1,4 +1,4 @@
-package com.qhn.bhne.baseproject.mvp.interactor.impl;
+package com.qhn.bhne.baseproject.mvp.model.impl;
 
 import com.qhn.bhne.baseproject.common.HostType;
 import com.qhn.bhne.baseproject.listener.RequestCallBack;
@@ -6,7 +6,7 @@ import com.qhn.bhne.baseproject.mvp.entity.BroadcastDetail;
 import com.qhn.bhne.baseproject.mvp.entity.BroadcastType;
 import com.qhn.bhne.baseproject.mvp.entity.ClassListBody;
 import com.qhn.bhne.baseproject.mvp.entity.SongListFM;
-import com.qhn.bhne.baseproject.mvp.interactor.BroadcastInteractor;
+import com.qhn.bhne.baseproject.mvp.model.BroadcastInteractor;
 import com.qhn.bhne.baseproject.net.RetrofitManager;
 import com.socks.library.KLog;
 

@@ -3,16 +3,14 @@ package com.qhn.bhne.baseproject.mvp.presenter.impl;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.qhn.bhne.baseproject.common.Constants;
 import com.qhn.bhne.baseproject.mvp.entity.MVList;
-import com.qhn.bhne.baseproject.mvp.interactor.MVListInteractor;
-import com.qhn.bhne.baseproject.mvp.interactor.impl.MVListInteractorImpl;
+import com.qhn.bhne.baseproject.mvp.model.MVListInteractor;
+import com.qhn.bhne.baseproject.mvp.model.impl.MVListInteractorImpl;
 import com.qhn.bhne.baseproject.mvp.presenter.MVListPresenter;
 import com.qhn.bhne.baseproject.mvp.presenter.base.BasePresenterImpl;
 import com.qhn.bhne.baseproject.mvp.view.MVListView;
 import com.socks.library.KLog;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

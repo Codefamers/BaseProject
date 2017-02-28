@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qhn.bhne.baseproject.R;
+import com.qhn.bhne.baseproject.di.scope.ContextLife;
 import com.qhn.bhne.baseproject.mvp.entity.MVList;
 import com.qhn.bhne.baseproject.utils.MyUtils;
 import com.qhn.bhne.baseproject.wight.ShapedImageView;
@@ -20,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,7 +39,9 @@ public class MVListAdapter extends RecyclerView.Adapter {
     private HashMap<Integer, String> titleDataMap;//标题数据
     private HashMap<String, List<MVList.MVBean>> contentData;//内容数据
     private Map<Integer, MVList.MVBean> posItemMap;//记录item与position对应关系
-    private Context context;//上下文环境
+    @ContextLife("Fragment")
+    @Inject
+    Context context;
     private int titleNum = 0;
     private int itemPos = 0;
 

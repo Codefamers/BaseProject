@@ -1,10 +1,10 @@
-package com.qhn.bhne.baseproject.mvp.interactor.impl;
+package com.qhn.bhne.baseproject.mvp.model.impl;
 
 import com.qhn.bhne.baseproject.common.HostType;
 import com.qhn.bhne.baseproject.listener.RequestCallBack;
 import com.qhn.bhne.baseproject.mvp.entity.MVList;
 import com.qhn.bhne.baseproject.mvp.entity.MVType;
-import com.qhn.bhne.baseproject.mvp.interactor.MVListInteractor;
+import com.qhn.bhne.baseproject.mvp.model.MVListInteractor;
 import com.qhn.bhne.baseproject.net.RetrofitManager;
 import com.qhn.bhne.baseproject.utils.MyUtils;
 import com.socks.library.KLog;

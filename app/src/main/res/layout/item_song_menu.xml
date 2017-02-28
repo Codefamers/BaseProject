@@ -64,9 +64,9 @@
             android:layout_marginLeft="@dimen/x4"
             android:layout_marginTop="@dimen/y4"
             android:text="听一首李宗盛"
-            android:maxLines="3"
+            android:maxLines="2"
             android:ellipsize="end"
-            android:textColor="@color/alpha_85_black"
+            android:textColor="@color/alpha_55_black"
             android:textSize="14sp" />
 
 

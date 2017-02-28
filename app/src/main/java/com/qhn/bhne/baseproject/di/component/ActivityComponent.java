@@ -27,7 +27,7 @@ public interface ActivityComponent {
     @ContextLife("Activity")
     Context getActivityContext();
 
-    @ContextLife("Application")
+    @ContextLife()
     Context getApplicationContext();
 
     Activity getActivity();

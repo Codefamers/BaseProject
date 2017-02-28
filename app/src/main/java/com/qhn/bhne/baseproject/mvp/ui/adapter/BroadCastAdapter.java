@@ -1,3 +1,4 @@
+/*
 package com.qhn.bhne.baseproject.mvp.ui.adapter;
 
 import android.app.Activity;
@@ -17,14 +18,16 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+*/
 /**
  * Created by qhn
  * on 2016/11/7 0007.
- */
+ *//*
 
-public class SongMenuRecyclerAdapter extends BaseRecyclerViewAdapter<SongMenu.SongMenuData> {
+
+public class BroadCastAdapter extends BaseRecyclerViewAdapter<SongMenuData.SongMenuData> {
     @Inject
-    public SongMenuRecyclerAdapter() {
+    public BroadCastAdapter() {
         super(null);
     }
 
@@ -37,11 +40,11 @@ public class SongMenuRecyclerAdapter extends BaseRecyclerViewAdapter<SongMenu.So
         switch (viewType) {
             case TYPE_FOOTER:
                 view = getView(parent, R.layout.item_foot_loading_message);
-                return new SongMenuRecyclerAdapter.FooterViewHolder(view);
+                return new BroadCastAdapter.FooterViewHolder(view);
 
             case TYPE_ITEM:
                 view = getView(parent, R.layout.item_song_menu);
-                return new SongMenuRecyclerAdapter.ItemViewHolder(view);
+                return new BroadCastAdapter.ItemViewHolder(view);
             default:
                 return null;
         }
@@ -52,9 +55,9 @@ public class SongMenuRecyclerAdapter extends BaseRecyclerViewAdapter<SongMenu.So
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        if (holder instanceof SongMenuRecyclerAdapter.ItemViewHolder) {
-            SongMenu.SongMenuData dataContent = mList.get(position);
-            SongMenuRecyclerAdapter.ItemViewHolder itemViewHolder = (SongMenuRecyclerAdapter.ItemViewHolder) holder;
+        if (holder instanceof BroadCastAdapter.ItemViewHolder) {
+            SongMenuData.SongMenuData dataContent = mList.get(position);
+            BroadCastAdapter.ItemViewHolder itemViewHolder = (BroadCastAdapter.ItemViewHolder) holder;
             itemViewHolder.txtMusicAlbumName.setText(dataContent.getTitle());
             if (dataContent.getListen_count() != 0) {
                 itemViewHolder.txtListen.setText(MyUtils.dealBigNum(dataContent.getListen_count()));
@@ -93,3 +96,4 @@ public class SongMenuRecyclerAdapter extends BaseRecyclerViewAdapter<SongMenu.So
     }
 
 }
+*/

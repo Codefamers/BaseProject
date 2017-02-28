@@ -1,4 +1,4 @@
-package com.qhn.bhne.baseproject.mvp.interactor;
+package com.qhn.bhne.baseproject.mvp.model;
 
 import com.qhn.bhne.baseproject.listener.RequestCallBack;
 

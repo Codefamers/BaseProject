@@ -7,29 +7,22 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qhn.bhne.baseproject.R;
-import com.qhn.bhne.baseproject.common.HostType;
 import com.qhn.bhne.baseproject.event.RecommendEvent;
 import com.qhn.bhne.baseproject.mvp.entity.BannerContent;
-import com.qhn.bhne.baseproject.mvp.entity.BroadcastDetail;
-import com.qhn.bhne.baseproject.mvp.entity.BroadcastType;
-import com.qhn.bhne.baseproject.mvp.entity.ClassListBody;
 import com.qhn.bhne.baseproject.mvp.entity.RecommendContent;
-import com.qhn.bhne.baseproject.mvp.entity.SongListFM;
-import com.qhn.bhne.baseproject.mvp.entity.SongMenu;
 import com.qhn.bhne.baseproject.mvp.presenter.impl.RecommendPresenterImpl;
 import com.qhn.bhne.baseproject.mvp.ui.activities.MusicListActivity;
 import com.qhn.bhne.baseproject.mvp.ui.activities.WebActivity;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.HotMusicRecyclerAdapter;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.ReportAdapter;
 import com.qhn.bhne.baseproject.mvp.view.RecommendView;
-import com.qhn.bhne.baseproject.net.RetrofitManager;
 import com.qhn.bhne.baseproject.utils.MyUtils;
 import com.qhn.bhne.baseproject.wight.BannerView;
 import com.qhn.bhne.baseproject.wight.DisableScrollRecyclerView;
-import com.socks.library.KLog;
 
 import java.util.List;
 
@@ -37,11 +30,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 import static com.qhn.bhne.baseproject.common.Constants.SONG_MENU;
 
@@ -77,6 +65,8 @@ public class KuGouRecommendMusicFragment extends BaseFragment implements Recomme
     DisableScrollRecyclerView recGoodMv;
     @BindView(R.id.success_view)
     NestedScrollView successView;
+    @BindView(R.id.txt_test)
+    TextView textView;
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
     @Inject
@@ -157,13 +147,14 @@ public class KuGouRecommendMusicFragment extends BaseFragment implements Recomme
         RecommendContent.DataBean.InfoBean infoBean = ((RecommendEvent) data).getRecommendContent().getData().getInfo();
         refreshRec(infoBean);
 
-        BannerContent bannerContents=((RecommendEvent) data).getBannerContent();
+        BannerContent bannerContents = ((RecommendEvent) data).getBannerContent();
         refreshBanner(bannerContents);
 
         specialBean = infoBean.getCustom_special().get(0).getSpecial().get(1);
         privateFM = infoBean.getCustom_special().get(0).getSpecial().get(0);
 
     }
+
     @Override
     public void refreshRec(RecommendContent.DataBean.InfoBean infoBean) {
         List<RecommendContent.DataBean.InfoBean.AlbumBean>
@@ -241,53 +232,7 @@ public class KuGouRecommendMusicFragment extends BaseFragment implements Recomme
     }
 
     private void testData() {
-        RetrofitManager.getInstance(HostType.KU_GOU_FM_TYPE)
-                .getBroadcastTypeObservable(new ClassListBody())
-                .map(new Func1<BroadcastType, List<BroadcastType.BroadcastBean>>() {
-                    @Override
-                    public List<BroadcastType.BroadcastBean> call(BroadcastType broadcastType) {
-                        return broadcastType.getData();
-                    }
-                }).flatMap(new Func1<List<BroadcastType.BroadcastBean>, Observable<BroadcastType.BroadcastBean>>() {
-            @Override
-            public Observable<BroadcastType.BroadcastBean> call(List<BroadcastType.BroadcastBean> broadcastBeen) {
-                return Observable.from(broadcastBeen);
-            }
-        })
-                .flatMap(new Func1<BroadcastType.BroadcastBean, Observable<BroadcastDetail>>() {
-                    @Override
-                    public Observable<BroadcastDetail> call(BroadcastType.BroadcastBean broadcastBean) {
-                        SongListFM songListFM = new SongListFM();
-                        songListFM.setClassid(broadcastBean.getClassId());
-                        return RetrofitManager.getInstance(HostType.KU_GOU_FM_TYPE).getBroadcastDetailObservable(songListFM);
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BroadcastDetail>() {
-                    @Override
-                    public void onStart() {
-                        super.onStart();
 
-                    }
-
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-
-                    }
-
-                    @Override
-                    public void onNext(BroadcastDetail broadcastDetail) {
-                        KLog.d("请求成功777" + broadcastDetail.getData().size());
-
-                    }
-                });
 
        /* RetrofitManager.getInstance(HostType.KU_GOU_FM_TYPE)
                 .getBroadcastTypeObservable(new ClassListBody())

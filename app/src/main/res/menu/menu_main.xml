@@ -4,12 +4,12 @@
     tools:context="com.qhn.bhne.baseproject.mvp.ui.activities.MainActivity">
 
 
-    <item
+    <!--<item
         android:id="@+id/action_download"
         android:icon="@mipmap/ic_file_download_white_24dp"
         android:orderInCategory="90"
         android:title="@string/action_download"
-        app:showAsAction="always" />
+        app:showAsAction="always" /-->>
 
     <item
         android:id="@+id/action_search"

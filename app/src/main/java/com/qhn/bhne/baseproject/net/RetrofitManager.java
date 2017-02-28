@@ -21,7 +21,6 @@ import android.util.Log;
 import android.util.SparseArray;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
@@ -39,15 +38,13 @@ import com.qhn.bhne.baseproject.mvp.entity.MVList;
 import com.qhn.bhne.baseproject.mvp.entity.MVType;
 import com.qhn.bhne.baseproject.mvp.entity.MusicList;
 import com.qhn.bhne.baseproject.mvp.entity.MusicRank;
-import com.qhn.bhne.baseproject.mvp.entity.NewsDetail;
-import com.qhn.bhne.baseproject.mvp.entity.RankList;
 import com.qhn.bhne.baseproject.mvp.entity.RecommendContent;
 import com.qhn.bhne.baseproject.mvp.entity.SearchAlbum;
 import com.qhn.bhne.baseproject.mvp.entity.SearchMV;
 import com.qhn.bhne.baseproject.mvp.entity.SearchSongMenu;
 import com.qhn.bhne.baseproject.mvp.entity.SingleSong;
 import com.qhn.bhne.baseproject.mvp.entity.SongListFM;
-import com.qhn.bhne.baseproject.mvp.entity.SongMenu;
+import com.qhn.bhne.baseproject.mvp.entity.SongMenuData;
 import com.qhn.bhne.baseproject.utils.NetUtil;
 import com.socks.library.KLog;
 
@@ -58,7 +55,6 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.util.Locale;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
@@ -216,9 +212,9 @@ public class RetrofitManager {
     public Observable<BannerContent> getBannerContent() {
         return mNewsService.getRecommendBanner();
     }
-
-    public Observable<SongMenu> getSongMenuObservable(String tag, int page, int size) {
-        return mNewsService.getSongMenu(tag, page, size);
+    //所有歌单
+    public Observable<SongMenuData> getSongMenuObservable(int categoryid, int page, int size) {
+        return mNewsService.getSongMenu(1,3,0,1, page, categoryid,size);
     }
 
     public Observable<ChannelList> getChannelListObservable() {

@@ -34,7 +34,7 @@ public class ActivityModule {
     @PerActivity//生命周期与activity相同并且单例
     @ContextLife("Activity")//context的类型为activity
     public Context ProvideActivityContext() {
-        return activity;
+        return  activity;
     }
 
     @Provides

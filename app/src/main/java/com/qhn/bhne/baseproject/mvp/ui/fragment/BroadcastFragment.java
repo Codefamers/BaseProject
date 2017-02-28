@@ -7,10 +7,8 @@ import android.view.View;
 
 import com.qhn.bhne.baseproject.R;
 import com.qhn.bhne.baseproject.mvp.entity.BroadcastDetail;
-import com.qhn.bhne.baseproject.mvp.entity.SongMenu;
 import com.qhn.bhne.baseproject.mvp.presenter.impl.BroadcastPresenterImpl;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.ContactsPersonAdapter;
-import com.qhn.bhne.baseproject.mvp.ui.adapter.SongMenuRecyclerAdapter;
 import com.qhn.bhne.baseproject.mvp.view.BroadcastView;
 import com.socks.library.KLog;
 
@@ -28,11 +26,11 @@ import butterknife.BindView;
 public class BroadcastFragment extends BaseFragment implements BroadcastView {
 
     @BindView(R.id.rec_song_menu)
-    RecyclerView recSongMenu;
+    RecyclerView recBroadcastAdapter;
     @Inject
     BroadcastPresenterImpl songMenuPresenter;
-    @Inject
-    SongMenuRecyclerAdapter songMenuAdapter;
+    private ContactsPersonAdapter adapter;
+
 
     @Override
     protected void initInjector() {
@@ -41,16 +39,17 @@ public class BroadcastFragment extends BaseFragment implements BroadcastView {
 
     @Override
     protected View getSuccessView() {
-        return recSongMenu;
+        return recBroadcastAdapter;
     }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_song_menu;
+        return R.layout.fragment_broadcast;
     }
 
     @Override
     protected void initViews(View mFragmentView) {
+        initRecyclerView();
         initPresenter();
     }
 
@@ -63,28 +62,22 @@ public class BroadcastFragment extends BaseFragment implements BroadcastView {
     @Override
     public void loadSuccess(Object data) {
         super.loadSuccess(data);
-        initRecyclerView(data);
 
+        List<List<BroadcastDetail.DataBean>> broadcastDetails = (List<List<BroadcastDetail.DataBean>>) data;
 
+        adapter.setContentData(broadcastDetails);
+        adapter.notifyDataSetChanged();
     }
 
-    private void initRecyclerView(Object data) {
+    private void initRecyclerView() {
         KLog.d("执行次数");
-        List<List<BroadcastDetail.DataBean>> broadcastDetails= (List<List<BroadcastDetail.DataBean>>) data;
-
-        ContactsPersonAdapter adapter = new ContactsPersonAdapter(getContext(), broadcastDetails);
+        adapter = new ContactsPersonAdapter(getContext(), null);
         GridLayoutManager linearLayoutManager = new GridLayoutManager(getActivity(), 2);
-        recSongMenu.setItemAnimator(new DefaultItemAnimator());
-        recSongMenu.setLayoutManager(linearLayoutManager);
-        recSongMenu.setAdapter(adapter);
+        recBroadcastAdapter.setItemAnimator(new DefaultItemAnimator());
+        recBroadcastAdapter.setLayoutManager(linearLayoutManager);
 
-    }
+        recBroadcastAdapter.setAdapter(adapter);
 
-
-    @Override
-    public void loadMore(Object data) {
-        songMenuAdapter.addMore((List<SongMenu.SongMenuData>) data);
-        songMenuAdapter.notifyDataSetChanged();
     }
 
 

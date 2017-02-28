@@ -1,13 +1,9 @@
 package com.qhn.bhne.baseproject.mvp.presenter.impl;
 
-import android.support.annotation.NonNull;
-
 import com.qhn.bhne.baseproject.mvp.entity.MusicRank;
-import com.qhn.bhne.baseproject.mvp.interactor.impl.MusicRankInteractorImpl;
-import com.qhn.bhne.baseproject.mvp.presenter.MusicRankPresenter;
+import com.qhn.bhne.baseproject.mvp.model.impl.MusicRankInteractorImpl;
 import com.qhn.bhne.baseproject.mvp.presenter.base.BasePresenterImpl;
 import com.qhn.bhne.baseproject.mvp.view.MusicRankView;
-import com.qhn.bhne.baseproject.mvp.view.base.BaseView;
 
 import java.util.List;
 

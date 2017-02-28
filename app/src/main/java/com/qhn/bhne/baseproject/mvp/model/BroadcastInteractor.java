@@ -1,7 +1,6 @@
-package com.qhn.bhne.baseproject.mvp.interactor;
+package com.qhn.bhne.baseproject.mvp.model;
 
 import com.qhn.bhne.baseproject.listener.RequestCallBack;
-import com.qhn.bhne.baseproject.mvp.entity.SongMenu;
 
 import rx.Subscription;
 
@@ -11,6 +10,6 @@ import rx.Subscription;
  */
 
 public interface BroadcastInteractor<T> {
-    Subscription loadBroadDetail( RequestCallBack<T> listener);
+    Subscription loadBroadDetail(RequestCallBack<T> listener);
 
 }

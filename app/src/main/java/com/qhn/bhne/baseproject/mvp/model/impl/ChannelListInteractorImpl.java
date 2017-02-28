@@ -1,9 +1,9 @@
-package com.qhn.bhne.baseproject.mvp.interactor.impl;
+package com.qhn.bhne.baseproject.mvp.model.impl;
 
 import com.qhn.bhne.baseproject.common.HostType;
 import com.qhn.bhne.baseproject.listener.RequestCallBack;
-import com.qhn.bhne.baseproject.mvp.entity.MusicRank;
-import com.qhn.bhne.baseproject.mvp.interactor.MusicRankInteractor;
+import com.qhn.bhne.baseproject.mvp.entity.ChannelList;
+import com.qhn.bhne.baseproject.mvp.model.ChannelListInteractor;
 import com.qhn.bhne.baseproject.net.RetrofitManager;
 import com.qhn.bhne.baseproject.utils.MyUtils;
 import com.socks.library.KLog;
@@ -17,10 +17,11 @@ import rx.schedulers.Schedulers;
 
 /**
  * Created by qhn
- * on 2016/11/9 0009.
+ * on 2016/11/8 0008.
  */
 
-public class MusicRankInteractorImpl implements MusicRankInteractor<MusicRank> {
+public class ChannelListInteractorImpl implements ChannelListInteractor<ChannelList> {
+    private boolean isShowProgress=true;
     public boolean isShowProgress() {
         return isShowProgress;
     }
@@ -29,20 +30,17 @@ public class MusicRankInteractorImpl implements MusicRankInteractor<MusicRank> {
         isShowProgress = showProgress;
     }
 
-    private boolean isShowProgress=true;
-
     @Inject
-    public MusicRankInteractorImpl() {
+    public ChannelListInteractorImpl() {
     }
-
     @Override
-    public Subscription loadMusicRankList( final RequestCallBack listener) {
-        return RetrofitManager.getInstance(HostType.MOBILECDN_KUGOU)
-                .getMusicRankObservable()
+    public Subscription loadChannelList(final RequestCallBack listener) {
+        return RetrofitManager.getInstance(HostType.FM_API_TTPOD)
+                .getChannelListObservable()
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<MusicRank>() {
+                .subscribe(new Subscriber<ChannelList>() {
                     @Override
                     public void onStart() {
                         super.onStart();
@@ -63,10 +61,9 @@ public class MusicRankInteractorImpl implements MusicRankInteractor<MusicRank> {
                     }
 
                     @Override
-                    public void onNext(MusicRank musicRank) {
+                    public void onNext(ChannelList channelList) {
                         KLog.d("请求成功");
-                        listener.success(musicRank);
-
+                        listener.success(channelList);
                     }
                 });
     }

@@ -137,6 +137,7 @@
                     android:layout_marginTop="8dp">
 
                     <TextView
+                        android:id="@+id/txt_test"
                         style="@style/recommend_title_text"
                         android:drawableLeft="@mipmap/ic_hot_music"
                         android:drawableStart="@mipmap/ic_hot_music"

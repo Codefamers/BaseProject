@@ -1,6 +1,7 @@
 package com.qhn.bhne.baseproject.mvp.ui.activities.base;
 
 import android.annotation.TargetApi;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,9 +11,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.qhn.bhne.baseproject.R;
@@ -20,10 +25,15 @@ import com.qhn.bhne.baseproject.application.App;
 import com.qhn.bhne.baseproject.di.component.ActivityComponent;
 import com.qhn.bhne.baseproject.di.component.DaggerActivityComponent;
 import com.qhn.bhne.baseproject.di.module.ActivityModule;
+import com.qhn.bhne.baseproject.event.RetryConnectNetEvent;
 import com.qhn.bhne.baseproject.mvp.presenter.base.BasePresenter;
+import com.qhn.bhne.baseproject.mvp.view.base.BaseView;
 import com.qhn.bhne.baseproject.utils.NetUtil;
+import com.qhn.bhne.baseproject.utils.RxBus;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.socks.library.KLog;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import rx.Subscription;
@@ -36,6 +46,7 @@ import rx.Subscription;
 public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements Toolbar.OnMenuItemClickListener {
     protected ActivityComponent mActivityComponent;
     protected T mPresenter;
+
 
     public ActivityComponent getmActivityComponent() {
         return mActivityComponent;
@@ -51,6 +62,17 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     protected NavigationView mBaseNavView;
     private Class mClass;
     protected Toolbar toolbar;
+    //toolbar染色或者透明 false代表染色
+    private Boolean isTransparency=false;
+
+    public Boolean getTransparency() {
+        return isTransparency;
+    }
+
+    public void setTransparency(Boolean transparency) {
+        isTransparency = transparency;
+    }
+
     protected abstract void initViews();
 
     protected abstract void initInjector();
@@ -63,7 +85,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         KLog.i(getClass().getSimpleName());
         NetUtil.isNetworkErrThenShowMsg();//网络错误时显示错误信息
         initActivityComponent();
-        setStatusBarTranslucent();
+
         setNightOrDayMode();
         int layoutId = getLayoutId();
         setContentView(layoutId);
@@ -77,12 +99,24 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             mPresenter.create();
         }
         initNightModeSwitch();
+        if (isTransparency) {
+            makeStatusBarTransparent();
+        }else
+            setStatusBarTranslucent();
     }
 
     private void initNightModeSwitch() {
 
     }
-
+    /*设置透明状态栏*/
+    private void makeStatusBarTransparent() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            SystemBarTintManager tintManager = new SystemBarTintManager(this);
+            tintManager.setStatusBarTintEnabled(true);
+            tintManager.setStatusBarTintResource(R.color.alpha_00_white);
+        }
+    }
     private void initDrawerLayout() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -146,4 +180,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
                 .build();
 
     }
+
+
 }

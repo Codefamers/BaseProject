@@ -253,7 +253,7 @@ import java.util.Locale;
         if (isEnabled) {
           // Remove the track from the override.
           if (overrideLength == 1) {
-            // The last track is being removed, so the override becomes empty.
+            // The last track is being removed, choose_type_press the override becomes empty.
             override = null;
             isDisabled = true;
           } else {

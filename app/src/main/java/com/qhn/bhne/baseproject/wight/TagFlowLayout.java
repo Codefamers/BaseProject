@@ -197,7 +197,7 @@ public class TagFlowLayout extends FlowLayout implements TagAdapter.OnDataChange
     {
         if (mSelectedView.size() > count)
         {
-            Log.w(TAG, "you has already select more than " + count + " views , so it will be clear .");
+            Log.w(TAG, "you has already select more than " + count + " views , choose_type_press it will be clear .");
             mSelectedView.clear();
         }
         mSelectedMax = count;

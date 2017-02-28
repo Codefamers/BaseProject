@@ -3,7 +3,7 @@ package com.qhn.bhne.baseproject.mvp.presenter.impl;
 import android.support.annotation.NonNull;
 
 import com.qhn.bhne.baseproject.mvp.entity.BroadcastDetail;
-import com.qhn.bhne.baseproject.mvp.interactor.impl.BroadcastInteractorImpl;
+import com.qhn.bhne.baseproject.mvp.model.impl.BroadcastInteractorImpl;
 import com.qhn.bhne.baseproject.mvp.presenter.BroadcastPresenter;
 import com.qhn.bhne.baseproject.mvp.presenter.base.BasePresenterImpl;
 import com.qhn.bhne.baseproject.mvp.view.BroadcastView;

@@ -1,6 +1,5 @@
 package com.qhn.bhne.baseproject.mvp.view;
 
-import com.qhn.bhne.baseproject.mvp.entity.SongMenu;
 import com.qhn.bhne.baseproject.mvp.view.base.BaseView;
 
 /**
@@ -9,5 +8,5 @@ import com.qhn.bhne.baseproject.mvp.view.base.BaseView;
  */
 
 public interface BroadcastView extends BaseView {
-   void loadMore(Object data);
+
 }
