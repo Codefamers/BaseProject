@@ -18,7 +18,7 @@ import javax.inject.Inject;
  * on 2016/11/7 0007.
  */
 
-public class BroadcastPresenterImpl extends BasePresenterImpl<BroadcastView,List<List<BroadcastDetail.DataBean>>> implements BroadcastPresenter {
+public class BroadcastPresenterImpl extends BasePresenterImpl<BroadcastView,List<List<BroadcastDetail>>> implements BroadcastPresenter {
     @Inject
     BroadcastInteractorImpl songMenuInteractor;
 
@@ -38,12 +38,10 @@ public class BroadcastPresenterImpl extends BasePresenterImpl<BroadcastView,List
     }
 
     @Override
-    public void success(List<List<BroadcastDetail.DataBean>> data) {
+    public void success(List<List<BroadcastDetail>> data) {
         if (data == null || data.size() == 0) {
             mView.loadDataEmpty();
-        } /*else if (currentPage != 0) {
-            mView.loadMore(data.getData());
-        } */ else
+        } else
             mView.loadSuccess(data);
 
     }

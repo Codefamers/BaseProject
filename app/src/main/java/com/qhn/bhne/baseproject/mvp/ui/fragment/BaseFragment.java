@@ -31,7 +31,7 @@ import rx.Subscription;
  * on 2016/10/27 0027.
  */
 
-public abstract class BaseFragment<V extends BasePresenter> extends Fragment implements BaseView {
+public abstract class BaseFragment<V extends BasePresenter,E> extends Fragment implements BaseView<E> {
     protected FragmentComponent fragmentComponent;
     private View emptyView;//加载为空布局
     private View loadingView;//加载中布局
@@ -106,7 +106,7 @@ public abstract class BaseFragment<V extends BasePresenter> extends Fragment imp
 
 
     @Override
-    public void loadSuccess(Object data) {
+    public void loadSuccess(E data) {
         chooseShowView(SUCCESS_VIEW);
     }
 

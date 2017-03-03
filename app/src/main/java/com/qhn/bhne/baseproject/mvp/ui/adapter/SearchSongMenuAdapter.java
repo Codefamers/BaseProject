@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
  * on 2017/2/26 0026.
  */
 
-public class SearchSongMenuAdapter extends BaseRecyclerViewAdapter<SearchSongMenu.SearchMenuData.SearchMenu> {
+public class SearchSongMenuAdapter extends BaseRecyclerViewAdapter<SearchSongMenu,SearchSongMenu> {
 
     @Inject
     public SearchSongMenuAdapter() {
@@ -50,10 +50,10 @@ public class SearchSongMenuAdapter extends BaseRecyclerViewAdapter<SearchSongMen
 
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
 
-        List<SearchSongMenu.SearchMenuData.SearchMenu> searchMenuList = mList;
+        List<SearchSongMenu> searchMenuList = mList;
 
         if (searchMenuList.size() != 0) {
-            SearchSongMenu.SearchMenuData.SearchMenu searchMenu = mList.get(position);
+            SearchSongMenu searchMenu = mList.get(position);
             itemViewHolder.txtRankName.setText(searchMenu.getSpecialname());
             itemViewHolder.txtUpdateTime.setText(searchMenu.getNickname() + "\n" +
                     searchMenu.getSongcount() + ", 播放:" + MyUtils.dealBigNum(searchMenu.getPlaycount())

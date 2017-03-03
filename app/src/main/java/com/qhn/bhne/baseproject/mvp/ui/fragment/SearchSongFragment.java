@@ -7,12 +7,14 @@ import android.widget.RelativeLayout;
 
 import com.qhn.bhne.baseproject.R;
 import com.qhn.bhne.baseproject.common.HostType;
-import com.qhn.bhne.baseproject.mvp.entity.SingleSong;
+import com.qhn.bhne.baseproject.mvp.entity.SearchSong;
+import com.qhn.bhne.baseproject.mvp.entity.Songs;
 import com.qhn.bhne.baseproject.mvp.ui.activities.SearchActivity;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.SingleSongAdapter;
 import com.qhn.bhne.baseproject.net.RetrofitManager;
-import com.qhn.bhne.baseproject.utils.RxBus;
 import com.socks.library.KLog;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -26,7 +28,7 @@ import rx.schedulers.Schedulers;
  * on 2017/2/25 0025.
  */
 
-public class SingleSongFragment extends BaseFragment {
+public class SearchSongFragment extends BaseFragment {
     @BindView(R.id.rec_single_music)
     RecyclerView recSingleMusic;
     @BindView(R.id.success_view)
@@ -61,7 +63,7 @@ public class SingleSongFragment extends BaseFragment {
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SingleSong>() {
+                .subscribe(new Subscriber<List<Songs>>() {
                     @Override
                     public void onStart() {
                         super.onStart();
@@ -81,10 +83,8 @@ public class SingleSongFragment extends BaseFragment {
                     }
 
                     @Override
-                    public void onNext(SingleSong singleSong) {
-                        //Toast.makeText(getContext(), "请求成功"+singleSong.getData().getInfo().size(), Toast.LENGTH_SHORT).show();
-                        KLog.d("请求成功"+singleSong.getData().getSongs().size());
-                        singleSongAdapter.setList(singleSong.getData().getSongs());
+                    public void onNext(List<Songs> songs) {
+                        singleSongAdapter.setList(songs);
                         singleSongAdapter.notifyDataSetChanged();
 
 

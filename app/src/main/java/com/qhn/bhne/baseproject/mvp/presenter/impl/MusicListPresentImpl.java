@@ -2,13 +2,17 @@ package com.qhn.bhne.baseproject.mvp.presenter.impl;
 
 import com.qhn.bhne.baseproject.common.HostType;
 import com.qhn.bhne.baseproject.event.RetryConnectNetEvent;
-import com.qhn.bhne.baseproject.mvp.entity.KuGouSong;
+import com.qhn.bhne.baseproject.mvp.entity.DataBean;
 import com.qhn.bhne.baseproject.mvp.entity.MusicList;
+import com.qhn.bhne.baseproject.mvp.entity.Songs;
+import com.qhn.bhne.baseproject.mvp.entity.SpecialSong;
 import com.qhn.bhne.baseproject.mvp.model.MusicListInteractor;
 import com.qhn.bhne.baseproject.mvp.model.impl.MusicListInteractorImpl;
 import com.qhn.bhne.baseproject.mvp.presenter.base.BasePresenterImpl;
 import com.qhn.bhne.baseproject.mvp.view.MusicListView;
 import com.qhn.bhne.baseproject.net.RetrofitManager;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -18,7 +22,7 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 
-public class MusicListPresentImpl extends BasePresenterImpl<MusicListView, KuGouSong> {
+public class MusicListPresentImpl extends BasePresenterImpl<MusicListView,List<Songs>> {
     //private MusicRankInteractorImpl musicRankInteractor;
     private MusicListInteractor<MusicList> musicListInteractor;
     private int specialid;
@@ -39,9 +43,10 @@ public class MusicListPresentImpl extends BasePresenterImpl<MusicListView, KuGou
     }
 
     @Override
-    public void success(KuGouSong data) {
+    public void success(List<Songs> data) {
         mView.loadSuccess(data);
     }
+
 
     @Override
     public void create() {
@@ -60,10 +65,12 @@ public class MusicListPresentImpl extends BasePresenterImpl<MusicListView, KuGou
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<KuGouSong>() {
+                .subscribe(new Subscriber<List<Songs>>() {
                     @Override
                     public void onStart() {
                         super.onStart();
+                        beforeRequest();
+
                     }
 
                     @Override
@@ -77,8 +84,8 @@ public class MusicListPresentImpl extends BasePresenterImpl<MusicListView, KuGou
                     }
 
                     @Override
-                    public void onNext(KuGouSong kuGouSong) {
-                        success(kuGouSong);
+                    public void onNext(List<Songs> dataBean) {
+                        success(dataBean);
                     }
                 });
     }

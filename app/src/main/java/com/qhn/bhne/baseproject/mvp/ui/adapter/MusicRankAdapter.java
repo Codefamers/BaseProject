@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
  * on 2016/11/9 0009.
  */
 
-public class MusicRankAdapter extends BaseRecyclerViewAdapter<MusicRank.DataBean.InfoBean> {
+public class MusicRankAdapter extends BaseRecyclerViewAdapter<MusicRank,MusicRank> {
 
 
 
@@ -43,7 +43,7 @@ public class MusicRankAdapter extends BaseRecyclerViewAdapter<MusicRank.DataBean
         super.onBindViewHolder(holder, position);
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
         itemViewHolder.txtRankName.setText(mList.get(position).getRankname().replace("酷狗",""));
-        List<MusicRank.DataBean.InfoBean.SongInfoBean> songInfoBeanList=mList.get(position).getSonginfo();
+        List<MusicRank.SongInfoBean> songInfoBeanList=mList.get(position).getSonginfo();
         if (songInfoBeanList.size()!=0) {
             itemViewHolder.txtUpdateTime.setText(songInfoBeanList.get(0).getSongname()+"\n"+
                     songInfoBeanList.get(1).getSongname()+"\n"+
@@ -52,6 +52,7 @@ public class MusicRankAdapter extends BaseRecyclerViewAdapter<MusicRank.DataBean
 
         MyUtils.loadImageFormNet(mList.get(position).getImgurl().replace("{size}","400"),
                 itemViewHolder.imgRankPic,activity);
+
 
     }
 
@@ -66,6 +67,12 @@ public class MusicRankAdapter extends BaseRecyclerViewAdapter<MusicRank.DataBean
         public ItemViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    itemListener.onClick(getList().get(getAdapterPosition()));
+                }
+            });
         }
     }
 }

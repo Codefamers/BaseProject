@@ -7,7 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.qhn.bhne.baseproject.R;
-import com.qhn.bhne.baseproject.mvp.entity.SongMenuData;
+import com.qhn.bhne.baseproject.mvp.entity.SongMenu;
+import com.qhn.bhne.baseproject.mvp.entity.SongMenuType;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.base.BaseRecyclerViewAdapter;
 import com.qhn.bhne.baseproject.utils.MyUtils;
 import com.qhn.bhne.baseproject.wight.ShapedImageView;
@@ -21,7 +22,7 @@ import butterknife.ButterKnife;
  * Created by qhn
  * on 2017/2/27 0027.
  */
-public class SongMenuAdapter extends BaseRecyclerViewAdapter<SongMenuData.DataBean.SongMenu> {
+public class SongMenuAdapter extends BaseRecyclerViewAdapter<SongMenu,SongMenuType> {
     @Inject
     public SongMenuAdapter() {
         super(null);
@@ -54,7 +55,7 @@ public class SongMenuAdapter extends BaseRecyclerViewAdapter<SongMenuData.DataBe
         if (holder instanceof ItemViewHolder) {
 
             ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
-            SongMenuData.DataBean.SongMenu songMenu=getList().get(position);
+            SongMenu songMenu=getList().get(position);
             itemViewHolder.txtMusicAlbumName.setText(songMenu.getIntro());
             itemViewHolder.txtListen.setText(MyUtils.dealBigNum(songMenu.getPlaycount()));
             itemViewHolder.txtListen.setVisibility(View.VISIBLE);

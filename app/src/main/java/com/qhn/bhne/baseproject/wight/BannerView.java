@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.qhn.bhne.baseproject.R;
-import com.qhn.bhne.baseproject.mvp.entity.BannerContent;
+import com.qhn.bhne.baseproject.mvp.entity.Banner;
 import com.qhn.bhne.baseproject.utils.DimenUtil;
 import com.qhn.bhne.baseproject.utils.MyUtils;
 
@@ -44,7 +44,7 @@ public class BannerView extends FrameLayout {
 
 
     //从网络加载的资源url
-    private List<BannerContent.DataBean.Banner> imageUrlList;
+    private List<Banner> imageUrlList;
 
     //放轮播图片的ImageView的list
     private List<ImageView> imageViewsList;
@@ -70,11 +70,11 @@ public class BannerView extends FrameLayout {
     };
     private BannerViewOnclickListener bannerViewOnclickListener;
 
-    public List<BannerContent.DataBean.Banner> getImageUrlList() {
+    public List<Banner> getImageUrlList() {
         return imageUrlList;
     }
 
-    public void setImageUrlList(List<BannerContent.DataBean.Banner> imageUrlList, Context context) {
+    public void setImageUrlList(List<Banner> imageUrlList, Context context) {
         this.imageUrlList = imageUrlList;
         initUI(context);
         invalidate();
@@ -169,7 +169,7 @@ public class BannerView extends FrameLayout {
                 llDot.addView(dotView);
             }
         } else {
-            for (BannerContent.DataBean.Banner banner : imageUrlList) {
+            for (Banner banner : imageUrlList) {
                 ImageView view = new ImageView(context);
                 MyUtils.loadImageFormNet(banner.getImgurl(), view, context);
                 view.setScaleType(ImageView.ScaleType.FIT_XY);

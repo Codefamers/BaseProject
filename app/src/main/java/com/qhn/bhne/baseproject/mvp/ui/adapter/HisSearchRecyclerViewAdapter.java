@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
  * on 2017/2/24 0024.
  */
 
-public class HisSearchRecyclerViewAdapter extends BaseRecyclerViewAdapter<HistorySearch> {
+public class HisSearchRecyclerViewAdapter extends BaseRecyclerViewAdapter<HistorySearch,HistorySearch> {
     private SearchRecommendFragment searchRecommendFragment;
 
     private SearchRecommendFragment getSearchRecommendFragment() {
@@ -45,12 +45,18 @@ public class HisSearchRecyclerViewAdapter extends BaseRecyclerViewAdapter<Histor
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         super.onBindViewHolder(holder, position);
-        HistorySearch historySearch = getList().get(position);
+        final HistorySearch historySearch = getList().get(position);
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
         itemViewHolder.txtSongName.setText(historySearch.getName());
 
+        itemViewHolder.txtSongName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSearchRecommendFragment().getPresenter().doSearch(historySearch.getName());
+            }
+        });
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -72,6 +78,7 @@ public class HisSearchRecyclerViewAdapter extends BaseRecyclerViewAdapter<Histor
                     notifyDataSetChanged();
                 }
             });
+
         }
     }
 }

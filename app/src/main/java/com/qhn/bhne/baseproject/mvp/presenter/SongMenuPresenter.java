@@ -6,5 +6,5 @@ package com.qhn.bhne.baseproject.mvp.presenter;
  */
 
 public interface SongMenuPresenter {
-    void loadData(int page,int size,int categoryid);
+    void loadData(int page,int size,boolean isProgress,int categoryid);
 }

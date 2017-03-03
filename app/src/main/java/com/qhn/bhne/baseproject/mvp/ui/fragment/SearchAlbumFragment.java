@@ -18,6 +18,8 @@ import com.qhn.bhne.baseproject.net.RetrofitManager;
 import com.qhn.bhne.baseproject.utils.RxBus;
 import com.socks.library.KLog;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -66,7 +68,7 @@ public class SearchAlbumFragment extends BaseFragment {
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SearchAlbum>() {
+                .subscribe(new Subscriber<List<SearchAlbum>>() {
                     @Override
                     public void onStart() {
                         super.onStart();
@@ -86,10 +88,9 @@ public class SearchAlbumFragment extends BaseFragment {
                     }
 
                     @Override
-                    public void onNext(SearchAlbum searchAlbum) {
-                        //Toast.makeText(getContext(), "请求成功"+singleSong.getData().getInfo().size(), Toast.LENGTH_SHORT).show();
-                        KLog.d("请求成功" + searchAlbum.getData().getInfo().size());
-                        searchAlbumAdapter.setList(searchAlbum.getData().getInfo());
+                    public void onNext(List<SearchAlbum> searchAlbumList) {
+
+                        searchAlbumAdapter.setList(searchAlbumList);
                         searchAlbumAdapter.notifyDataSetChanged();
 
 

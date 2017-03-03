@@ -17,25 +17,29 @@
 package com.qhn.bhne.baseproject.net;
 
 
-import com.qhn.bhne.baseproject.mvp.entity.BannerContent;
+import com.qhn.bhne.baseproject.mvp.entity.Banner;
 import com.qhn.bhne.baseproject.mvp.entity.BroadcastDetail;
 import com.qhn.bhne.baseproject.mvp.entity.BroadcastType;
 import com.qhn.bhne.baseproject.mvp.entity.ChannelList;
 import com.qhn.bhne.baseproject.mvp.entity.ClassListBody;
+import com.qhn.bhne.baseproject.mvp.entity.GetHttpResult;
 import com.qhn.bhne.baseproject.mvp.entity.HotMusicTag;
-import com.qhn.bhne.baseproject.mvp.entity.KuGouSong;
 import com.qhn.bhne.baseproject.mvp.entity.MVList;
 import com.qhn.bhne.baseproject.mvp.entity.MVType;
 import com.qhn.bhne.baseproject.mvp.entity.MusicList;
 import com.qhn.bhne.baseproject.mvp.entity.MusicRank;
-import com.qhn.bhne.baseproject.mvp.entity.RankList;
+import com.qhn.bhne.baseproject.mvp.entity.PostHttpResult;
 import com.qhn.bhne.baseproject.mvp.entity.RecommendContent;
 import com.qhn.bhne.baseproject.mvp.entity.SearchAlbum;
 import com.qhn.bhne.baseproject.mvp.entity.SearchMV;
 import com.qhn.bhne.baseproject.mvp.entity.SearchSongMenu;
-import com.qhn.bhne.baseproject.mvp.entity.SingleSong;
 import com.qhn.bhne.baseproject.mvp.entity.SongListFM;
-import com.qhn.bhne.baseproject.mvp.entity.SongMenuData;
+import com.qhn.bhne.baseproject.mvp.entity.SongMenu;
+import com.qhn.bhne.baseproject.mvp.entity.SongMenuType;
+import com.qhn.bhne.baseproject.mvp.entity.Songs;
+import com.qhn.bhne.baseproject.mvp.entity.SpecialSong;
+
+import java.util.List;
 
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -48,28 +52,91 @@ import rx.Observable;
 public interface NewsService {
     //获取推荐
     @GET("recommend?plat=0&type=8&operator=3&version=8493")
-    Observable<RecommendContent> getRecommendContent();
+    Observable<GetHttpResult<RecommendContent>> getRecommendContent();
 
     //获取推荐页轮播图
     @GET("mobile_fmbanner?isvip=0&mid=271163335621854377768999610192375722565&clienttime=1488095989605&appid=1100&plat=0&userid=0&networktype=1&phonebrand=vivo&operator=3&ismonthly=0&clientver=8" +
             "493&key=024ba790ab865019f1790679f860bb48&version=8493&type=4")
-    Observable<BannerContent> getRecommendBanner();
+    Observable<GetHttpResult<List<Banner>>> getRecommendBanner();
 
-    //获取歌单
+    //获取电台类型
+    @POST("class_list")
+    Observable<PostHttpResult<List<BroadcastType>>> getBroadcastType(
+            @Body ClassListBody classListBody
+    );
+
+    //获取电台详情
+    @POST("song_list_fmclass")
+    Observable<PostHttpResult<List<BroadcastDetail>>> getBroadcastDetail(
+            @Body SongListFM classListBody
+    );
+
+    //获取歌曲排行榜
+    @GET("rank/list?apiver=4&withsong=1&showtype=2&plat=0&parentid=0&version=8493")
+    Observable<GetHttpResult<List<MusicRank>>> getMusicRank();
+
+    @GET("rank/song?")
+    Observable<GetHttpResult<List<Songs>>> getMusicRankDetails(
+            @Query("ranktype") int ranktype,
+            @Query("rankid") int rankid,
+            @Query("page") int page,
+            @Query("pagesize") int pagesize
+
+    );
+
+    //排行榜详情
+    //获取歌单类型
+    @GET("category/allList?plat=0")
+    Observable<GetHttpResult<List<SongMenuType>>> getSongMenuType();
+
+    //根据歌单类型获取歌单列表
     @GET("category/special?")
-    Observable<SongMenuData> getSongMenu(@Query("withsong") int withsong,
-                                         @Query("sort") int sort,
-                                         @Query("plat") int plat,
-                                         @Query("ugc") int ugc,
-                                         @Query("page") int page,
-                                         @Query("categoryid") int categoryid,
-                                         @Query("size") int size);
+    Observable<GetHttpResult<List<SongMenu>>> getSongMenu(@Query("withsong") int withsong,
+                                                          @Query("sort") int sort,
+                                                          @Query("plat") int plat,
+                                                          @Query("ugc") int ugc,
+                                                          @Query("page") int page,
+                                                          @Query("categoryid") int categoryid,
+                                                          @Query("size") int size);
 
 
-    @GET("channel/ranklist/{rankId}/songs?2")
-    Observable<RankList> getRankList(@Path("rankId") int rankId);
+    //获取热门搜索
+    @GET("hot?")
+    Observable<GetHttpResult<List<HotMusicTag>>> getHotMusicTag(@Query("count") int count);
 
 
+    //获取搜索单曲
+    @GET("song?")
+    Observable<GetHttpResult<List<Songs>>> getSearchSong(
+            @Query("tagtype") String tagtype,
+            @Query("keyword") String keyword,
+            @Query("page") int page,
+            @Query("pagesize") int pagesize
+    );
+
+    //获取搜索歌单
+    @GET("special?")
+    Observable<GetHttpResult<List<SearchSongMenu>>> getSearchSongMenu(
+            @Query("keyword") String keyword,
+            @Query("page") int page,
+            @Query("pagesize") int pagesize
+    );
+
+    //获取搜索专辑
+    @GET("album?")
+    Observable<GetHttpResult<List<SearchAlbum>>> getSearchAlbum(
+            @Query("keyword") String keyword,
+            @Query("page") int page,
+            @Query("pagesize") int pagesize
+    );
+
+    //获取搜索MV
+    @GET("mv?")
+    Observable<GetHttpResult<List<SearchMV>>> getSearchMV(
+            @Query("keyword") String keyword,
+            @Query("page") int page,
+            @Query("pagesize") int pagesize
+    );
 
     @GET("channellist?")
     Observable<ChannelList> getChannelList();
@@ -83,68 +150,19 @@ public interface NewsService {
     @GET("song/video/type?")
     Observable<MVType> getVideoType();
 
-    @GET("rank/list?apiver=4&withsong=1&showtype=2&plat=0&parentid=0&version=8493")
-    Observable<MusicRank> getMusicRank();
 
     @GET("songlists/{id}?")
     Observable<MusicList> getMusicList(@Path("id") int id);
 
-    //获取热门搜索
-    @GET("hot?")
-    Observable<HotMusicTag> getHotMusicTag(@Query("count") int count);
 
-    //获取搜索单曲
-    @GET("song?")
-    Observable<SingleSong> getSingleSong(
-            @Query("tagtype") String tagtype,
-            @Query("keyword") String keyword,
-            @Query("page") int page,
-            @Query("pagesize") int pagesize
-    );
-
-    //获取搜索歌单
-    @GET("special?")
-    Observable<SearchSongMenu> getSearchSongMenu(
-            @Query("keyword") String keyword,
-            @Query("page") int page,
-            @Query("pagesize") int pagesize
-    );
-
-    //获取搜索专辑
-    @GET("album?")
-    Observable<SearchAlbum> getSearchAlbum(
-            @Query("keyword") String keyword,
-            @Query("page") int page,
-            @Query("pagesize") int pagesize
-    );
-
-    //获取搜索MV
-    @GET("mv?")
-    Observable<SearchMV> getSearchMV(
-            @Query("keyword") String keyword,
-            @Query("page") int page,
-            @Query("pagesize") int pagesize
-    );
-
-    //获取搜索MV
+    //歌单列表
     @GET("special/song?")
-    Observable<KuGouSong> getSpecialSong(
+    Observable<GetHttpResult<List<Songs>>> getSpecialSong(
             @Query("specialid") int specialid,
             @Query("page") int page,
             @Query("pagesize") int pagesize
     );
 
-    //获取电台类型
-    @POST("class_list")
-    Observable<BroadcastType> getBroadcastType(
-            @Body ClassListBody classListBody
-    );
-
-    //获取电台详情
-    @POST("song_list_fmclass")
-    Observable<BroadcastDetail> getBroadcastDetail(
-            @Body SongListFM classListBody
-    );
 
 }
 

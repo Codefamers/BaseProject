@@ -8,6 +8,8 @@ import com.qhn.bhne.baseproject.net.RetrofitManager;
 import com.qhn.bhne.baseproject.utils.MyUtils;
 import com.socks.library.KLog;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import rx.Subscriber;
@@ -20,7 +22,7 @@ import rx.schedulers.Schedulers;
  * on 2016/11/9 0009.
  */
 
-public class MusicRankInteractorImpl implements MusicRankInteractor<MusicRank> {
+public class MusicRankInteractorImpl implements MusicRankInteractor<List<MusicRank>> {
     public boolean isShowProgress() {
         return isShowProgress;
     }
@@ -36,13 +38,13 @@ public class MusicRankInteractorImpl implements MusicRankInteractor<MusicRank> {
     }
 
     @Override
-    public Subscription loadMusicRankList( final RequestCallBack listener) {
+    public Subscription loadMusicRankList( final RequestCallBack<List<MusicRank>> listener) {
         return RetrofitManager.getInstance(HostType.MOBILECDN_KUGOU)
                 .getMusicRankObservable()
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<MusicRank>() {
+                .subscribe(new Subscriber<List<MusicRank>>() {
                     @Override
                     public void onStart() {
                         super.onStart();
@@ -63,9 +65,9 @@ public class MusicRankInteractorImpl implements MusicRankInteractor<MusicRank> {
                     }
 
                     @Override
-                    public void onNext(MusicRank musicRank) {
-                        KLog.d("请求成功");
-                        listener.success(musicRank);
+                    public void onNext(List<MusicRank> musicRankList) {
+
+                        listener.success(musicRankList);
 
                     }
                 });

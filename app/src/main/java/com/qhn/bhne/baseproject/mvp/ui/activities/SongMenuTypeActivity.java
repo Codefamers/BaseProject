@@ -1,32 +1,61 @@
 package com.qhn.bhne.baseproject.mvp.ui.activities;
 
 import android.content.Intent;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.qhn.bhne.baseproject.R;
-import com.qhn.bhne.baseproject.mvp.ui.activities.base.BaseActivity;
+import com.qhn.bhne.baseproject.listener.ClickAdapterItemListener;
+import com.qhn.bhne.baseproject.mvp.entity.SongMenuType;
+import com.qhn.bhne.baseproject.mvp.presenter.impl.SongMenuTypePresenterImpl;
+import com.qhn.bhne.baseproject.mvp.ui.adapter.SongMenuTypeAdapter;
+import com.qhn.bhne.baseproject.mvp.view.SongMenuTypeView;
 
-public class SongMenuTypeActivity extends BaseActivity {
+import java.util.List;
+
+import javax.inject.Inject;
+
+import butterknife.BindView;
+
+public class SongMenuTypeActivity extends BaseLoadDataActivity<SongMenuTypePresenterImpl,List<SongMenuType>>implements SongMenuTypeView<List<SongMenuType>>, ClickAdapterItemListener<SongMenuType.ChildBean> {
     public static final int REQUEST_CODE = 563;
-    int currentCategoryID=0;
+    int currentCategoryID = 0;
+    @Inject
+    SongMenuTypePresenterImpl mPresenter;
+    @Inject
+    SongMenuTypeAdapter mAdapter;
+    @BindView(R.id.rec_song_menu)
+    RecyclerView recSongMenu;
+
     @Override
     protected void initViews() {
-         final Intent in=new Intent(this,MainActivity.class);
-        currentCategoryID=getIntent().getIntExtra(MainActivity.CHOOSE_SONG_MENU_TYPE,0);
-        in.putExtra(MainActivity.CHOOSE_SONG_MENU_TYPE,23);
+        currentCategoryID = getIntent().getIntExtra(MainActivity.CHOOSE_SONG_MENU_TYPE, 0);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setResult(REQUEST_CODE,in);
                 finish();
             }
         });
+
+        initRec();
+        mPresenter.attachView(this);
+        mPresenter.create();
+    }
+
+    private void initRec() {
+
+        GridLayoutManager linearLayoutManager = new GridLayoutManager(this, 5);
+        mAdapter.setItemListener(this);
+        recSongMenu.setLayoutManager(linearLayoutManager);
+        recSongMenu.setAdapter(mAdapter);
+
     }
 
     @Override
     protected void initInjector() {
-
+        getmActivityComponent().inject(this);
     }
 
     @Override
@@ -35,16 +64,36 @@ public class SongMenuTypeActivity extends BaseActivity {
 
     }
 
-    public void startMainActivity(View view) {
-        final Intent in=new Intent(this,MainActivity.class);
-        in.putExtra(MainActivity.CHOOSE_SONG_MENU_TYPE,23);
-
-        setResult(REQUEST_CODE,in);
-        finish();
-    }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         return false;
+    }
+
+
+    @Override
+    protected View getSuccessView() {
+        return recSongMenu;
+    }
+
+    @Override
+    public void loadSuccess(List<SongMenuType> data) {
+        super.loadSuccess(data);
+
+        refreshData(data);
+    }
+
+    @Override
+    public void refreshData(List<SongMenuType> songMenuTypeList) {
+        mAdapter.setList(songMenuTypeList);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onClick(SongMenuType.ChildBean childBean) {
+        Intent in = new Intent(this, MainActivity.class);
+        in.putExtra(MainActivity.CHOOSE_SONG_MENU_TYPE, Integer.parseInt(childBean.getCategoryid()));
+        setResult(REQUEST_CODE, in);
+        finish();
     }
 }

@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
  * on 2017/2/26 0026.
  */
 
-public class SearchAlbumAdapter extends BaseRecyclerViewAdapter<SearchAlbum.DataBean.Album> {
+public class SearchAlbumAdapter extends BaseRecyclerViewAdapter<SearchAlbum,SearchAlbum> {
 
 
     @Inject
@@ -45,7 +45,7 @@ public class SearchAlbumAdapter extends BaseRecyclerViewAdapter<SearchAlbum.Data
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        SearchAlbum.DataBean.Album album = mList.get(position);
+        SearchAlbum album = mList.get(position);
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
         if (album != null) {
 

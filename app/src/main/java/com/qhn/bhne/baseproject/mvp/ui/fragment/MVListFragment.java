@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.qhn.bhne.baseproject.R;
+import com.qhn.bhne.baseproject.mvp.entity.DataBean;
 import com.qhn.bhne.baseproject.mvp.entity.MVList;
 import com.qhn.bhne.baseproject.mvp.presenter.impl.MVListPresenterImpl;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.MVListAdapter;
@@ -89,7 +90,7 @@ public class MVListFragment extends BaseFragment implements MVListView {
         GridLayoutManager linearLayoutManager = new GridLayoutManager(getActivity(), 2);
         recMvList.setItemAnimator(new DefaultItemAnimator());
         recMvList.setLayoutManager(linearLayoutManager);
-        adapter = new MVListAdapter(getActivity(), (HashMap<String, List<MVList.MVBean>>) data);
+       // adapter = new MVListAdapter(getActivity(), (HashMap<String, List<MVList.MVBean>>) data);
         recMvList.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 

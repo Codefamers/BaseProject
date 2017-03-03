@@ -7,25 +7,27 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.qhn.bhne.baseproject.R;
 import com.qhn.bhne.baseproject.listener.LoadMoreListener;
-import com.qhn.bhne.baseproject.mvp.entity.SongMenuData;
+import com.qhn.bhne.baseproject.mvp.entity.SongMenu;
 import com.qhn.bhne.baseproject.mvp.presenter.impl.SongMenuPresenterImpl;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.SongMenuAdapter;
 import com.qhn.bhne.baseproject.mvp.view.SongMenuView;
-import com.qhn.bhne.baseproject.utils.MyUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
 /**
  * Created by qhn
  * on 2017/2/27 0027.
  */
-public class SongMenuFragment extends BaseFragment implements SongMenuView{
+public class SongMenuFragment extends BaseFragment<SongMenuPresenterImpl, List<SongMenu>> implements SongMenuView<List<SongMenu>> {
     @BindView(R.id.txt_song_menu_title)
     TextView txtSongMenuTitle;
     @BindView(R.id.rec_song_menu)
@@ -36,8 +38,8 @@ public class SongMenuFragment extends BaseFragment implements SongMenuView{
     SongMenuAdapter songMenuAdapter;
     @Inject
     SongMenuPresenterImpl mPresenter;
-    LoadMoreListener loadMoreListener;
-    private int categoryID=0;
+
+    private int categoryID = 0;
 
     public int getCategoryID() {
         return categoryID;
@@ -45,18 +47,25 @@ public class SongMenuFragment extends BaseFragment implements SongMenuView{
 
     public void setCategoryID(int categoryID) {
 
-        if (this.categoryID!=categoryID) {
-            mPresenter.loadData(1,pageSize,categoryID);
+        if (this.categoryID != categoryID) {
+            isShowProgress = true;
+
+
+            mPresenter.loadData(1, pageSize, isShowProgress, categoryID);
         }
         this.categoryID = categoryID;
     }
 
-    private int page=0;
-    private int pageSize=20;
-    public interface  SongMenuFragmentListener{
+    private int page = 0;
+    private int pageSize = 20;
+    private Boolean isShowProgress = true;
+
+    public interface SongMenuFragmentListener {
         void chooseSongMenuType(int categoryID);
     }
+
     private SongMenuFragmentListener mListener;
+
     @Override
     protected void initInjector() {
         getFragmentComponent().inject(this);
@@ -69,22 +78,23 @@ public class SongMenuFragment extends BaseFragment implements SongMenuView{
 
     @Override
     protected void initViews(View mFragmentView) {
-        mListener= (SongMenuFragmentListener) getContext();
+        mListener = (SongMenuFragmentListener) getContext();
         initRec();
         mPresenter.attachView(this);
         mPresenter.create();
     }
 
     private void initRec() {
-        songMenuAdapter.setList(new ArrayList<SongMenuData.DataBean.SongMenu>());
-        GridLayoutManager gridLayoutManager=new GridLayoutManager(getContext(), 2);
+        songMenuAdapter.setList(new ArrayList<SongMenu>());
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         recSongMenu.setItemAnimator(new DefaultItemAnimator());
         recSongMenu.setLayoutManager(gridLayoutManager);
         recSongMenu.setAdapter(songMenuAdapter);
         recSongMenu.setOnScrollListener(new LoadMoreListener(gridLayoutManager) {
             @Override
             public void onLoadMore() {
-                mPresenter.loadData(page++,pageSize,categoryID);
+                isShowProgress = false;
+                mPresenter.loadData(page++, pageSize, isShowProgress, categoryID);
             }
         });
 
@@ -103,24 +113,26 @@ public class SongMenuFragment extends BaseFragment implements SongMenuView{
     }
 
     @Override
-    public void loadSuccess(Object data) {
+    public void loadSuccess(List<SongMenu> data) {
         super.loadSuccess(data);
-        refreshData((SongMenuData) data);
+        if (isShowProgress) {
+            refreshData(data);
+        } else
+            loadMoreData(data);
+
     }
 
     @Override
-    public void refreshData(SongMenuData songMenu) {
-        songMenuAdapter.setList(songMenu.getData().getInfo());
+    public void refreshData(List<SongMenu> songMenuList) {
+        songMenuAdapter.setList(songMenuList);
         songMenuAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void loadMoreData(SongMenuData songMenu) {
-        songMenuAdapter.addMore(songMenu.getData().getInfo());
+    public void loadMoreData(List<SongMenu> songMenuList) {
+        songMenuAdapter.addMore(songMenuList);
         songMenuAdapter.notifyDataSetChanged();
     }
-
-
 
 
 }

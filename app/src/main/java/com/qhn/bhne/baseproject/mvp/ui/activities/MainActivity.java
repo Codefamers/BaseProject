@@ -160,8 +160,11 @@ public class MainActivity extends BaseActivity implements SongMenuFragment.SongM
             switch (resultCode) {
                 case SongMenuTypeActivity.REQUEST_CODE:
                     Toast.makeText(this, "返回数据", Toast.LENGTH_SHORT).show();
-                    int categoryID=data.getIntExtra(CHOOSE_SONG_MENU_TYPE,0);
-                    songMenuFragment.setCategoryID(categoryID);
+                    int categoryID=data.getIntExtra(CHOOSE_SONG_MENU_TYPE,-1);
+                    if (categoryID!=-1) {
+                        songMenuFragment.setCategoryID(categoryID);
+                    }
+
                     break;
             }
         }

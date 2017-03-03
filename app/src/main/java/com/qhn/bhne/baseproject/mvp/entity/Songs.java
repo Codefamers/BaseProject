@@ -13,39 +13,35 @@ import java.util.List;
  * on 2016/11/4 0004.
  */
 
-public class Songs implements Parcelable {
+public class Songs extends SpecialSong implements Parcelable {
 
-    /**
-     * 320filesize : 8926080
-     * 320hash : 7d7826ab507f3d1cf50c97bc669dc8cc
-     * 320privilege : 0
-     * Accompany : 1
-     * album_id : 1974548
-     * album_name : 歌手2017</em> 第六期
-     * bitrate : 128
-     * duration : 223
-     * extname : mp3
-     * feetype : 0
-     * filename : 林忆莲 - 盛夏光年 - 歌手2017</em>第一季第六期现场
-     * filesize : 3569927
-     * group : []
-     * hash : 5d17f645d11c9a96be7d1412869b0fa9
-     * isnew : 1
-     * m4afilesize : 918733
-     * mvhash :
-     * othername : 歌手2017</em>第一季第六期现场
-     * ownercount : 0
-     * privilege : 0
-     * singername : 林忆莲
-     * songname : 盛夏光年
-     * source :
-     * sourceid : 0
-     * sqfilesize : 28336832
-     * sqhash : c251e77645fefbbe3fcf71d8af194f36
-     * sqprivilege : 0
-     * srctype : 1
-     * topic :
-     */
+
+
+    private int fail_process;
+    private int fail_process_320;
+    private int fail_process_sq;
+
+    private int has_accompany;
+
+    private int inlist;
+    private int pay_type;
+    private int pay_type_320;
+    private int pay_type_sq;
+    private int pkg_price;
+    private int pkg_price_320;
+    private int pkg_price_sq;
+    private int price;
+    private int price_320;
+    private int price_sq;
+
+    private String remark;
+    private String topic_url;
+    private String topic_url_320;
+    private String topic_url_sq;
+
+
+
+
 
 
     @SerializedName("320filesize")
@@ -311,6 +307,162 @@ public class Songs implements Parcelable {
 
     public void setGroup(List<Object> group) {
         this.group = group;
+    }
+
+
+
+    public int getFail_process() {
+        return fail_process;
+    }
+
+    public void setFail_process(int fail_process) {
+        this.fail_process = fail_process;
+    }
+
+    public int getFail_process_320() {
+        return fail_process_320;
+    }
+
+    public void setFail_process_320(int fail_process_320) {
+        this.fail_process_320 = fail_process_320;
+    }
+
+    public int getFail_process_sq() {
+        return fail_process_sq;
+    }
+
+    public void setFail_process_sq(int fail_process_sq) {
+        this.fail_process_sq = fail_process_sq;
+    }
+
+
+
+    public int getHas_accompany() {
+        return has_accompany;
+    }
+
+    public void setHas_accompany(int has_accompany) {
+        this.has_accompany = has_accompany;
+    }
+
+
+
+    public int getInlist() {
+        return inlist;
+    }
+
+    public void setInlist(int inlist) {
+        this.inlist = inlist;
+    }
+
+
+
+    public int getPay_type() {
+        return pay_type;
+    }
+
+    public void setPay_type(int pay_type) {
+        this.pay_type = pay_type;
+    }
+
+    public int getPay_type_320() {
+        return pay_type_320;
+    }
+
+    public void setPay_type_320(int pay_type_320) {
+        this.pay_type_320 = pay_type_320;
+    }
+
+    public int getPay_type_sq() {
+        return pay_type_sq;
+    }
+
+    public void setPay_type_sq(int pay_type_sq) {
+        this.pay_type_sq = pay_type_sq;
+    }
+
+    public int getPkg_price() {
+        return pkg_price;
+    }
+
+    public void setPkg_price(int pkg_price) {
+        this.pkg_price = pkg_price;
+    }
+
+    public int getPkg_price_320() {
+        return pkg_price_320;
+    }
+
+    public void setPkg_price_320(int pkg_price_320) {
+        this.pkg_price_320 = pkg_price_320;
+    }
+
+    public int getPkg_price_sq() {
+        return pkg_price_sq;
+    }
+
+    public void setPkg_price_sq(int pkg_price_sq) {
+        this.pkg_price_sq = pkg_price_sq;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getPrice_320() {
+        return price_320;
+    }
+
+    public void setPrice_320(int price_320) {
+        this.price_320 = price_320;
+    }
+
+    public int getPrice_sq() {
+        return price_sq;
+    }
+
+    public void setPrice_sq(int price_sq) {
+        this.price_sq = price_sq;
+    }
+
+
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+
+
+    public String getTopic_url() {
+        return topic_url;
+    }
+
+    public void setTopic_url(String topic_url) {
+        this.topic_url = topic_url;
+    }
+
+    public String getTopic_url_320() {
+        return topic_url_320;
+    }
+
+    public void setTopic_url_320(String topic_url_320) {
+        this.topic_url_320 = topic_url_320;
+    }
+
+    public String getTopic_url_sq() {
+        return topic_url_sq;
+    }
+
+    public void setTopic_url_sq(String topic_url_sq) {
+        this.topic_url_sq = topic_url_sq;
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ScrollView;
 
@@ -31,7 +32,7 @@ import butterknife.BindView;
  * on 2017/2/25 0025.
  */
 
-public class SearchRecommendFragment extends BaseFragment implements SearchMusicView {
+public class SearchRecommendFragment extends BaseFragment<SearchRecImpl,List<HotMusicTag>> implements SearchMusicView<List<HotMusicTag>> {
 
     @BindView(R.id.tfl_hot_search)
     TagFlowLayout tflHotSearch;
@@ -42,7 +43,7 @@ public class SearchRecommendFragment extends BaseFragment implements SearchMusic
     Button txtHotTag;
 
     private List<HistorySearch> hisSearchList;
-    private List<HotMusicTag.DataBean.HotTagInfo> hotTagList;
+    private List<HotMusicTag> hotTagList;
     private SrfListener mListener;
     @Inject
     HisSearchRecyclerViewAdapter hisRecAdapter;
@@ -50,7 +51,7 @@ public class SearchRecommendFragment extends BaseFragment implements SearchMusic
     SearchRecImpl mPresenter;
 
 
-    private TagAdapter<HotMusicTag.DataBean.HotTagInfo> tagAdapter;
+    private TagAdapter<HotMusicTag> tagAdapter;
 
     public SearchRecImpl getPresenter() {
         return mPresenter;
@@ -83,21 +84,21 @@ public class SearchRecommendFragment extends BaseFragment implements SearchMusic
     private void initHotTag() {
         hotTagList = new ArrayList<>();
         final LayoutInflater mInflater = LayoutInflater.from(getContext());
-        tagAdapter = new TagAdapter<HotMusicTag.DataBean.HotTagInfo>(SearchRecommendFragment.this.hotTagList) {
+        tagAdapter = new TagAdapter<HotMusicTag>(SearchRecommendFragment.this.hotTagList) {
             @Override
-            public View getView(FlowLayout parent, int position, final HotMusicTag.DataBean.HotTagInfo hotTagInfo) {
+            public View getView(FlowLayout parent, int position, final HotMusicTag hotTag) {
                 txtHotTag = (Button) mInflater.inflate(R.layout.tv,
                         tflHotSearch, false);
-                txtHotTag.setText(hotTagInfo.getKeyword());
+                txtHotTag.setText(hotTag.getKeyword());
                 txtHotTag.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        HistorySearch historySearch = new HistorySearch(null, hotTagInfo.getKeyword());
+                        HistorySearch historySearch = new HistorySearch(null, hotTag.getKeyword());
                         mPresenter.saveHistoryRecord(historySearch);
-                        if (hotTagInfo.getJumpurl().isEmpty()) {
+                        if (hotTag.getJumpurl().isEmpty()) {
                             mPresenter.doSearch(historySearch.getName());
                         } else {
-                            startWeb(hotTagInfo);
+                            startWeb(hotTag);
                         }
                     }
 
@@ -108,7 +109,7 @@ public class SearchRecommendFragment extends BaseFragment implements SearchMusic
         tflHotSearch.setAdapter(tagAdapter);
     }
 
-    private void startWeb(HotMusicTag.DataBean.HotTagInfo hotTagInfo) {
+    private void startWeb(HotMusicTag hotTagInfo) {
         Intent intent = new Intent(getContext(), WebActivity.class);
         intent.putExtra(WebActivity.JUMP_URL, hotTagInfo.getJumpurl());
         intent.putExtra(WebActivity.TITLE, hotTagInfo.getKeyword());
@@ -121,6 +122,7 @@ public class SearchRecommendFragment extends BaseFragment implements SearchMusic
         recSearchHistory.setLayoutManager(new LinearLayoutManager(getContext()));
         recSearchHistory.setAdapter(hisRecAdapter);
         hisRecAdapter.setSearchRecommendFragment(this);
+
     }
 
     @Override
@@ -129,13 +131,13 @@ public class SearchRecommendFragment extends BaseFragment implements SearchMusic
     }
 
     @Override
-    public void loadSuccess(Object data) {
+    public void loadSuccess(List<HotMusicTag> data) {
         super.loadSuccess(data);
-        showTag(((HotMusicTag) data).getData().getInfo());
+        showTag(data);
     }
 
     @Override
-    public void showTag(List<HotMusicTag.DataBean.HotTagInfo> hotTagList) {
+    public void showTag(List<HotMusicTag> hotTagList) {
         this.hotTagList = hotTagList;
         //tflHotSearch.
         tagAdapter.setmTagDatas(hotTagList);

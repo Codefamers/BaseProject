@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/btn_song_menu_type"
+    android:layout_width="wrap_content"
+    android:layout_height="32dp"
+    android:layout_marginBottom="@dimen/y4"
+    android:layout_marginRight="@dimen/x8"
+    android:background="@drawable/btn_hot_tag_normal"
+    android:text="85"
+    android:textColor="@color/alpha_85_black"
+    android:textSize="16sp" />

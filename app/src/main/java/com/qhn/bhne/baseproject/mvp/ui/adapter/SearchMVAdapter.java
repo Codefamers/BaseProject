@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
  * Created by qhn
  * on 2017/2/26 0026.
  */
-public class SearchMVAdapter extends BaseRecyclerViewAdapter<SearchMV.DataBean.SearchMVBean> {
+public class SearchMVAdapter extends BaseRecyclerViewAdapter<SearchMV,SearchMV> {
 
 
     @Inject
@@ -45,7 +45,7 @@ public class SearchMVAdapter extends BaseRecyclerViewAdapter<SearchMV.DataBean.S
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
-        SearchMV.DataBean.SearchMVBean searchMVBean=getList().get(position);
+        SearchMV searchMVBean=getList().get(position);
         itemViewHolder.txtMusicAlbumName.setText(searchMVBean.getFilename());
         itemViewHolder.txtMusicVideoAuthor.setText(searchMVBean.getSingername());
         Glide.with(context).load(mList.get(position).getImgurl().replace("{size}", "400"))

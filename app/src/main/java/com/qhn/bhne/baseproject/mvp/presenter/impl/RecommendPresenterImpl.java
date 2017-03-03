@@ -2,6 +2,7 @@ package com.qhn.bhne.baseproject.mvp.presenter.impl;
 
 import com.qhn.bhne.baseproject.event.RecommendEvent;
 import com.qhn.bhne.baseproject.event.RetryConnectNetEvent;
+import com.qhn.bhne.baseproject.mvp.entity.DataBean;
 import com.qhn.bhne.baseproject.mvp.model.RecommendContentInteractor;
 import com.qhn.bhne.baseproject.mvp.model.impl.RecommendInteractorImpl;
 import com.qhn.bhne.baseproject.mvp.presenter.RecommendPresenter;

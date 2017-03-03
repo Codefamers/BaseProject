@@ -15,6 +15,8 @@ import com.qhn.bhne.baseproject.mvp.view.SearchMusicView;
 import com.qhn.bhne.baseproject.net.RetrofitManager;
 import com.socks.library.KLog;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import rx.Subscriber;
@@ -27,7 +29,7 @@ import rx.schedulers.Schedulers;
  * on 2017/2/25 0025.
  */
 
-public class SearchRecImpl extends BasePresenterImpl<SearchMusicView, Object> implements SearchRecommendPresenter {
+public class SearchRecImpl extends BasePresenterImpl<SearchMusicView, List<HotMusicTag>> implements SearchRecommendPresenter {
     @Inject
     public SearchRecImpl() {
     }
@@ -36,7 +38,7 @@ public class SearchRecImpl extends BasePresenterImpl<SearchMusicView, Object> im
     private HistorySearchDao historySearchDao;
 
     @Override
-    public void success(Object data) {
+    public void success(List<HotMusicTag> data) {
         mView.loadSuccess(data);
     }
 
@@ -68,7 +70,7 @@ public class SearchRecImpl extends BasePresenterImpl<SearchMusicView, Object> im
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<HotMusicTag>() {
+                .subscribe(new Subscriber<List<HotMusicTag>>() {
                     @Override
                     public void onStart() {
                         super.onStart();
@@ -88,8 +90,8 @@ public class SearchRecImpl extends BasePresenterImpl<SearchMusicView, Object> im
                     }
 
                     @Override
-                    public void onNext(HotMusicTag hotMusicTag) {
-                        success(hotMusicTag);
+                    public void onNext(List<HotMusicTag> hotMusicTagList) {
+                        success(hotMusicTagList);
                     }
                 });
     }

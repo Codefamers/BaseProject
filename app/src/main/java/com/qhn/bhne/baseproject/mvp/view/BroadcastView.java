@@ -7,6 +7,6 @@ import com.qhn.bhne.baseproject.mvp.view.base.BaseView;
  * on 2016/11/7 0007.
  */
 
-public interface BroadcastView extends BaseView {
+public interface BroadcastView<E> extends BaseView<E> {
 
 }

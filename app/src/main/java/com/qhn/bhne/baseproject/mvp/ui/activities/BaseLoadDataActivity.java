@@ -7,6 +7,9 @@ import android.widget.FrameLayout;
 
 import com.qhn.bhne.baseproject.R;
 import com.qhn.bhne.baseproject.event.RetryConnectNetEvent;
+import com.qhn.bhne.baseproject.mvp.entity.BroadcastDetail;
+import com.qhn.bhne.baseproject.mvp.entity.DataBean;
+import com.qhn.bhne.baseproject.mvp.presenter.base.BasePresenter;
 import com.qhn.bhne.baseproject.mvp.ui.activities.base.BaseActivity;
 import com.qhn.bhne.baseproject.mvp.view.base.BaseView;
 import com.qhn.bhne.baseproject.utils.RxBus;
@@ -18,7 +21,7 @@ import javax.inject.Inject;
  * on 2017/2/27 0027.
  */
 
-public abstract class BaseLoadDataActivity extends BaseActivity implements BaseView {
+public abstract class BaseLoadDataActivity<T extends BasePresenter,E> extends BaseActivity<T> implements BaseView<E> {
 
     private View emptyView;//加载为空布局
     private View loadingView;//加载中布局
@@ -45,6 +48,11 @@ public abstract class BaseLoadDataActivity extends BaseActivity implements BaseV
 
     }
 
+
+    @Override
+    public void loadSuccess(E data) {
+        chooseShowView(SUCCESS_VIEW);
+    }
     @Override
     public void loadBefore() {
         chooseShowView(LOADING_VIEW);

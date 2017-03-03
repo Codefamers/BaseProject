@@ -116,10 +116,7 @@ public class SearchActivity extends BaseActivity implements SearchRecommendFragm
     }
 
     private void returnRecommendFrg() {
-        //FragmentTransaction transaction = fragmentManager.beginTransaction();
-        //transaction.remove(searchResultFragment);
-        //transaction.commit();
-        Toast.makeText(this, "退栈", Toast.LENGTH_SHORT).show();
+
         isResultFragment=false;
         getSupportFragmentManager().popBackStack();
 

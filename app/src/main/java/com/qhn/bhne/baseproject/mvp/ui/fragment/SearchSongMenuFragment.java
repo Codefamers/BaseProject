@@ -14,6 +14,8 @@ import com.qhn.bhne.baseproject.net.RetrofitManager;
 import com.qhn.bhne.baseproject.utils.RxBus;
 import com.socks.library.KLog;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -61,7 +63,7 @@ public class SearchSongMenuFragment extends BaseFragment {
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SearchSongMenu>() {
+                .subscribe(new Subscriber<List<SearchSongMenu>>() {
                     @Override
                     public void onStart() {
                         super.onStart();
@@ -81,10 +83,8 @@ public class SearchSongMenuFragment extends BaseFragment {
                     }
 
                     @Override
-                    public void onNext(SearchSongMenu searchSongMenu) {
-                        //Toast.makeText(getContext(), "请求成功"+singleSong.getData().getInfo().size(), Toast.LENGTH_SHORT).show();
-                        KLog.d("请求成功" + searchSongMenu.getData().getInfo().size());
-                        searchSongMenuAdapter.setList(searchSongMenu.getData().getInfo());
+                    public void onNext(List<SearchSongMenu> searchSongMenuList) {
+                        searchSongMenuAdapter.setList(searchSongMenuList);
                         searchSongMenuAdapter.notifyDataSetChanged();
 
 

@@ -13,6 +13,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 
 import com.qhn.bhne.baseproject.di.scope.ContextLife;
+import com.qhn.bhne.baseproject.listener.ClickAdapterItemListener;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ import retrofit2.http.PUT;
  * on 2016/11/3 0003.
  */
 
-public class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class BaseRecyclerViewAdapter<T,V> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int TYPE_ITEM=0;
     public static final int TYPE_FOOTER=1;
     protected int mLastPosition=-1;
@@ -35,7 +36,11 @@ public class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerVie
     public BaseRecyclerViewAdapter(List<T> list) {
         mList = list;
     }
+    public ClickAdapterItemListener<V> itemListener;
 
+    public void setItemListener(ClickAdapterItemListener<V> itemListener) {
+        this.itemListener = itemListener;
+    }
     public void setOnItemClickListener(AdapterView.OnItemClickListener onItemClickListener) {
         mOnItemClickListener = onItemClickListener;
     }

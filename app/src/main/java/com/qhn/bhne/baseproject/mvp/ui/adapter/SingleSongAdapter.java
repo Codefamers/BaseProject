@@ -1,8 +1,6 @@
 package com.qhn.bhne.baseproject.mvp.ui.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
@@ -16,12 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qhn.bhne.baseproject.R;
-import com.qhn.bhne.baseproject.application.App;
 import com.qhn.bhne.baseproject.di.scope.ContextLife;
 import com.qhn.bhne.baseproject.mvp.entity.CurrentPlayMusic;
-import com.qhn.bhne.baseproject.mvp.entity.SingleSong;
 import com.qhn.bhne.baseproject.mvp.entity.Songs;
-import com.qhn.bhne.baseproject.mvp.ui.activities.PlayMusicActivity;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.base.BaseRecyclerViewAdapter;
 
 import javax.inject.Inject;
@@ -34,7 +29,7 @@ import butterknife.ButterKnife;
  * on 2017/2/25 0025.
  */
 
-public class SingleSongAdapter extends BaseRecyclerViewAdapter<Songs> {
+public class SingleSongAdapter extends BaseRecyclerViewAdapter<Songs,Songs> {
 
 
     @Inject

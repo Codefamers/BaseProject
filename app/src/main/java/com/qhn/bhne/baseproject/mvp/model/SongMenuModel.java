@@ -9,5 +9,5 @@ import rx.Subscription;
  */
 
 public interface SongMenuModel<T> {
-    Subscription loadSongMenu(int page, int pageSize, int categoryID, RequestCallBack<T> requestCallBack);
+    Subscription loadSongMenu(int page, int pageSize, int categoryID,boolean isShowProgress, RequestCallBack<T> requestCallBack);
 }

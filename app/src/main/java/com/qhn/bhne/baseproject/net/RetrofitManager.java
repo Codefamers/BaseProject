@@ -27,24 +27,29 @@ import com.google.gson.stream.JsonReader;
 import com.qhn.bhne.baseproject.application.App;
 import com.qhn.bhne.baseproject.common.ApiConstants;
 import com.qhn.bhne.baseproject.common.HostType;
-import com.qhn.bhne.baseproject.mvp.entity.BannerContent;
-import com.qhn.bhne.baseproject.mvp.entity.BroadcastDetail;
+import com.qhn.bhne.baseproject.mvp.entity.Banner;
 import com.qhn.bhne.baseproject.mvp.entity.BroadcastType;
+import com.qhn.bhne.baseproject.mvp.entity.BroadcastDetail;
 import com.qhn.bhne.baseproject.mvp.entity.ChannelList;
 import com.qhn.bhne.baseproject.mvp.entity.ClassListBody;
+import com.qhn.bhne.baseproject.mvp.entity.DataBean;
 import com.qhn.bhne.baseproject.mvp.entity.HotMusicTag;
-import com.qhn.bhne.baseproject.mvp.entity.KuGouSong;
 import com.qhn.bhne.baseproject.mvp.entity.MVList;
 import com.qhn.bhne.baseproject.mvp.entity.MVType;
 import com.qhn.bhne.baseproject.mvp.entity.MusicList;
 import com.qhn.bhne.baseproject.mvp.entity.MusicRank;
+import com.qhn.bhne.baseproject.mvp.entity.PostHttpResult;
 import com.qhn.bhne.baseproject.mvp.entity.RecommendContent;
+import com.qhn.bhne.baseproject.mvp.entity.GetHttpResult;
 import com.qhn.bhne.baseproject.mvp.entity.SearchAlbum;
 import com.qhn.bhne.baseproject.mvp.entity.SearchMV;
 import com.qhn.bhne.baseproject.mvp.entity.SearchSongMenu;
-import com.qhn.bhne.baseproject.mvp.entity.SingleSong;
+import com.qhn.bhne.baseproject.mvp.entity.SearchSong;
 import com.qhn.bhne.baseproject.mvp.entity.SongListFM;
-import com.qhn.bhne.baseproject.mvp.entity.SongMenuData;
+import com.qhn.bhne.baseproject.mvp.entity.SongMenu;
+import com.qhn.bhne.baseproject.mvp.entity.SongMenuType;
+import com.qhn.bhne.baseproject.mvp.entity.Songs;
+import com.qhn.bhne.baseproject.mvp.entity.SpecialSong;
 import com.qhn.bhne.baseproject.utils.NetUtil;
 import com.socks.library.KLog;
 
@@ -54,6 +59,7 @@ import java.io.StringReader;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -70,13 +76,15 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
+import rx.functions.Func1;
 
 /**
- * @author 咖枯
- * @version 1.0 2016/5/26
+ *
+ * @author quhuainan
+ * created on 2017/3/1 0001
  */
 public class RetrofitManager {
-    private static RetrofitManager retrofitManager;
+
     private NewsService mNewsService;
     private static final String TAG = "RetrofitManager";
     /**
@@ -102,7 +110,7 @@ public class RetrofitManager {
     //根据hotsType来创建不同的service
     public RetrofitManager(@HostType.HostTypeChecker int hostType) {
         Retrofit retrofit;
-        Log.d(TAG, "RetrofitManager: "+ApiConstants.getHost(hostType));
+        Log.d(TAG, "RetrofitManager: " + ApiConstants.getHost(hostType));
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(ApiConstants.getHost(hostType))
@@ -110,7 +118,6 @@ public class RetrofitManager {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
-
 
 
         mNewsService = retrofit.create(NewsService.class);
@@ -152,7 +159,6 @@ public class RetrofitManager {
                 request = request.newBuilder()
                         .cacheControl(CacheControl.FORCE_CACHE)
                         .build();//拦截该请求走缓存
-                KLog.d("网络不可用请求拦截");
             }
 
             Response originalResponse = chain.proceed(request);//获取响应
@@ -204,17 +210,66 @@ public class RetrofitManager {
     private String getCacheControl() {
         return NetUtil.isNetworkAvailable() ? CACHE_CONTROL_AGE : CACHE_CONTROL_CACHE;
     }
+    private  class GetResultFilter<T> implements Func1<GetHttpResult<T>, T> {
+
+
+        @Override
+        public T call(GetHttpResult<T> httpResultBean) {
+            int errCode=httpResultBean.getErrcode();
+            if (errCode==0) {
+                return httpResultBean.getData().getInfo();
+            }
+            return null;
+        }
+    }
+    private  class PostResultFilter<T> implements Func1<PostHttpResult<T>, T> {
+
+
+        @Override
+        public T call(PostHttpResult<T> postHttpResult) {
+            int errCode=postHttpResult.getError_code();
+            if (errCode==0) {
+                return postHttpResult.getData();
+            }
+            return null;
+        }
+    }
+
     //首页推荐
     public Observable<RecommendContent> getRecommendContent() {
-        return mNewsService.getRecommendContent();
+        return mNewsService.getRecommendContent().map(new GetResultFilter<RecommendContent>());
     }
+
     //首页轮播图
-    public Observable<BannerContent> getBannerContent() {
-        return mNewsService.getRecommendBanner();
+    public Observable<List<Banner>> getBannerContent() {
+        return mNewsService.getRecommendBanner().map(new GetResultFilter<List<Banner>>());
+    }
+    //电台类别
+    public Observable<List<BroadcastType>> getBroadcastTypeObservable(ClassListBody classListBody) {
+        return mNewsService.getBroadcastType(classListBody).map(new PostResultFilter<List<BroadcastType>>());
+    }
+
+    //电台内容
+    public Observable<List<BroadcastDetail>> getBroadcastDetailObservable(SongListFM songListFM) {
+        return mNewsService.getBroadcastDetail(songListFM).map(new PostResultFilter<List<BroadcastDetail>>());
+    }
+
+
+    //音乐排行榜
+    public Observable<List<MusicRank>> getMusicRankObservable() {
+        return mNewsService.getMusicRank().map(new GetResultFilter<List<MusicRank>>());
+    }
+    //音乐排行榜详情
+    public Observable<List<Songs>> getMusicRankDetailsObservable(int rankType,int rankID,int page,int pageSize) {
+        return mNewsService.getMusicRankDetails(rankType,rankID,page,pageSize).map(new GetResultFilter<List<Songs>>());
     }
     //所有歌单
-    public Observable<SongMenuData> getSongMenuObservable(int categoryid, int page, int size) {
-        return mNewsService.getSongMenu(1,3,0,1, page, categoryid,size);
+    public Observable<List<SongMenu>> getSongMenuObservable(int categoryid, int page, int size) {
+        return mNewsService.getSongMenu(1, 3, 0, 1, page, categoryid, size).map(new GetResultFilter<List<SongMenu>>());
+    }
+
+    public Observable<List<SongMenuType>> getSongMenuTypeObservable() {
+        return mNewsService.getSongMenuType().map(new GetResultFilter<List<SongMenuType>>());
     }
 
     public Observable<ChannelList> getChannelListObservable() {
@@ -224,47 +279,47 @@ public class RetrofitManager {
     public Observable<MVList> getMVListObservable(int id, int order, int page, int size) {
         return mNewsService.getMVList(id, order, page, size);
     }
+
     public Observable<MusicList> getMusicListObservable(int id) {
         return mNewsService.getMusicList(id);
     }
+
     public Observable<MVType> getMVTypeObservable() {
         return mNewsService.getVideoType();
     }
 
-    public Observable<HotMusicTag> getHotMusicTagObservable(int count) {
-        return mNewsService.getHotMusicTag(count);
+    public Observable<List<HotMusicTag>> getHotMusicTagObservable(int count) {
+        return mNewsService.getHotMusicTag(count).map(new GetResultFilter<List<HotMusicTag>>());
     }
+
     //搜索单曲
-    public Observable<SingleSong> getSingleSongObservable(String tagType,String keyword,int page,int pageSize) {
-        return mNewsService.getSingleSong(tagType,keyword,page,pageSize);
+    public Observable<List<Songs>> getSingleSongObservable(String tagType, String keyword, int page, int pageSize) {
+        return mNewsService.getSearchSong(tagType, keyword, page, pageSize).map(new GetResultFilter<List<Songs>>());
     }
+
     //搜索歌单
-    public Observable<SearchSongMenu> getSearchSongMenuObservable( String keyword, int page, int pageSize) {
-        return mNewsService.getSearchSongMenu(keyword,page,pageSize);
+    public Observable<List<SearchSongMenu>> getSearchSongMenuObservable(String keyword, int page, int pageSize) {
+        return mNewsService.getSearchSongMenu(keyword, page, pageSize).map(new GetResultFilter<List<SearchSongMenu>>());
     }
+
     //搜索专辑
-    public Observable<SearchAlbum> getSearchAlbumObservable(String keyword, int page, int pageSize) {
-        return mNewsService.getSearchAlbum(keyword,page,pageSize);
+    public Observable<List<SearchAlbum>> getSearchAlbumObservable(String keyword, int page, int pageSize) {
+        return mNewsService.getSearchAlbum(keyword, page, pageSize).map(new GetResultFilter<List<SearchAlbum>>());
     }
+
     //搜索MV
-    public Observable<SearchMV> getSearchMVObservable(String keyword, int page, int pageSize) {
-        return mNewsService.getSearchMV(keyword,page,pageSize);
+    public Observable<List<SearchMV>> getSearchMVObservable(String keyword, int page, int pageSize) {
+        return mNewsService.getSearchMV(keyword, page, pageSize).map(new GetResultFilter<List<SearchMV>>());
     }
+
     //搜索MV
-    public Observable<KuGouSong> getKugouSongObservable(int SpecialId, int page, int pageSize) {
-        return mNewsService.getSpecialSong(SpecialId,page,pageSize);
+    public Observable<List<Songs>> getKugouSongObservable(int SpecialId, int page, int pageSize) {
+        return mNewsService.getSpecialSong(SpecialId, page, pageSize).map(new GetResultFilter<List<Songs>>());
     }
-    //电台类别
-    public Observable<BroadcastType> getBroadcastTypeObservable(ClassListBody classListBody) {
-        return mNewsService.getBroadcastType(classListBody);
-    }
-    //电台内容
-    public Observable<BroadcastDetail> getBroadcastDetailObservable(SongListFM songListFM) {
-        return mNewsService.getBroadcastDetail(songListFM);
-    }
-    public Observable<MusicRank> getMusicRankObservable() {
-        return mNewsService.getMusicRank();
-    }
+
+
+
+
 
     public static class GsonLenientConverterFactory extends Converter.Factory {
         public static GsonLenientConverterFactory create() {
@@ -288,11 +343,7 @@ public class RetrofitManager {
             return new DecodeResponseBodyConverter<>(adapter, gson);
         }
 
-       /* @Override
-        public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
 
-            return new DecodeRequestBodyConverter<>(gson, adapter);
-        }*/
     }
 
 

@@ -10,7 +10,6 @@ import com.qhn.bhne.baseproject.mvp.entity.BroadcastDetail;
 import com.qhn.bhne.baseproject.mvp.presenter.impl.BroadcastPresenterImpl;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.ContactsPersonAdapter;
 import com.qhn.bhne.baseproject.mvp.view.BroadcastView;
-import com.socks.library.KLog;
 
 import java.util.List;
 
@@ -23,13 +22,14 @@ import butterknife.BindView;
  * on 2016/11/7 0007.
  */
 
-public class BroadcastFragment extends BaseFragment implements BroadcastView {
+public class BroadcastFragment extends BaseFragment<BroadcastPresenterImpl,List<List<BroadcastDetail>>> implements BroadcastView<List<List<BroadcastDetail>>> {
 
     @BindView(R.id.rec_song_menu)
     RecyclerView recBroadcastAdapter;
     @Inject
     BroadcastPresenterImpl songMenuPresenter;
-    private ContactsPersonAdapter adapter;
+    @Inject
+    ContactsPersonAdapter adapter;
 
 
     @Override
@@ -60,22 +60,19 @@ public class BroadcastFragment extends BaseFragment implements BroadcastView {
     }
 
     @Override
-    public void loadSuccess(Object data) {
+    public void loadSuccess(List<List<BroadcastDetail>> data) {
         super.loadSuccess(data);
 
-        List<List<BroadcastDetail.DataBean>> broadcastDetails = (List<List<BroadcastDetail.DataBean>>) data;
 
-        adapter.setContentData(broadcastDetails);
+        adapter.setList(data);
+
         adapter.notifyDataSetChanged();
     }
 
     private void initRecyclerView() {
-        KLog.d("执行次数");
-        adapter = new ContactsPersonAdapter(getContext(), null);
         GridLayoutManager linearLayoutManager = new GridLayoutManager(getActivity(), 2);
         recBroadcastAdapter.setItemAnimator(new DefaultItemAnimator());
         recBroadcastAdapter.setLayoutManager(linearLayoutManager);
-
         recBroadcastAdapter.setAdapter(adapter);
 
     }

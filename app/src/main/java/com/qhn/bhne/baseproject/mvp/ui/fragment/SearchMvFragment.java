@@ -13,6 +13,8 @@ import com.qhn.bhne.baseproject.net.RetrofitManager;
 import com.qhn.bhne.baseproject.utils.MyUtils;
 import com.socks.library.KLog;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -24,7 +26,7 @@ import rx.schedulers.Schedulers;
  * Created by qhn
  * on 2017/2/26 0026.
  */
-public class SearchMvFragment extends BaseFragment {
+public class SearchMVFragment extends BaseFragment {
     @BindView(R.id.rec_single_music)
     RecyclerView recSearchMV;
     @BindView(R.id.success_view)
@@ -58,7 +60,7 @@ public class SearchMvFragment extends BaseFragment {
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SearchMV>() {
+                .subscribe(new Subscriber<List<SearchMV>>() {
                     @Override
                     public void onStart() {
                         super.onStart();
@@ -78,10 +80,9 @@ public class SearchMvFragment extends BaseFragment {
                     }
 
                     @Override
-                    public void onNext(SearchMV searchMV) {
-                        //Toast.makeText(getContext(), "请求成功"+singleSong.getData().getInfo().size(), Toast.LENGTH_SHORT).show();
-                        KLog.d("请求成功" + searchMV.getData().getInfo().size());
-                        searchMVAdapter.setList(searchMV.getData().getInfo());
+                    public void onNext(List<SearchMV> searchMVList) {
+
+                        searchMVAdapter.setList(searchMVList);
                         searchMVAdapter.notifyDataSetChanged();
 
 

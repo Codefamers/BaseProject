@@ -12,8 +12,10 @@ import android.widget.Toast;
 
 import com.qhn.bhne.baseproject.R;
 import com.qhn.bhne.baseproject.event.RecommendEvent;
-import com.qhn.bhne.baseproject.mvp.entity.BannerContent;
+import com.qhn.bhne.baseproject.mvp.entity.Banner;
+import com.qhn.bhne.baseproject.mvp.entity.DataBean;
 import com.qhn.bhne.baseproject.mvp.entity.RecommendContent;
+import com.qhn.bhne.baseproject.mvp.entity.SongMenuIntro;
 import com.qhn.bhne.baseproject.mvp.presenter.impl.RecommendPresenterImpl;
 import com.qhn.bhne.baseproject.mvp.ui.activities.MusicListActivity;
 import com.qhn.bhne.baseproject.mvp.ui.activities.WebActivity;
@@ -38,7 +40,7 @@ import static com.qhn.bhne.baseproject.common.Constants.SONG_MENU;
  * on 2017/2/26 0026.
  */
 
-public class KuGouRecommendMusicFragment extends BaseFragment implements RecommendView, BannerView.BannerViewOnclickListener, SwipeRefreshLayout.OnRefreshListener {
+public class KuGouRecommendMusicFragment extends BaseFragment<RecommendPresenterImpl,RecommendEvent> implements RecommendView<RecommendEvent>, BannerView.BannerViewOnclickListener, SwipeRefreshLayout.OnRefreshListener {
     @BindView(R.id.img_banner)
     BannerView imgBanner;
     @BindView(R.id.itn_all_listening)
@@ -83,13 +85,13 @@ public class KuGouRecommendMusicFragment extends BaseFragment implements Recomme
     public static final int REPORT_ADAPTER = 4;
     @Inject
     RecommendPresenterImpl recommendPresenter;
-    private List<BannerContent.DataBean.Banner> imageUrlList;
+    private List<Banner> imageUrlList;
     @Inject
     Activity activity;
 
     //每日推荐歌单
-    private RecommendContent.DataBean.InfoBean.CustomSpecialBean.SpecialBean specialBean;
-    private RecommendContent.DataBean.InfoBean.CustomSpecialBean.SpecialBean privateFM;
+    private SongMenuIntro specialBean;
+    private SongMenuIntro privateFM;
 
     @Override
     protected void initInjector() {
@@ -138,49 +140,49 @@ public class KuGouRecommendMusicFragment extends BaseFragment implements Recomme
     }
 
     @Override
-    public void loadSuccess(Object data) {
+    public void loadSuccess(RecommendEvent data) {
         super.loadSuccess(data);
         if (swipeRefreshLayout.isRefreshing()) {
             swipeRefreshLayout.setRefreshing(false);
         }
+        RecommendContent recommendContent=data.getRecommendContent();
+        List<Banner> bc=data.getBannerContent();
+        refreshRec(recommendContent);
 
-        RecommendContent.DataBean.InfoBean infoBean = ((RecommendEvent) data).getRecommendContent().getData().getInfo();
-        refreshRec(infoBean);
 
-        BannerContent bannerContents = ((RecommendEvent) data).getBannerContent();
-        refreshBanner(bannerContents);
-
-        specialBean = infoBean.getCustom_special().get(0).getSpecial().get(1);
-        privateFM = infoBean.getCustom_special().get(0).getSpecial().get(0);
+        refreshBanner(bc);
+        specialBean = recommendContent.getCustom_special().get(0).getSpecial().get(1);
+        privateFM = recommendContent.getCustom_special().get(0).getSpecial().get(0);
 
     }
 
     @Override
-    public void refreshRec(RecommendContent.DataBean.InfoBean infoBean) {
-        List<RecommendContent.DataBean.InfoBean.AlbumBean>
-                albumBeanList = infoBean.getAlbum();
+    public void refreshRec(RecommendContent recommendContent) {
+
+        List<RecommendContent.AlbumBean>
+                albumBeanList = recommendContent.getAlbum();
         newAdapter.setList(albumBeanList);
         newAdapter.notifyDataSetChanged();
-        List<RecommendContent.DataBean.InfoBean.RecommendBean>
-                recommendBeenList = infoBean.getRecommend();
+        List<RecommendContent.RecommendBean>
+                recommendBeenList = recommendContent.getRecommend();
         hotAdapter.setList(recommendBeenList.subList(0, 6));
         hotAdapter.notifyDataSetChanged();
 
-        List<RecommendContent.DataBean.InfoBean.VlistBean> vlistBeanList = infoBean.getVlist();
+        List<RecommendContent.VlistBean> vlistBeanList = recommendContent.getVlist();
         goodMvAdapter.setList(vlistBeanList);
         goodMvAdapter.notifyDataSetChanged();
 
-        List<RecommendContent.DataBean.InfoBean.TopicBean> topicBeanList = infoBean.getTopic();
+        List<RecommendContent.TopicBean> topicBeanList = recommendContent.getTopic();
         reportAdapter.setList(topicBeanList);
         reportAdapter.notifyDataSetChanged();
     }
 
 
     @Override
-    public void refreshBanner(BannerContent bannerContents) {
-        imageUrlList = bannerContents.getData().getInfo();
+    public void refreshBanner(List<Banner> bannerList) {
 
-        imgBanner.setImageUrlList(imageUrlList, getActivity());
+
+        imgBanner.setImageUrlList(bannerList, getActivity());
     }
 
     @Override

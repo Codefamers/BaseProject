@@ -1,26 +1,29 @@
 package com.qhn.bhne.baseproject.event;
 
-import com.qhn.bhne.baseproject.mvp.entity.BannerContent;
+import com.qhn.bhne.baseproject.mvp.entity.Banner;
+import com.qhn.bhne.baseproject.mvp.entity.DataBean;
 import com.qhn.bhne.baseproject.mvp.entity.RecommendContent;
+
+import java.util.List;
 
 /**
  * Created by qhn
  * on 2017/2/26 0026.
  */
 public class RecommendEvent {
-    private BannerContent bannerContent;
-    private RecommendContent recommendContent;
-
-    public RecommendEvent(RecommendContent recommendContent, BannerContent bannerContent) {
-        this.recommendContent = recommendContent;
+    public RecommendEvent(List<Banner> bannerContent,RecommendContent recommendContent) {
         this.bannerContent = bannerContent;
+        this.recommendContent = recommendContent;
     }
 
-    public BannerContent getBannerContent() {
+    private List<Banner> bannerContent;
+    private RecommendContent recommendContent;
+
+    public List<Banner> getBannerContent() {
         return bannerContent;
     }
 
-    public void setBannerContent(BannerContent bannerContent) {
+    public void setBannerContent(List<Banner> bannerContent) {
         this.bannerContent = bannerContent;
     }
 
@@ -31,6 +34,4 @@ public class RecommendEvent {
     public void setRecommendContent(RecommendContent recommendContent) {
         this.recommendContent = recommendContent;
     }
-
-
 }

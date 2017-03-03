@@ -12,6 +12,7 @@ import com.qhn.bhne.baseproject.mvp.ui.activities.MainActivity;
 import com.qhn.bhne.baseproject.mvp.ui.activities.MusicListActivity;
 import com.qhn.bhne.baseproject.mvp.ui.activities.PlayMusicActivity;
 import com.qhn.bhne.baseproject.mvp.ui.activities.SearchActivity;
+import com.qhn.bhne.baseproject.mvp.ui.activities.SongMenuTypeActivity;
 
 
 import dagger.Component;
@@ -38,5 +39,6 @@ public interface ActivityComponent {
 
     void inject(PlayMusicActivity playMusicActivity);
     void inject(SearchActivity searchActivity);
+    void inject(SongMenuTypeActivity songMenuTypeActivity);
 
 }

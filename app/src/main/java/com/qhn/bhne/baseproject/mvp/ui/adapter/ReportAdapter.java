@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
  * Created by qhn
  * on 2017/2/26 0026.
  */
-public class ReportAdapter extends BaseRecyclerViewAdapter<RecommendContent.DataBean.InfoBean.TopicBean> {
+public class ReportAdapter extends BaseRecyclerViewAdapter<RecommendContent.TopicBean,RecommendContent.TopicBean> {
     @Inject
     public ReportAdapter() {
         super(null);
@@ -42,7 +42,7 @@ public class ReportAdapter extends BaseRecyclerViewAdapter<RecommendContent.Data
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
-        RecommendContent.DataBean.InfoBean.TopicBean topicBean=mList.get(position);
+        RecommendContent.TopicBean topicBean=mList.get(position);
         itemViewHolder.txtRankName.setText(topicBean.getTitle());
         itemViewHolder.txtUpdateTime.setText(topicBean.getPublishtime());
         Glide.with(context).load(topicBean.getPicurl().replace("{size}", "400"))

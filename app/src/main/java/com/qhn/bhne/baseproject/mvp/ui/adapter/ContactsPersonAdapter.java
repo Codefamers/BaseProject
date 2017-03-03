@@ -1,6 +1,5 @@
 package com.qhn.bhne.baseproject.mvp.ui.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,7 +9,6 @@ import android.text.SpannableStringBuilder;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +17,7 @@ import android.widget.TextView;
 import com.qhn.bhne.baseproject.R;
 import com.qhn.bhne.baseproject.di.scope.ContextLife;
 import com.qhn.bhne.baseproject.mvp.entity.BroadcastDetail;
-import com.qhn.bhne.baseproject.mvp.entity.ChannelList;
+import com.qhn.bhne.baseproject.mvp.ui.adapter.base.BaseRecyclerViewAdapter;
 import com.qhn.bhne.baseproject.utils.DimenUtil;
 import com.qhn.bhne.baseproject.utils.MyUtils;
 import com.qhn.bhne.baseproject.wight.ShapedImageView;
@@ -40,43 +38,41 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/10/17 0017.
  */
 
-public class ContactsPersonAdapter extends RecyclerView.Adapter {
+public class ContactsPersonAdapter extends BaseRecyclerViewAdapter<List<BroadcastDetail>,List<BroadcastDetail>> {
     private static final int TYPE_ITEM = 0;//item类型
     private static final int TYPE_TITLE = 1;//title类型
-    private final HashMap<Integer, String> titleDataMap;//标题数据
-    private List<List<BroadcastDetail.DataBean>> contentData;//内容数据
+    private HashMap<Integer, String> titleDataMap;//标题数据
+    private List<List<BroadcastDetail>> contentData;//内容数据
 
-    public List<List<BroadcastDetail.DataBean>> getContentData() {
-        return contentData;
-    }
 
-    public void setContentData(List<List<BroadcastDetail.DataBean>> contentData) {
-        this.contentData = contentData;
-    }
 
-    private Map<Integer, BroadcastDetail.DataBean> posItemMap;//记录item与position对应关系
-
+    private Map<Integer, BroadcastDetail> posItemMap;//记录item与position对应关系
+    @ContextLife
+    @Inject
     Context context;//上下文环境
     private int index;
 
+    @Inject
+    public ContactsPersonAdapter() {
+        super(null);
 
-    public ContactsPersonAdapter(Context context,List<List<BroadcastDetail.DataBean>> contentData) {
-        this.context=context;
-        this.contentData = contentData;
-        posItemMap = new HashMap<>();
-        titleDataMap = new HashMap<>();
-        if (contentData!=null) {
-            initTitleData();//将标题中的数据位置与recyclerView中的位置对齐
+    }
 
-        }
+    @Override
+    public void setList(List items) {
+        super.setList(items);
+        initTitleData();
     }
 
     private void initTitleData() {
+        posItemMap = new HashMap<>();
+        titleDataMap = new HashMap<>();
+        contentData=getList();
         Set<String> titleSet = new HashSet<>();
         index=0;
         int titleNum=0;
         for (int i = 0; i < contentData.size(); i++) {
-            List<BroadcastDetail.DataBean> dataBeanList=contentData.get(i);
+            List<BroadcastDetail> dataBeanList=contentData.get(i);
             for (int j = 0; j < dataBeanList.size(); j++) {
                 String convert = dataBeanList.get(j).getClassname();
 
@@ -88,9 +84,6 @@ public class ContactsPersonAdapter extends RecyclerView.Adapter {
                 posItemMap.put(j + titleNum, dataBeanList.get(j));
                 index++;
             }
-
-
-
         }
 
     }
@@ -103,6 +96,7 @@ public class ContactsPersonAdapter extends RecyclerView.Adapter {
                     false));
         }
         if (viewType == TYPE_TITLE) {
+            KLog.d("context"+context);
             return new TitleViewHolder(LayoutInflater.from(
                     context).inflate(R.layout.item_song_menu_header, parent,
                     false));
@@ -114,8 +108,7 @@ public class ContactsPersonAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ContentViewHolder) {
-            //((ContentViewHolder) holder).txtMusicAlbumName.setText(posItemMap.get(position).getDetails());
-            //((ContentViewHolder) holder).txtAuthor.setText(posItemMap.get(position).getSonglist_name());
+
             KLog.d("posItemMap"+posItemMap.get(position).getImgurl().replace("{size}","400"));
             MyUtils.loadImageFormNet(posItemMap.get(position).getImgurl().replace("{size}","400"), ((ContentViewHolder) holder)
                     .imgPic,  context);
@@ -174,8 +167,7 @@ public class ContactsPersonAdapter extends RecyclerView.Adapter {
     class ContentViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.img_pic)
         ShapedImageView imgPic;
-        /* @BindView(R.id.txt_author)
-         TextView txtAuthor;*/
+
         @BindView(R.id.txt_listen)
         TextView txtListen;
         @BindView(R.id.txt_music_album_name)

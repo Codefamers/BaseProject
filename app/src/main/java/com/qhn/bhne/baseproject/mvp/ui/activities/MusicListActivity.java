@@ -26,13 +26,15 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.qhn.bhne.baseproject.R;
 import com.qhn.bhne.baseproject.mvp.entity.CurrentPlayMusic;
-import com.qhn.bhne.baseproject.mvp.entity.KuGouSong;
-import com.qhn.bhne.baseproject.mvp.entity.RecommendContent;
+import com.qhn.bhne.baseproject.mvp.entity.SongMenuIntro;
+import com.qhn.bhne.baseproject.mvp.entity.Songs;
 import com.qhn.bhne.baseproject.mvp.presenter.impl.MusicListPresentImpl;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.MusicListRecyclerAdapter;
 import com.qhn.bhne.baseproject.mvp.view.MusicListView;
 import com.qhn.bhne.baseproject.utils.DimenUtil;
 import com.qhn.bhne.baseproject.utils.MyUtils;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -44,7 +46,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import static com.qhn.bhne.baseproject.common.Constants.SONG_MENU;
 
 
-public class MusicListActivity extends BaseLoadDataActivity implements MusicListView {
+public class MusicListActivity extends BaseLoadDataActivity<MusicListPresentImpl, List<Songs>>  {
 
 
     @BindView(R.id.txt_list_title)
@@ -87,7 +89,7 @@ public class MusicListActivity extends BaseLoadDataActivity implements MusicList
     RelativeLayout relMusicListCover;
     @BindView(R.id.root)
     FrameLayout root;
-    private RecommendContent.DataBean.InfoBean.CustomSpecialBean.SpecialBean specialBean;
+    private SongMenuIntro specialBean;
 
     @Override
     protected void initViews() {
@@ -103,7 +105,7 @@ public class MusicListActivity extends BaseLoadDataActivity implements MusicList
     }
 
     @Override
-    public void updateSongMenuInfo(RecommendContent.DataBean.InfoBean.CustomSpecialBean.SpecialBean specialBean) {
+    public void updateSongMenuInfo(SongMenuIntro specialBean) {
 
         toolbar.setTitle("歌单");
         toolbar.setSubtitle(specialBean.getIntro());
@@ -160,9 +162,9 @@ public class MusicListActivity extends BaseLoadDataActivity implements MusicList
 
 
     @Override
-    public void loadSuccess(Object data) {
-        adapter.setList(((KuGouSong) data).getData().getInfo());
-
+    public void loadSuccess(List<Songs> data) {
+        super.loadSuccess(data);
+        adapter.setList(data);
         adapter.notifyDataSetChanged();
 
 

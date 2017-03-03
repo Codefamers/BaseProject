@@ -7,5 +7,5 @@ import com.qhn.bhne.baseproject.mvp.view.base.BaseView;
  * on 2016/11/9 0009.
  */
 
-public interface MusicRankView extends BaseView {
+public interface MusicRankView<E> extends BaseView<E> {
 }

@@ -1,6 +1,5 @@
 package com.qhn.bhne.baseproject.mvp.ui.fragment;
 
-import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -45,7 +44,7 @@ public class SearchResultFragment extends BaseFragment {
     private void initViewPager() {
 
 
-        SingleSongFragment singleSongFragment=new SingleSongFragment();
+        SearchSongFragment singleSongFragment=new SearchSongFragment();
         tabs.setTabMode(TabLayout.MODE_FIXED);
         List<String> tabTitles = new ArrayList<>();
         tabTitles.add("单曲");
@@ -56,7 +55,7 @@ public class SearchResultFragment extends BaseFragment {
         tabFragmentList.add(singleSongFragment);
         tabFragmentList.add(new SearchSongMenuFragment());
         tabFragmentList.add(new SearchAlbumFragment());
-        tabFragmentList.add(new SearchMvFragment());
+        tabFragmentList.add(new SearchMVFragment());
         tabs.setupWithViewPager(vpSuccessView);
         OnLinePagerAdapter mainPagerAdapter = new OnLinePagerAdapter(getChildFragmentManager(), tabTitles, tabFragmentList, null);
         vpSuccessView.setAdapter(mainPagerAdapter);

@@ -18,11 +18,10 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-*/
-/**
+*
  * Created by qhn
  * on 2016/11/7 0007.
- *//*
+
 
 
 public class BroadCastAdapter extends BaseRecyclerViewAdapter<SongMenuData.SongMenuData> {

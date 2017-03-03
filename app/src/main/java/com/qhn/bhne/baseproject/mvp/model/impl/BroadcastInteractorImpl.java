@@ -10,7 +10,6 @@ import com.qhn.bhne.baseproject.mvp.model.BroadcastInteractor;
 import com.qhn.bhne.baseproject.net.RetrofitManager;
 import com.socks.library.KLog;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -22,53 +21,34 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by qhn
- * on 2016/11/7 0007.
- */
-
-public class BroadcastInteractorImpl implements BroadcastInteractor<List<List<BroadcastDetail.DataBean>>> {
+public class BroadcastInteractorImpl implements BroadcastInteractor<List<List<BroadcastDetail>>> {
     @Inject
     public BroadcastInteractorImpl() {
     }
 
     @Override
-    public Subscription loadBroadDetail(final RequestCallBack<List<List<BroadcastDetail.DataBean>>> listener) {
+    public Subscription loadBroadDetail(final RequestCallBack<List<List<BroadcastDetail>>> listener) {
 
         return RetrofitManager.getInstance(HostType.KU_GOU_FM_TYPE)
                 .getBroadcastTypeObservable(new ClassListBody())
-                .map(new Func1<BroadcastType, List<BroadcastType.BroadcastBean>>() {
+                .flatMap(new Func1<List<BroadcastType>, Observable<BroadcastType>>() {
                     @Override
-                    public List<BroadcastType.BroadcastBean> call(BroadcastType broadcastType) {
-                        return broadcastType.getData();
-                    }
-                }).flatMap(new Func1<List<BroadcastType.BroadcastBean>, Observable<BroadcastType.BroadcastBean>>() {
-                    @Override
-                    public Observable<BroadcastType.BroadcastBean> call(List<BroadcastType.BroadcastBean> broadcastBeen) {
+                    public Observable<BroadcastType> call(List<BroadcastType> broadcastBeen) {
                         return Observable.from(broadcastBeen);
                     }
                 })
-                .flatMap(new Func1<BroadcastType.BroadcastBean, Observable<BroadcastDetail>>() {
+                .flatMap(new Func1<BroadcastType, Observable<List<BroadcastDetail>>>() {
                     @Override
-                    public Observable<BroadcastDetail> call(BroadcastType.BroadcastBean broadcastBean) {
+                    public Observable<List<BroadcastDetail>> call(BroadcastType broadcastType) {
                         SongListFM songListFM = new SongListFM();
-                        songListFM.setClassid(broadcastBean.getClassId());
+                        songListFM.setClassid(broadcastType.getClassId());
                         return RetrofitManager.getInstance(HostType.KU_GOU_FM_TYPE).getBroadcastDetailObservable(songListFM);
                     }
-                }).toList().map(new Func1<List<BroadcastDetail>, List<List<BroadcastDetail.DataBean>>>() {
-                    @Override
-                    public List<List<BroadcastDetail.DataBean>> call(List<BroadcastDetail> broadcastDetailList) {
-                        List<List<BroadcastDetail.DataBean>> broadcastBeanList = new ArrayList<>();
-                        for (BroadcastDetail broadcastDetail : broadcastDetailList) {
-                            broadcastBeanList.add(broadcastDetail.getData());
-                        }
-                        return broadcastBeanList;
-                    }
-                })
+                }).toList()
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<List<BroadcastDetail.DataBean>>>() {
+                .subscribe(new Subscriber<List<List<BroadcastDetail>>>() {
                     @Override
                     public void onStart() {
                         super.onStart();
@@ -87,7 +67,7 @@ public class BroadcastInteractorImpl implements BroadcastInteractor<List<List<Br
                     }
 
                     @Override
-                    public void onNext(List<List<BroadcastDetail.DataBean>> broadcastDetailList) {
+                    public void onNext(List<List<BroadcastDetail>> broadcastDetailList) {
                         KLog.d("请求成功777" + broadcastDetailList.size());
                         listener.success(broadcastDetailList);
                     }

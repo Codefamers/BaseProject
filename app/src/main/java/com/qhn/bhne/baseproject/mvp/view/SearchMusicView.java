@@ -11,9 +11,9 @@ import java.util.List;
  * on 2017/2/24 0024.
  */
 
-public interface SearchMusicView extends BaseView {
+public interface SearchMusicView<E> extends BaseView<E> {
     void refreshSearchHistory(List<HistorySearch> hisSearchList);
-    void showTag(List<HotMusicTag.DataBean.HotTagInfo> hotTagList);
+    void showTag(E hotTagList);
 
     void startResultFrg(String query);
 }

@@ -19,21 +19,24 @@
         <Button
             android:id="@+id/btn_choose_song_menu_type"
             android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_alignBaseline="@id/txt_song_menu_title"
+            android:layout_height="24dp"
+            android:layout_marginTop="16dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/x8"
+            android:layout_marginRight="16dp"
             android:drawablePadding="4dp"
             android:drawableLeft="@mipmap/ic_song_menu_type"
             android:textColor="@color/alpha_55_black"
             android:background="@drawable/btn_hot_tag"
             android:text="选择分类"
+            android:gravity="center_vertical"
             android:textSize="14sp" />
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rec_song_menu"
             android:layout_below="@id/txt_song_menu_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
             android:layout_marginTop="@dimen/y16">
 
         </android.support.v7.widget.RecyclerView>
