@@ -2,10 +2,11 @@ package com.qhn.bhne.baseproject.mvp.ui.activities;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.os.Bundle;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -14,9 +15,7 @@ import android.text.style.ForegroundColorSpan;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,48 +24,42 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.qhn.bhne.baseproject.R;
+import com.qhn.bhne.baseproject.application.App;
+import com.qhn.bhne.baseproject.listener.LoadMoreListener;
 import com.qhn.bhne.baseproject.mvp.entity.CurrentPlayMusic;
 import com.qhn.bhne.baseproject.mvp.entity.SongMenuIntro;
 import com.qhn.bhne.baseproject.mvp.entity.Songs;
+import com.qhn.bhne.baseproject.mvp.model.MusicListModel;
 import com.qhn.bhne.baseproject.mvp.presenter.impl.MusicListPresentImpl;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.MusicListRecyclerAdapter;
 import com.qhn.bhne.baseproject.mvp.view.MusicListView;
 import com.qhn.bhne.baseproject.utils.DimenUtil;
-import com.qhn.bhne.baseproject.utils.MyUtils;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.BlurTransformation;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 import static com.qhn.bhne.baseproject.common.Constants.SONG_MENU;
 
 
-public class MusicListActivity extends BaseLoadDataActivity<MusicListPresentImpl, List<Songs>>  {
+public class MusicListActivity extends BaseLoadDataActivity<MusicListPresentImpl, List<Songs>> {
 
 
-    @BindView(R.id.txt_list_title)
-    TextView txtListTitle;
-    @BindView(R.id.rel_cover)
-    RelativeLayout relCover;
-    @BindView(R.id.rec_music_list)
-    RecyclerView recMusicList;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.txt_listen_count)
-    TextView txtListenCount;
-    @BindView(R.id.img_music_list_cover)
-    ImageView imgMusicListCover;
-    @BindView(R.id.fra_music_list_cover)
-    FrameLayout fraMusicListCover;
-    @BindView(R.id.img_author_header)
-    ImageView imgAuthorHeader;
-    @BindView(R.id.txt_author_name)
-    TextView txtAuthorName;
+    public static final String SONG_MENU_VIEW = "songMenuView";
+    public static final String MUSIC_LIST_MODEL = "musicListModel";
+    @Inject
+    MusicListRecyclerAdapter adapter;
+
+
+    @Inject
+    CurrentPlayMusic currentPlayMusic;
+
     @BindView(R.id.txt_collect)
     TextView txtCollect;
     @BindView(R.id.txt_comment)
@@ -75,73 +68,119 @@ public class MusicListActivity extends BaseLoadDataActivity<MusicListPresentImpl
     TextView txtShare;
     @BindView(R.id.txt_download)
     TextView txtDownload;
-    @BindView(R.id.activity_music_list)
-    ScrollView activityMusicList;
+    @BindView(R.id.ll_cover_view)
+    LinearLayout llCoverView;
     @BindView(R.id.txt_song_count)
     TextView txtSongCount;
-    @Inject
-    MusicListRecyclerAdapter adapter;
-    @Inject
-    MusicListPresentImpl musicListPresent;
-    @Inject
-    CurrentPlayMusic currentPlayMusic;
-    @BindView(R.id.rel_music_list_cover)
-    RelativeLayout relMusicListCover;
+    @BindView(R.id.rec_music_list)
+    RecyclerView recMusicList;
     @BindView(R.id.root)
     FrameLayout root;
+
+    @BindView(R.id.ll_all_cover)
+    LinearLayout llAllCover;
+    @BindView(R.id.activity_music_list)
+    NestedScrollView activityMusicList;
+
+
+
     private SongMenuIntro specialBean;
+    @Inject
+    MusicListPresentImpl musicListPresent;
+
+    private MusicListModel musicListModel;
+    private HashMap<String, Integer> paramsMap;
+    private Integer page = 1;
+    private LinearLayoutManager linearLayoutManager;
+    private MusicListView musicListView;
 
     @Override
     protected void initViews() {
-        setTransparency(true);
+
+        musicListView = getIntent().getParcelableExtra(SONG_MENU_VIEW);
+        musicListModel = getIntent().getParcelableExtra(MUSIC_LIST_MODEL);
         specialBean = getIntent().getParcelableExtra(SONG_MENU);
+        Bundle bundle = getIntent().getExtras();
+        //paramsMap=getIntent()
+        paramsMap = new HashMap<>();
+        if (bundle.getInt("albumid") != 0) {
+            paramsMap.put("albumid", bundle.getInt("albumid"));
+        }
+        if (bundle.getInt("ranktype") != 0) {
+            paramsMap.put("ranktype", bundle.getInt("ranktype"));
+        }
+        if (bundle.getInt("rankid") != 0) {
+            paramsMap.put("rankid", bundle.getInt("rankid"));
+        }
+        paramsMap.put("page", bundle.getInt("page"));
+        paramsMap.put("pageSize", bundle.getInt("pageSize"));
+        if (bundle.getInt("specialid") != 0) {
+            paramsMap.put("specialid", bundle.getInt("specialid"));
+        }
+
+
+        musicListPresent.setModelImpl(musicListModel);
+
+
+        musicListPresent.setMapParams(paramsMap);
+        musicListView.initView(llCoverView, this);
+        setTransparency(true);
         musicListPresent.attachView(this);
-        musicListPresent.setSpecialid(specialBean.getSpecialid());
         musicListPresent.create();
         initRecycleView();
-        updateSongMenuInfo(specialBean);
-        toolbar.setBackgroundColor(getResources().getColor(R.color.alpha_00_white));
+        initCoverInfo();
+
+
+        musicListView.updateSongMenuInfo();
+
 
     }
 
-    @Override
-    public void updateSongMenuInfo(SongMenuIntro specialBean) {
-
+    private void initCoverInfo() {
+        toolbar.setBackgroundColor(getResources().getColor(R.color.alpha_00_white));
         toolbar.setTitle("歌单");
         toolbar.setSubtitle(specialBean.getIntro());
+
+        int commentNum = specialBean.getSlid() == 0 ? 0 : specialBean.getSlid();
+        int playCount = specialBean.getSongcount() == 0 ? 99 : specialBean.getSongcount();
+        String favoriteNum = specialBean.getCollectcount() == 0 ? "暂无" : String.valueOf(specialBean.getCollectcount());
         //使用spannableStringBuilder时要注意setText时只有包含spannableString对象
-        String allSongCount = "播放全部(共" + specialBean.getSongcount() + "首)";
+        String allSongCount = "播放全部(共" + playCount + "首)";
         SpannableStringBuilder spannableString = new SpannableStringBuilder(allSongCount);
 
-        ForegroundColorSpan colorSpan = new ForegroundColorSpan(getResources().getColor(R.color.alpha_35_black));
+        ForegroundColorSpan colorSpan = new ForegroundColorSpan(App.getAppContext().getResources().getColor(R.color.alpha_35_black));
         spannableString.setSpan(new AbsoluteSizeSpan((int) DimenUtil.sp2px(12)), 4, allSongCount.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         spannableString.setSpan(colorSpan, 4, allSongCount.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
         txtSongCount.setText(spannableString);
-
-        String authorName = specialBean.getUser_name() == null ? "暂无" : specialBean.getUser_name();
-        int commentNum = specialBean.getSlid() == 0 ? 0 : specialBean.getSlid();
-        String favoriteNum = specialBean.getCollectcount() == 0 ? "暂无" : String.valueOf(specialBean.getCollectcount());
-        txtListenCount.setText(MyUtils.dealBigNum(specialBean.getPlay_count()));
-        txtAuthorName.setText(authorName);
         txtComment.setText(String.valueOf(commentNum));
         txtCollect.setText(favoriteNum);
-        txtListTitle.setText(specialBean.getSpecialname());
-        Glide.with(this).load(specialBean.getImgurl().replace("{size}", "400")).bitmapTransform(new CropCircleTransformation(this)).into(imgAuthorHeader);
-        Glide.with(this).load(specialBean.getImgurl().replace("{size}", "400")).bitmapTransform(new BlurTransformation(this, 20)).into(new SimpleTarget<GlideDrawable>() {
+        Glide.with(this).load(specialBean.getImgurl().replace("{size}", "400")).bitmapTransform(new BlurTransformation(this, 40)).into(new SimpleTarget<GlideDrawable>() {
             @Override
             public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
                 resource.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
-                relCover.setBackground(resource);
+                llAllCover.setBackground(resource);
             }
         });
-        MyUtils.loadImageFormNet(specialBean.getImgurl().replace("{size}", "400"), imgMusicListCover, this);
     }
+
+    /*@Override
+    public void updateSongMenuInfo(Object data) {
+
+    }*/
 
     private void initRecycleView() {
         adapter = new MusicListRecyclerAdapter();
+        linearLayoutManager = new LinearLayoutManager(this);
         recMusicList.setItemAnimator(new DefaultItemAnimator());
         recMusicList.setLayoutManager(new LinearLayoutManager(this));
         recMusicList.setAdapter(adapter);
+        recMusicList.setOnScrollListener(new LoadMoreListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore() {
+                paramsMap.put("page", page++);
+                musicListPresent.loadData(paramsMap, false);
+            }
+        });
     }
 
     @Override
@@ -193,4 +232,7 @@ public class MusicListActivity extends BaseLoadDataActivity<MusicListPresentImpl
                 break;
         }
     }
+
+
+
 }

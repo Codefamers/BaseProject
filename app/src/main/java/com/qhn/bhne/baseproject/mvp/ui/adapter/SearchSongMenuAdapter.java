@@ -78,7 +78,12 @@ public class SearchSongMenuAdapter extends BaseRecyclerViewAdapter<SearchSongMen
         public ItemViewHolder(final View view) {
             super(view);
             ButterKnife.bind(this, view);
-
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    itemListener.onClick(getList().get(getAdapterPosition()));
+                }
+            });
 
         }
     }

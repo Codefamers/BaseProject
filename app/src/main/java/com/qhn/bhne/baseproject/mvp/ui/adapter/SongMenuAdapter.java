@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
  * Created by qhn
  * on 2017/2/27 0027.
  */
-public class SongMenuAdapter extends BaseRecyclerViewAdapter<SongMenu,SongMenuType> {
+public class SongMenuAdapter extends BaseRecyclerViewAdapter<SongMenu,SongMenu> {
     @Inject
     public SongMenuAdapter() {
         super(null);
@@ -89,6 +89,12 @@ public class SongMenuAdapter extends BaseRecyclerViewAdapter<SongMenu,SongMenuTy
         public ItemViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    itemListener.onClick(getList().get(getAdapterPosition()));
+                }
+            });
         }
     }
 }

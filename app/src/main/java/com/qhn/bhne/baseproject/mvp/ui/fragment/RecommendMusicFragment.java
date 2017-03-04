@@ -2,6 +2,7 @@ package com.qhn.bhne.baseproject.mvp.ui.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
@@ -16,11 +17,13 @@ import com.qhn.bhne.baseproject.mvp.entity.Banner;
 import com.qhn.bhne.baseproject.mvp.entity.DataBean;
 import com.qhn.bhne.baseproject.mvp.entity.RecommendContent;
 import com.qhn.bhne.baseproject.mvp.entity.SongMenuIntro;
+import com.qhn.bhne.baseproject.mvp.model.impl.MusicListModelImpl;
 import com.qhn.bhne.baseproject.mvp.presenter.impl.RecommendPresenterImpl;
 import com.qhn.bhne.baseproject.mvp.ui.activities.MusicListActivity;
 import com.qhn.bhne.baseproject.mvp.ui.activities.WebActivity;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.HotMusicRecyclerAdapter;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.ReportAdapter;
+import com.qhn.bhne.baseproject.mvp.view.NormalMusicListView;
 import com.qhn.bhne.baseproject.mvp.view.RecommendView;
 import com.qhn.bhne.baseproject.utils.MyUtils;
 import com.qhn.bhne.baseproject.wight.BannerView;
@@ -34,13 +37,15 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.qhn.bhne.baseproject.common.Constants.SONG_MENU;
+import static com.qhn.bhne.baseproject.mvp.ui.activities.MusicListActivity.MUSIC_LIST_MODEL;
+import static com.qhn.bhne.baseproject.mvp.ui.activities.MusicListActivity.SONG_MENU_VIEW;
 
 /**
  * Created by qhn
  * on 2017/2/26 0026.
  */
 
-public class KuGouRecommendMusicFragment extends BaseFragment<RecommendPresenterImpl,RecommendEvent> implements RecommendView<RecommendEvent>, BannerView.BannerViewOnclickListener, SwipeRefreshLayout.OnRefreshListener {
+public class RecommendMusicFragment extends BaseFragment<RecommendPresenterImpl,RecommendEvent> implements RecommendView<RecommendEvent>, BannerView.BannerViewOnclickListener, SwipeRefreshLayout.OnRefreshListener {
     @BindView(R.id.img_banner)
     BannerView imgBanner;
     @BindView(R.id.itn_all_listening)
@@ -91,8 +96,12 @@ public class KuGouRecommendMusicFragment extends BaseFragment<RecommendPresenter
 
     //每日推荐歌单
     private SongMenuIntro specialBean;
+    //每日推荐歌单
     private SongMenuIntro privateFM;
-
+    private OnClickMoreButtonListener clickMBuListener;
+    public interface OnClickMoreButtonListener{
+        void onClickButton(View v);
+    }
     @Override
     protected void initInjector() {
         getFragmentComponent().inject(this);
@@ -106,6 +115,7 @@ public class KuGouRecommendMusicFragment extends BaseFragment<RecommendPresenter
     @Override
     protected void initViews(View mFragmentView) {
         initRec();
+        clickMBuListener= (OnClickMoreButtonListener) getContext();
         imgBanner.setBannerViewOnclickListener(this);
         initSwipeRefreshLayout();
         recommendPresenter.attachView(this);
@@ -199,40 +209,41 @@ public class KuGouRecommendMusicFragment extends BaseFragment<RecommendPresenter
 
     @OnClick({R.id.itn_all_listening, R.id.itn_everyday_recommend_music, R.id.itn_new_music_rank, R.id.btn_hot_music, R.id.btn_exclusive_report, R.id.btn_new_music, R.id.btn_good_mv})
     public void onClick(View view) {
-        Intent in = new Intent(activity, MusicListActivity.class);
+
+
         switch (view.getId()) {
 
             case R.id.itn_all_listening:
-                in.putExtra(SONG_MENU, privateFM);
-                startActivity(in);
+                startMusicListActivity(privateFM);
 
                 break;
             case R.id.itn_everyday_recommend_music:
-                in.putExtra(SONG_MENU, specialBean);
-                startActivity(in);
+                startMusicListActivity(specialBean);
                 //Toast.makeText(activity, "推荐音乐", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.itn_new_music_rank:
-                in.putExtra(SONG_MENU, specialBean);
-                startActivity(in);
-                Toast.makeText(activity, "新歌排行", Toast.LENGTH_SHORT).show();
+                startMusicListActivity(specialBean);
                 break;
-            case R.id.btn_hot_music:
-                testData();
-                Toast.makeText(activity, "热门音乐", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.btn_exclusive_report:
-                Toast.makeText(activity, "独家报道", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.btn_new_music:
-                Toast.makeText(activity, "新歌排行", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.btn_good_mv:
-                Toast.makeText(activity, "推荐MV", Toast.LENGTH_SHORT).show();
+            default:
+                clickMBuListener.onClickButton(view);
                 break;
         }
     }
+    private void startMusicListActivity(SongMenuIntro eb) {
+        Intent intent=new Intent(getContext(), MusicListActivity.class);
+        SongMenuIntro songMenuIntro=new SongMenuIntro(eb.getSpecialid(),eb.getCollectcount(),eb.getIntro()
+                ,eb.getSongcount(),eb.getPlay_count(),eb.getUser_name(),eb.getImgurl(),eb.getSpecialname(),eb.getSlid());
+        intent.putExtra(SONG_MENU_VIEW,new NormalMusicListView(songMenuIntro));
+        intent.putExtra(MUSIC_LIST_MODEL,new MusicListModelImpl());
+        intent.putExtra(SONG_MENU,songMenuIntro);
+        Bundle bundle=new Bundle();
 
+        bundle.putInt("page", 1);
+        bundle.putInt("pageSize", 100);
+        bundle.putInt("specialid", songMenuIntro.getSpecialid());
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
     private void testData() {
 
 

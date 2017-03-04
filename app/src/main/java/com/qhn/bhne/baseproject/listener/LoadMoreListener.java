@@ -1,6 +1,7 @@
 package com.qhn.bhne.baseproject.listener;
 
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.socks.library.KLog;
@@ -12,7 +13,7 @@ import com.socks.library.KLog;
 
 public abstract class LoadMoreListener extends RecyclerView.OnScrollListener {
     //声明一个LinearLayoutManager
-    private GridLayoutManager linearLayoutManager;
+    private LinearLayoutManager linearLayoutManager;
     //当前页，从0开始
     private int currentPage = 0;
     //已经加载出来的Item的数量
@@ -34,7 +35,7 @@ public abstract class LoadMoreListener extends RecyclerView.OnScrollListener {
         this.linearLayoutManager = linearLayoutManager;
     }*/
 
-    public LoadMoreListener(GridLayoutManager gridLayoutManager) {
+    public LoadMoreListener(LinearLayoutManager gridLayoutManager) {
         this.linearLayoutManager = gridLayoutManager;
     }
 

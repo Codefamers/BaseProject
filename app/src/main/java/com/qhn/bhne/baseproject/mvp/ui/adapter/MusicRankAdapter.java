@@ -1,6 +1,8 @@
 package com.qhn.bhne.baseproject.mvp.ui.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +11,21 @@ import android.widget.TextView;
 
 import com.qhn.bhne.baseproject.R;
 import com.qhn.bhne.baseproject.mvp.entity.MusicRank;
+import com.qhn.bhne.baseproject.mvp.entity.RecommendContent;
+import com.qhn.bhne.baseproject.mvp.entity.SongMenuIntro;
+import com.qhn.bhne.baseproject.mvp.model.impl.MusicListModelImpl;
+import com.qhn.bhne.baseproject.mvp.ui.activities.MusicListActivity;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.base.BaseRecyclerViewAdapter;
+import com.qhn.bhne.baseproject.mvp.view.NormalMusicListView;
 import com.qhn.bhne.baseproject.utils.MyUtils;
 import java.util.List;
 import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.qhn.bhne.baseproject.common.Constants.SONG_MENU;
+import static com.qhn.bhne.baseproject.mvp.ui.activities.MusicListActivity.MUSIC_LIST_MODEL;
+import static com.qhn.bhne.baseproject.mvp.ui.activities.MusicListActivity.SONG_MENU_VIEW;
 
 /**
  * Created by qhn

@@ -1,10 +1,13 @@
 package com.qhn.bhne.baseproject.mvp.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by qhn
  * on 2017/2/26 0026.
  */
-public class SearchAlbum {
+public class SearchAlbum implements Parcelable {
 
 
     /**
@@ -130,6 +133,57 @@ public class SearchAlbum {
     public void setSingername(String singername) {
         this.singername = singername;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.albumname);
+        dest.writeString(this.publishtime);
+        dest.writeInt(this.isfirst);
+        dest.writeInt(this.albumid);
+        dest.writeInt(this.songcount);
+        dest.writeString(this.imgurl);
+        dest.writeString(this.intro);
+        dest.writeInt(this.buycount);
+        dest.writeInt(this.singerid);
+        dest.writeString(this.cd_url);
+        dest.writeInt(this.privilege);
+        dest.writeString(this.singername);
+    }
+
+    public SearchAlbum() {
+    }
+
+    protected SearchAlbum(Parcel in) {
+        this.albumname = in.readString();
+        this.publishtime = in.readString();
+        this.isfirst = in.readInt();
+        this.albumid = in.readInt();
+        this.songcount = in.readInt();
+        this.imgurl = in.readString();
+        this.intro = in.readString();
+        this.buycount = in.readInt();
+        this.singerid = in.readInt();
+        this.cd_url = in.readString();
+        this.privilege = in.readInt();
+        this.singername = in.readString();
+    }
+
+    public static final Parcelable.Creator<SearchAlbum> CREATOR = new Parcelable.Creator<SearchAlbum>() {
+        @Override
+        public SearchAlbum createFromParcel(Parcel source) {
+            return new SearchAlbum(source);
+        }
+
+        @Override
+        public SearchAlbum[] newArray(int size) {
+            return new SearchAlbum[size];
+        }
+    };
 }
 
 

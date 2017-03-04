@@ -1,6 +1,8 @@
 package com.qhn.bhne.baseproject.mvp.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +12,22 @@ import android.widget.TextView;
 import com.qhn.bhne.baseproject.R;
 import com.qhn.bhne.baseproject.di.scope.ContextLife;
 import com.qhn.bhne.baseproject.mvp.entity.RecommendContent;
+import com.qhn.bhne.baseproject.mvp.entity.SongMenuIntro;
+import com.qhn.bhne.baseproject.mvp.model.impl.MusicListModelImpl;
+import com.qhn.bhne.baseproject.mvp.ui.activities.MusicListActivity;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.base.BaseRecyclerViewAdapter;
-import com.qhn.bhne.baseproject.mvp.ui.fragment.KuGouRecommendMusicFragment;
+import com.qhn.bhne.baseproject.mvp.ui.fragment.RecommendMusicFragment;
+import com.qhn.bhne.baseproject.mvp.view.NormalMusicListView;
 import com.qhn.bhne.baseproject.utils.MyUtils;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.qhn.bhne.baseproject.common.Constants.SONG_MENU;
+import static com.qhn.bhne.baseproject.mvp.ui.activities.MusicListActivity.MUSIC_LIST_MODEL;
+import static com.qhn.bhne.baseproject.mvp.ui.activities.MusicListActivity.SONG_MENU_VIEW;
 
 /**
  * Created by qhn
@@ -62,16 +72,21 @@ public class HotMusicRecyclerAdapter extends BaseRecyclerViewAdapter {
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
 
         switch (category) {
-            case KuGouRecommendMusicFragment.HOT_ADAPTER:
-                RecommendContent.RecommendBean recommendBeanBean =
+            case RecommendMusicFragment.HOT_ADAPTER:
+                final RecommendContent.RecommendBean rb =
                         (RecommendContent.RecommendBean) getList().get(position);
-
-                RecommendContent.RecommendBean.ExtraBean extraBean = recommendBeanBean.getExtra();
-                itemViewHolder.txtMusicAlbumName.setText(extraBean.getSpecialname());
-                itemViewHolder.txtListen.setText(MyUtils.dealBigNum(extraBean.getPlay_count()));
-                MyUtils.loadImageFormNet(extraBean.getImgurl().replace("{size}", "400"), itemViewHolder.imgPic, context);
+                final RecommendContent.RecommendBean.ExtraBean eb = rb.getExtra();
+                itemViewHolder.txtMusicAlbumName.setText(eb.getSpecialname());
+                itemViewHolder.txtListen.setText(MyUtils.dealBigNum(eb.getPlay_count()));
+                MyUtils.loadImageFormNet(eb.getImgurl().replace("{size}", "400"), itemViewHolder.imgPic, context);
+                itemViewHolder.imgPic.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startMusicListActivity(eb);
+                    }
+                });
                 break;
-            case KuGouRecommendMusicFragment.NEW_ADAPTER:
+            case RecommendMusicFragment.NEW_ADAPTER:
                 RecommendContent.AlbumBean albumBean =
                         (RecommendContent.AlbumBean) getList().get(position);
                 itemViewHolder.txtListen.setVisibility(View.GONE);
@@ -81,11 +96,10 @@ public class HotMusicRecyclerAdapter extends BaseRecyclerViewAdapter {
                 MyUtils.loadImageFormNet(albumBean.getImgurl().replace("{size}", "400"), itemViewHolder.imgPic, context);
 
                 break;
-            case KuGouRecommendMusicFragment.REPORT_ADAPTER:
-
+            case RecommendMusicFragment.REPORT_ADAPTER:
                 itemViewHolder.txtListen.setVisibility(View.GONE);
                 break;
-            case KuGouRecommendMusicFragment.GOOD_MV_ADAPTER:
+            case RecommendMusicFragment.GOOD_MV_ADAPTER:
 
                 RecommendContent.VlistBean vlistBean =
                         (RecommendContent.VlistBean) getList().get(position);
@@ -94,6 +108,22 @@ public class HotMusicRecyclerAdapter extends BaseRecyclerViewAdapter {
                 break;
         }
 
+    }
+
+    private void startMusicListActivity(RecommendContent.RecommendBean.ExtraBean eb) {
+        Intent intent=new Intent(context, MusicListActivity.class);
+        SongMenuIntro songMenuIntro=new SongMenuIntro(eb.getSpecialid(),eb.getCollectcount(),eb.getIntro()
+                ,eb.getSongcount(),eb.getPlay_count(),eb.getUser_name(),eb.getImgurl(),eb.getSpecialname(),eb.getSlid());
+        intent.putExtra(SONG_MENU_VIEW,new NormalMusicListView(songMenuIntro));
+        intent.putExtra(MUSIC_LIST_MODEL,new MusicListModelImpl());
+        intent.putExtra(SONG_MENU,songMenuIntro);
+        Bundle bundle=new Bundle();
+
+        bundle.putInt("page", 1);
+        bundle.putInt("pageSize", 100);
+        bundle.putInt("specialid", songMenuIntro.getSpecialid());
+        intent.putExtras(bundle);
+        context.startActivity(intent);
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -109,6 +139,28 @@ public class HotMusicRecyclerAdapter extends BaseRecyclerViewAdapter {
         public ItemViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switch (category) {
+                        case RecommendMusicFragment.HOT_ADAPTER:
+
+
+                            break;
+                        case RecommendMusicFragment.NEW_ADAPTER:
+
+
+                            break;
+                        case RecommendMusicFragment.REPORT_ADAPTER:
+
+                            break;
+                        case RecommendMusicFragment.GOOD_MV_ADAPTER:
+
+
+                            break;
+                    }
+                }
+            });
         }
     }
 

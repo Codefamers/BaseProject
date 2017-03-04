@@ -1,5 +1,6 @@
 package com.qhn.bhne.baseproject.mvp.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,10 +11,17 @@ import android.widget.RelativeLayout;
 
 import com.qhn.bhne.baseproject.R;
 import com.qhn.bhne.baseproject.common.HostType;
+import com.qhn.bhne.baseproject.listener.ClickAdapterItemListener;
 import com.qhn.bhne.baseproject.mvp.entity.SearchAlbum;
 import com.qhn.bhne.baseproject.mvp.entity.SearchSongMenu;
+import com.qhn.bhne.baseproject.mvp.entity.SongMenuIntro;
+import com.qhn.bhne.baseproject.mvp.model.impl.AlbumSongsModelImpl;
+import com.qhn.bhne.baseproject.mvp.model.impl.MusicListModelImpl;
+import com.qhn.bhne.baseproject.mvp.ui.activities.MusicListActivity;
 import com.qhn.bhne.baseproject.mvp.ui.activities.SearchActivity;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.SearchAlbumAdapter;
+import com.qhn.bhne.baseproject.mvp.view.AlbumView;
+import com.qhn.bhne.baseproject.mvp.view.NormalMusicListView;
 import com.qhn.bhne.baseproject.net.RetrofitManager;
 import com.qhn.bhne.baseproject.utils.RxBus;
 import com.socks.library.KLog;
@@ -28,12 +36,16 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static com.qhn.bhne.baseproject.common.Constants.SONG_MENU;
+import static com.qhn.bhne.baseproject.mvp.ui.activities.MusicListActivity.MUSIC_LIST_MODEL;
+import static com.qhn.bhne.baseproject.mvp.ui.activities.MusicListActivity.SONG_MENU_VIEW;
+
 /**
  * Created by qhn
  * on 2017/2/26 0026.
  */
 
-public class SearchAlbumFragment extends BaseFragment {
+public class SearchAlbumFragment extends BaseFragment implements ClickAdapterItemListener<SearchAlbum>{
     @BindView(R.id.rec_single_music)
     RecyclerView recSearchAlbum;
     @BindView(R.id.success_view)
@@ -58,6 +70,7 @@ public class SearchAlbumFragment extends BaseFragment {
     @Override
     protected void initViews(View mFragmentView) {
         query=((SearchActivity)getContext()).getQuery();
+        searchAlbumAdapter.setItemListener(this);
         initRec();
         initData();
     }
@@ -109,4 +122,22 @@ public class SearchAlbumFragment extends BaseFragment {
     }
 
 
+    @Override
+    public void onClick(SearchAlbum eb) {
+        Intent intent = new Intent(getContext(), MusicListActivity.class);
+        SongMenuIntro songMenuIntro=new SongMenuIntro();
+        songMenuIntro.setIntro(eb.getIntro());
+        songMenuIntro.setImgurl(eb.getImgurl());
+        songMenuIntro.setSongcount(eb.getSongcount());
+        intent.putExtra(SONG_MENU_VIEW, new AlbumView(eb));
+        intent.putExtra(MUSIC_LIST_MODEL, new AlbumSongsModelImpl());
+        intent.putExtra(SONG_MENU, songMenuIntro);
+        Bundle bundle = new Bundle();
+
+        bundle.putInt("page", 1);
+        bundle.putInt("pageSize", 100);
+        bundle.putInt("albumid", eb.getAlbumid());
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
 }

@@ -1,12 +1,15 @@
 package com.qhn.bhne.baseproject.mvp.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
  * Created by qhn
  * on 2016/11/9 0009.
  */
-public class MusicRank {
+public class MusicRank implements Parcelable {
 
     /**
      * id : 56
@@ -180,4 +183,55 @@ public class MusicRank {
             this.songname = songname;
         }
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeInt(this.rankid);
+        dest.writeString(this.rankname);
+        dest.writeInt(this.ranktype);
+        dest.writeString(this.intro);
+        dest.writeString(this.imgurl);
+        dest.writeString(this.bannerurl);
+        dest.writeString(this.banner7url);
+        dest.writeInt(this.isvol);
+        dest.writeString(this.update_frequency);
+        dest.writeInt(this.custom_type);
+        dest.writeInt(this.haschildren);
+    }
+
+    public MusicRank() {
+    }
+
+    protected MusicRank(Parcel in) {
+        this.id = in.readInt();
+        this.rankid = in.readInt();
+        this.rankname = in.readString();
+        this.ranktype = in.readInt();
+        this.intro = in.readString();
+        this.imgurl = in.readString();
+        this.bannerurl = in.readString();
+        this.banner7url = in.readString();
+        this.isvol = in.readInt();
+        this.update_frequency = in.readString();
+        this.custom_type = in.readInt();
+        this.haschildren = in.readInt();
+    }
+
+    public static final Parcelable.Creator<MusicRank> CREATOR = new Parcelable.Creator<MusicRank>() {
+        @Override
+        public MusicRank createFromParcel(Parcel source) {
+            return new MusicRank(source);
+        }
+
+        @Override
+        public MusicRank[] newArray(int size) {
+            return new MusicRank[size];
+        }
+    };
 }

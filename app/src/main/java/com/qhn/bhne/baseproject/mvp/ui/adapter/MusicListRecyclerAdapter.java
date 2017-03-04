@@ -12,6 +12,7 @@ import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qhn.bhne.baseproject.R;
@@ -65,15 +66,30 @@ public class MusicListRecyclerAdapter extends BaseRecyclerViewAdapter<Songs,Song
         String songName = songs.getRemark();
 
         if (TextUtils.isEmpty(songName)) {
-            songName=songs.getOthername();
+            songName=songs.getSongname();
+            if (TextUtils.isEmpty(songName)){
+                songName=songs.getOthername();
+            }
         }
         //使用spannableStringBuilder时要注意setText时只有包含spannableString对象
-        SpannableStringBuilder spannableString = new SpannableStringBuilder(songName);
-        spannableString.append("\n" + songIntroduce);
-        ForegroundColorSpan colorSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.alpha_85_black));
-        spannableString.setSpan(new AbsoluteSizeSpan((int) DimenUtil.sp2px(16)), 0, songName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(colorSpan, 0, songName.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-        itemViewHolder.txtMusicName.setText(spannableString);
+        if (!TextUtils.isEmpty(songName)) {
+            SpannableStringBuilder spannableString = new SpannableStringBuilder(songName);
+            spannableString.append("\n" + songIntroduce);
+            ForegroundColorSpan colorSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.alpha_85_black));
+            spannableString.setSpan(new AbsoluteSizeSpan((int) DimenUtil.sp2px(16)), 0, songName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(colorSpan, 0, songName.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+            itemViewHolder.txtMusicName.setText(spannableString);
+        }else {
+
+            SpannableStringBuilder spannableString = new SpannableStringBuilder(songIntroduce);
+            ForegroundColorSpan colorSpan = new ForegroundColorSpan(context.getResources().getColor(R.color.alpha_85_black));
+            spannableString.setSpan(new AbsoluteSizeSpan((int) DimenUtil.sp2px(16)), 0, songIntroduce.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(colorSpan, 0, songIntroduce.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+            itemViewHolder.txtMusicName.setText(spannableString);
+
+        }
+
+
     }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {

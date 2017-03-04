@@ -61,6 +61,7 @@ import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
@@ -260,8 +261,8 @@ public class RetrofitManager {
         return mNewsService.getMusicRank().map(new GetResultFilter<List<MusicRank>>());
     }
     //音乐排行榜详情
-    public Observable<List<Songs>> getMusicRankDetailsObservable(int rankType,int rankID,int page,int pageSize) {
-        return mNewsService.getMusicRankDetails(rankType,rankID,page,pageSize).map(new GetResultFilter<List<Songs>>());
+    public Observable<List<Songs>> getMusicRankDetailsObservable(Map<String,Integer> paramsMap) {
+        return mNewsService.getMusicRankDetails(paramsMap).map(new GetResultFilter<List<Songs>>());
     }
     //所有歌单
     public Observable<List<SongMenu>> getSongMenuObservable(int categoryid, int page, int size) {
@@ -306,15 +307,19 @@ public class RetrofitManager {
     public Observable<List<SearchAlbum>> getSearchAlbumObservable(String keyword, int page, int pageSize) {
         return mNewsService.getSearchAlbum(keyword, page, pageSize).map(new GetResultFilter<List<SearchAlbum>>());
     }
+    //搜索专辑内所有歌曲
+    public Observable<List<Songs>> getSearchAlbumSongsObservable(Map<String,Integer> paramsMap) {
+        return mNewsService.getSearchAlbumSongs(paramsMap).map(new GetResultFilter<List<Songs>>());
+    }
 
     //搜索MV
     public Observable<List<SearchMV>> getSearchMVObservable(String keyword, int page, int pageSize) {
         return mNewsService.getSearchMV(keyword, page, pageSize).map(new GetResultFilter<List<SearchMV>>());
     }
 
-    //搜索MV
-    public Observable<List<Songs>> getKugouSongObservable(int SpecialId, int page, int pageSize) {
-        return mNewsService.getSpecialSong(SpecialId, page, pageSize).map(new GetResultFilter<List<Songs>>());
+    //搜索歌单内的所有歌曲
+    public Observable<List<Songs>> getKugouSongObservable(Map<String, Integer> paramsMap) {
+        return mNewsService.getSpecialSong(paramsMap).map(new GetResultFilter<List<Songs>>());
     }
 
 

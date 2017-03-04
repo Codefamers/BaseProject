@@ -37,15 +37,16 @@ import com.qhn.bhne.baseproject.mvp.entity.SongListFM;
 import com.qhn.bhne.baseproject.mvp.entity.SongMenu;
 import com.qhn.bhne.baseproject.mvp.entity.SongMenuType;
 import com.qhn.bhne.baseproject.mvp.entity.Songs;
-import com.qhn.bhne.baseproject.mvp.entity.SpecialSong;
 
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 import rx.Observable;
 
 
@@ -75,16 +76,14 @@ public interface NewsService {
     @GET("rank/list?apiver=4&withsong=1&showtype=2&plat=0&parentid=0&version=8493")
     Observable<GetHttpResult<List<MusicRank>>> getMusicRank();
 
+    //排行榜详情
     @GET("rank/song?")
     Observable<GetHttpResult<List<Songs>>> getMusicRankDetails(
-            @Query("ranktype") int ranktype,
-            @Query("rankid") int rankid,
-            @Query("page") int page,
-            @Query("pagesize") int pagesize
+            @QueryMap Map<String, Integer> paramsMap
 
     );
 
-    //排行榜详情
+
     //获取歌单类型
     @GET("category/allList?plat=0")
     Observable<GetHttpResult<List<SongMenuType>>> getSongMenuType();
@@ -129,6 +128,11 @@ public interface NewsService {
             @Query("page") int page,
             @Query("pagesize") int pagesize
     );
+    //获取搜索专辑内所有歌曲
+    @GET("album/song?")
+    Observable<GetHttpResult<List<Songs>>> getSearchAlbumSongs(
+            @QueryMap Map<String,Integer> paramsMap
+    );
 
     //获取搜索MV
     @GET("mv?")
@@ -155,14 +159,16 @@ public interface NewsService {
     Observable<MusicList> getMusicList(@Path("id") int id);
 
 
-    //歌单列表
+    //歌单内所有歌曲
     @GET("special/song?")
     Observable<GetHttpResult<List<Songs>>> getSpecialSong(
-            @Query("specialid") int specialid,
-            @Query("page") int page,
-            @Query("pagesize") int pagesize
+            @QueryMap Map<String, Integer> paramsMap
+
     );
 
+    /*@Query("specialid") int specialid,
+    @Query("page") int page,
+    @Query("pagesize") int pagesize*/
 
 }
 

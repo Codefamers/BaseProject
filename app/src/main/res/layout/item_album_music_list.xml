@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+
+    <ImageView
+        android:id="@+id/img_music_list_cover"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_centerVertical="true"
+        android:layout_margin="16dp"
+        android:src="@mipmap/ic_launcher" />
+
+
+    <TextView
+        android:id="@+id/txt_singer_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@id/img_music_list_cover"
+        android:lineSpacingExtra="8dp"
+        android:text="海上花_402455789\n+21313"
+
+        android:textColor="@color/alpha_85_white" />
+
+    <TextView
+        android:id="@+id/txt_album_name"
+        android:layout_alignTop="@id/img_music_list_cover"
+        android:layout_marginTop="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/img_music_list_cover"
+        android:layout_marginLeft="16dp"
+        android:text="【经典配乐】逍遥江湖路，缠绵儿女情"
+        android:textColor="@color/alpha_85_white"
+        android:textSize="16sp"
+        />
+</RelativeLayout>

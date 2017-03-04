@@ -1,5 +1,7 @@
 package com.qhn.bhne.baseproject.mvp.ui.fragment;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -7,9 +9,14 @@ import android.widget.RelativeLayout;
 
 import com.qhn.bhne.baseproject.R;
 import com.qhn.bhne.baseproject.common.HostType;
+import com.qhn.bhne.baseproject.listener.ClickAdapterItemListener;
 import com.qhn.bhne.baseproject.mvp.entity.SearchSongMenu;
+import com.qhn.bhne.baseproject.mvp.entity.SongMenuIntro;
+import com.qhn.bhne.baseproject.mvp.model.impl.MusicListModelImpl;
+import com.qhn.bhne.baseproject.mvp.ui.activities.MusicListActivity;
 import com.qhn.bhne.baseproject.mvp.ui.activities.SearchActivity;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.SearchSongMenuAdapter;
+import com.qhn.bhne.baseproject.mvp.view.NormalMusicListView;
 import com.qhn.bhne.baseproject.net.RetrofitManager;
 import com.qhn.bhne.baseproject.utils.RxBus;
 import com.socks.library.KLog;
@@ -23,12 +30,16 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static com.qhn.bhne.baseproject.common.Constants.SONG_MENU;
+import static com.qhn.bhne.baseproject.mvp.ui.activities.MusicListActivity.MUSIC_LIST_MODEL;
+import static com.qhn.bhne.baseproject.mvp.ui.activities.MusicListActivity.SONG_MENU_VIEW;
+
 /**
  * Created by qhn
  * on 2017/2/26 0026.
  */
 
-public class SearchSongMenuFragment extends BaseFragment {
+public class SearchSongMenuFragment extends BaseFragment implements ClickAdapterItemListener<SearchSongMenu> {
     @BindView(R.id.rec_single_music)
     RecyclerView recSongMenuMusic;
     @BindView(R.id.success_view)
@@ -53,6 +64,7 @@ public class SearchSongMenuFragment extends BaseFragment {
     @Override
     protected void initViews(View mFragmentView) {
         initRec();
+        searchSongMenuAdapter.setItemListener(this);
         query = ((SearchActivity) getContext()).getQuery();
         initData();
     }
@@ -104,4 +116,20 @@ public class SearchSongMenuFragment extends BaseFragment {
     }
 
 
+    @Override
+    public void onClick(SearchSongMenu eb) {
+        Intent intent = new Intent(getContext(), MusicListActivity.class);
+        SongMenuIntro songMenuIntro = new SongMenuIntro(eb.getSpecialid(), eb.getCollectcount(), eb.getIntro()
+                , eb.getSongcount(), eb.getPlaycount(), eb.getNickname(), eb.getImgurl(), eb.getSpecialname(), eb.getSlid());
+        intent.putExtra(SONG_MENU_VIEW, new NormalMusicListView(songMenuIntro));
+        intent.putExtra(MUSIC_LIST_MODEL, new MusicListModelImpl());
+        intent.putExtra(SONG_MENU, songMenuIntro);
+        Bundle bundle = new Bundle();
+
+        bundle.putInt("page", 1);
+        bundle.putInt("pageSize", 100);
+        bundle.putInt("specialid", songMenuIntro.getSpecialid());
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
 }

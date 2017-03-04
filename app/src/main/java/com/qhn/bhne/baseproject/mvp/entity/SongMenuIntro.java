@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class SongMenuIntro implements Parcelable {
-    public SongMenuIntro(int collectcount, String intro, int songcount, int play_count, String user_name, String imgurl, String specialname, int slid) {
+    public SongMenuIntro(int specialid,int collectcount, String intro, int songcount, int play_count, String user_name, String imgurl, String specialname, int slid) {
         this.collectcount = collectcount;
         this.intro = intro;
         this.songcount = songcount;
@@ -13,6 +13,7 @@ public class SongMenuIntro implements Parcelable {
         this.imgurl = imgurl;
         this.specialname = specialname;
         this.slid = slid;
+        this.specialid=specialid;
     }
 
     /**

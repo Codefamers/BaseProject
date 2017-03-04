@@ -18,13 +18,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qhn.bhne.baseproject.R;
-import com.qhn.bhne.baseproject.common.Constants;
 import com.qhn.bhne.baseproject.mvp.entity.CurrentPlayMusic;
 import com.qhn.bhne.baseproject.mvp.ui.activities.base.BaseActivity;
 import com.qhn.bhne.baseproject.mvp.ui.adapter.OnLinePagerAdapter;
-import com.qhn.bhne.baseproject.mvp.ui.fragment.KuGouRecommendMusicFragment;
+import com.qhn.bhne.baseproject.mvp.ui.fragment.RecommendMusicFragment;
 import com.qhn.bhne.baseproject.mvp.ui.fragment.LocalMusicFragment;
-import com.qhn.bhne.baseproject.mvp.ui.fragment.MVListFragment;
 import com.qhn.bhne.baseproject.mvp.ui.fragment.RankFragment;
 import com.qhn.bhne.baseproject.mvp.ui.fragment.BroadcastFragment;
 import com.qhn.bhne.baseproject.mvp.ui.fragment.SongMenuFragment;
@@ -37,9 +35,12 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 
+import static com.qhn.bhne.baseproject.common.Constants.SONG_MENU;
 
-public class MainActivity extends BaseActivity implements SongMenuFragment.SongMenuFragmentListener{
 
+public class MainActivity extends BaseActivity implements SongMenuFragment.SongMenuFragmentListener,RecommendMusicFragment.OnClickMoreButtonListener{
+
+    private static final int SONG_MENU_PAGE = 3;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.tabs)
@@ -95,10 +96,7 @@ public class MainActivity extends BaseActivity implements SongMenuFragment.SongM
         relMicroPlayer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                KLog.d("currentPlayMusic" + currentPlayMusic);
-                Intent intent = new Intent(MainActivity.this, MusicListActivity.class);
-                startActivity(intent);
-                //Toast.makeText(MainActivity.this, "播放位置"+currentPlayMusic.getPlayPosition(), Toast.LENGTH_SHORT).show();
+
             }
         });
     }
@@ -114,7 +112,7 @@ public class MainActivity extends BaseActivity implements SongMenuFragment.SongM
        // tabTitles.add("MV");
         songMenuFragment=new SongMenuFragment();
         List<Fragment> tabFragmentList = new ArrayList<>();
-        tabFragmentList.add(new KuGouRecommendMusicFragment());
+        tabFragmentList.add(new RecommendMusicFragment());
         tabFragmentList.add(new BroadcastFragment());
         tabFragmentList.add(new RankFragment());
         tabFragmentList.add(songMenuFragment);
@@ -167,6 +165,25 @@ public class MainActivity extends BaseActivity implements SongMenuFragment.SongM
 
                     break;
             }
+        }
+    }
+
+    @Override
+    public void onClickButton(View view) {
+
+        switch (view.getId()) {
+            case R.id.btn_hot_music:
+                viewPager.setCurrentItem(SONG_MENU_PAGE,true);
+                break;
+            case R.id.btn_exclusive_report:
+                //Toast.makeText(activity, "独家报道", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.btn_new_music:
+                //Toast.makeText(activity, "新歌排行", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.btn_good_mv:
+                //Toast.makeText(activity, "推荐MV", Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 }

@@ -116,6 +116,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             tintManager.setStatusBarTintEnabled(true);
             tintManager.setStatusBarTintResource(R.color.alpha_00_white);
         }
+
     }
     private void initDrawerLayout() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);

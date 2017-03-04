@@ -7,7 +7,7 @@ import com.qhn.bhne.baseproject.di.module.FragmentModule;
 import com.qhn.bhne.baseproject.di.scope.ContextLife;
 import com.qhn.bhne.baseproject.di.scope.PerFragment;
 import com.qhn.bhne.baseproject.mvp.ui.fragment.BroadcastFragment;
-import com.qhn.bhne.baseproject.mvp.ui.fragment.KuGouRecommendMusicFragment;
+import com.qhn.bhne.baseproject.mvp.ui.fragment.RecommendMusicFragment;
 import com.qhn.bhne.baseproject.mvp.ui.fragment.MVListFragment;
 import com.qhn.bhne.baseproject.mvp.ui.fragment.RankFragment;
 import com.qhn.bhne.baseproject.mvp.ui.fragment.SearchAlbumFragment;
@@ -50,7 +50,7 @@ public interface FragmentComponent {
 
     void inject(SearchMVFragment searchMvFragment);
 
-    void inject(KuGouRecommendMusicFragment kugouRemmendMusicFragment);
+    void inject(RecommendMusicFragment kugouRemmendMusicFragment);
 
     void inject(SongMenuFragment songMenuFragment);
 }
