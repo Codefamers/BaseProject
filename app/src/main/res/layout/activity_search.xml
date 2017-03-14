@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.qhn.bhne.baseproject.mvp.ui.activities.MusicListActivity">
+    tools:context="com.qhn.bhne.xhmusic.mvp.ui.activities.MusicListActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

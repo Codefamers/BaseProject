@@ -19,7 +19,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <!--轮播图-->
-                <com.qhn.bhne.baseproject.wight.BannerView
+                <com.qhn.bhne.xhmusic.wight.BannerView
                     android:id="@+id/img_banner"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/y108"
@@ -148,7 +148,7 @@
                         style="@style/recommend_more_btn" />
                 </RelativeLayout>
 
-                <com.qhn.bhne.baseproject.wight.DisableScrollRecyclerView
+                <com.qhn.bhne.xhmusic.wight.DisableScrollRecyclerView
                     android:id="@+id/rec_hot_music"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -175,7 +175,7 @@
                         style="@style/recommend_more_btn" />
                 </RelativeLayout>
 
-                <com.qhn.bhne.baseproject.wight.DisableScrollRecyclerView
+                <com.qhn.bhne.xhmusic.wight.DisableScrollRecyclerView
                     android:id="@+id/rec_new_music"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -200,7 +200,7 @@
                         style="@style/recommend_more_btn" />
                 </RelativeLayout>
 
-                <com.qhn.bhne.baseproject.wight.DisableScrollRecyclerView
+                <com.qhn.bhne.xhmusic.wight.DisableScrollRecyclerView
                     android:id="@+id/rec_good_mv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -223,7 +223,7 @@
                         style="@style/recommend_more_btn" />
                 </RelativeLayout>
 
-                <com.qhn.bhne.baseproject.wight.DisableScrollRecyclerView
+                <com.qhn.bhne.xhmusic.wight.DisableScrollRecyclerView
                     android:id="@+id/rec_exclusive_report"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

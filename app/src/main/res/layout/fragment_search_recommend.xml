@@ -28,7 +28,7 @@
                 android:textColor="@color/alpha_35_black"
                 android:textSize="14sp" />
 
-            <com.qhn.bhne.baseproject.wight.TagFlowLayout
+            <com.qhn.bhne.xhmusic.wight.TagFlowLayout
                 android:id="@+id/tfl_hot_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

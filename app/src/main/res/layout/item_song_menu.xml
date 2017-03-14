@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.qhn.bhne.baseproject.wight.ShapedImageView
+        <com.qhn.bhne.xhmusic.wight.ShapedImageView
             android:id="@+id/img_pic"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y108"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.qhn.bhne.baseproject">
+    package="com.qhn.bhne.xhmusic">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -9,13 +9,13 @@
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
 
     <application
-        android:name=".application.App"
+        android:name="com.qhn.bhne.xhmusic.application.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/BaseAppTheme.NoTrans">
-        <activity android:name=".mvp.ui.activities.SplashActivity">
+        <activity android:name="com.qhn.bhne.xhmusic.mvp.ui.activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,24 +23,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".mvp.ui.activities.MainActivity"
+            android:name="com.qhn.bhne.xhmusic.mvp.ui.activities.MainActivity"
             android:launchMode="singleTop" />
         <activity
-            android:name=".mvp.ui.activities.PlayMusicActivity"
-            android:parentActivityName=".mvp.ui.activities.MainActivity" />
-        <activity android:name=".playmusicDemo.SampleChooserActivity" />
-        <activity android:name=".playmusicDemo.PlayerActivity" />
+            android:name="com.qhn.bhne.xhmusic.mvp.ui.activities.PlayMusicActivity"
+             />
+        <activity android:name="com.qhn.bhne.xhmusic.playmusicDemo.SampleChooserActivity" />
+        <activity android:name="com.qhn.bhne.xhmusic.playmusicDemo.PlayerActivity" />
         <activity
-            android:name=".mvp.ui.activities.MusicListActivity"
-            android:parentActivityName=".mvp.ui.activities.MainActivity"
+            android:name="com.qhn.bhne.xhmusic.mvp.ui.activities.MusicListActivity"
+            android:parentActivityName="com.qhn.bhne.xhmusic.mvp.ui.activities.MainActivity"
             />
 
-        <service android:name=".mvp.ui.service.MusicService" />
+        <service android:name="com.qhn.bhne.xhmusic.mvp.ui.service.MusicService" />
 
         <activity
-            android:name=".mvp.ui.activities.SearchActivity"
+            android:name="com.qhn.bhne.xhmusic.mvp.ui.activities.SearchActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".mvp.ui.activities.MainActivity">
+            android:parentActivityName="com.qhn.bhne.xhmusic.mvp.ui.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -50,9 +50,9 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".mvp.ui.activities.WebActivity"
-            android:parentActivityName=".mvp.ui.activities.SearchActivity" />
-        <activity android:name=".mvp.ui.activities.SongMenuTypeActivity" />
+            android:name="com.qhn.bhne.xhmusic.mvp.ui.activities.WebActivity"
+            android:parentActivityName="com.qhn.bhne.xhmusic.mvp.ui.activities.SearchActivity" />
+        <activity android:name="com.qhn.bhne.xhmusic.mvp.ui.activities.SongMenuTypeActivity" />
     </application>
 
 </manifest>
