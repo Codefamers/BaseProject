@@ -1,6 +1,7 @@
 package com.qhn.bhne.xhmusic.mvp.ui.activities.base;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,6 +22,7 @@ import com.qhn.bhne.xhmusic.di.component.ActivityComponent;
 import com.qhn.bhne.xhmusic.di.component.DaggerActivityComponent;
 import com.qhn.bhne.xhmusic.di.module.ActivityModule;
 import com.qhn.bhne.xhmusic.mvp.presenter.base.BasePresenter;
+import com.qhn.bhne.xhmusic.mvp.ui.service.MusicService;
 import com.qhn.bhne.xhmusic.utils.NetUtil;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.socks.library.KLog;
@@ -76,7 +78,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         KLog.i(getClass().getSimpleName());
         NetUtil.isNetworkErrThenShowMsg();//网络错误时显示错误信息
         initActivityComponent();
-
         setNightOrDayMode();
         int layoutId = getLayoutId();
         setContentView(layoutId);

@@ -2,6 +2,17 @@ package com.qhn.bhne.xhmusic.di.module;
 
 import android.content.Context;
 
+import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.LoadControl;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.trackselection.AdaptiveVideoTrackSelection;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelection;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.upstream.BandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.qhn.bhne.xhmusic.application.App;
 import com.qhn.bhne.xhmusic.db.DaoSession;
 import com.qhn.bhne.xhmusic.di.scope.ContextLife;
@@ -55,5 +66,19 @@ public class ApplicationModule {
         return RxBus.getInstance();
     }
 
+    @Singleton
+    @Provides
+    public ExoPlayer provideExoPlayer() {
+        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+        TrackSelection.Factory videoTrackSelectionFactory = new
+                AdaptiveVideoTrackSelection.Factory(bandwidthMeter);
+        TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
+
+        //2.创建一个默认的加载控制器 loadControl
+        LoadControl loadControl = new DefaultLoadControl();
+        //3.创建一个Player
+        SimpleExoPlayer player = ExoPlayerFactory.newSimpleInstance(mApplication.getApplicationContext(), trackSelector, loadControl);
+        return player;
+    }
 
 }

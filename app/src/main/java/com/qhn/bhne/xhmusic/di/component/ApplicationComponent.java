@@ -2,6 +2,7 @@ package com.qhn.bhne.xhmusic.di.component;
 
 import android.content.Context;
 
+import com.google.android.exoplayer2.ExoPlayer;
 import com.qhn.bhne.xhmusic.db.DaoSession;
 import com.qhn.bhne.xhmusic.di.module.ApplicationModule;
 import com.qhn.bhne.xhmusic.di.scope.ContextLife;
@@ -24,5 +25,6 @@ public interface ApplicationComponent {
     GlobalPlayMusic getCurrentPlayMusic();
     DaoSession getDaoSession();
     RxBus getRxBus();
+    ExoPlayer getExoPlayer();
 
 }

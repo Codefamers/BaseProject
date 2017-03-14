@@ -26,6 +26,8 @@ import com.qhn.bhne.xhmusic.mvp.ui.fragment.LocalMusicFragment;
 import com.qhn.bhne.xhmusic.mvp.ui.fragment.RankFragment;
 import com.qhn.bhne.xhmusic.mvp.ui.fragment.BroadcastFragment;
 import com.qhn.bhne.xhmusic.mvp.ui.fragment.SongMenuFragment;
+import com.qhn.bhne.xhmusic.mvp.ui.service.MusicService;
+import com.qhn.bhne.xhmusic.playmusicDemo.SampleChooserActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +89,8 @@ public class MainActivity extends BaseActivity implements SongMenuFragment.SongM
         mIsHasNavigationView = true;
         initViewPager();
         initMicroPlayer();
+        Intent in = new Intent(this, MusicService.class);
+        startService(in);
     }
 
     private void initMicroPlayer() {
@@ -173,6 +177,7 @@ public class MainActivity extends BaseActivity implements SongMenuFragment.SongM
                 viewPager.setCurrentItem(SONG_MENU_PAGE,true);
                 break;
             case R.id.btn_exclusive_report:
+                startActivity(new Intent(MainActivity.this, SampleChooserActivity.class));
                 //Toast.makeText(activity, "独家报道", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_new_music:

@@ -1,6 +1,7 @@
 package com.qhn.bhne.xhmusic.mvp.entity;
 
 
+import com.google.android.exoplayer2.ExoPlayer;
 import com.qhn.bhne.xhmusic.common.MusicConstants;
 
 import java.util.ArrayList;
@@ -18,10 +19,15 @@ public class GlobalPlayMusic {
     private List<Songs> currentPlaySongList = new ArrayList<>();
     //播放位置
     private int playPosition = 0;
+
     //播放状态
-   // private MusicConstants.MusicStatus musicStatus = MusicConstants.MusicStatus.STOP;
+    private int playStatus = ExoPlayer.STATE_IDLE;
     //播放进度
     private int progress = 0;
+    //缓冲位置
+    private int bufferPosition=0;
+
+
     //当前的歌曲品质
     @MusicConstants.MusicQuality
     private int musicQuality = MusicConstants.MUSIC_QUALITY_STANDARD;
@@ -51,15 +57,28 @@ public class GlobalPlayMusic {
     public void setPlayPosition(int playPosition) {
         this.playPosition = playPosition;
     }
-
-   /* public MusicConstants.MusicStatus getMusicStatus() {
-        return musicStatus;
+    public int getBufferPosition() {
+        return bufferPosition;
     }
 
-    public void setMusicStatus(MusicConstants.MusicStatus musicStatus) {
-        this.musicStatus = musicStatus;
-    }*/
+    public void setBufferPosition(int bufferPosition) {
+        this.bufferPosition = bufferPosition;
+    }
+    public int getPlayStatus() {
+        return playStatus;
+    }
 
+    public void setPlayStatus(int playStatus) {
+        this.playStatus = playStatus;
+    }
+
+    public Boolean getPlay() {
+        return isPlay;
+    }
+
+    public void setPlay(Boolean play) {
+        isPlay = play;
+    }
     public int getProgress() {
         return progress;
     }

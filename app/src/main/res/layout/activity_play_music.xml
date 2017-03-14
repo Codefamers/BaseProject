@@ -165,6 +165,14 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:src="@drawable/play_icn_src_prs" />
-    </LinearLayout>
 
+    </LinearLayout>
+    <com.google.android.exoplayer2.ui.PlaybackControlView
+        android:id="@+id/play_control_view"
+        android:layout_below="@id/llPlayOption"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        app:fastforward_increment="30000"
+        app:rewind_increment="30000"
+        android:layout_height="wrap_content"/>
 </com.qhn.bhne.xhmusic.wight.BackgroundAnimationRelativeLayout>

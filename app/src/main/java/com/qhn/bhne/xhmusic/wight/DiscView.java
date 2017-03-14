@@ -493,11 +493,12 @@ public class DiscView extends RelativeLayout {
     }
 
     public void play() {
+
         playAnimator();
     }
 
 
-    private void pause() {
+    public void pause() {
         musicStatus = MusicConstants.MusicStatus.PAUSE;
         pauseAnimator();
     }

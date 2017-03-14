@@ -53,6 +53,7 @@
             android:name="com.qhn.bhne.xhmusic.mvp.ui.activities.WebActivity"
             android:parentActivityName="com.qhn.bhne.xhmusic.mvp.ui.activities.SearchActivity" />
         <activity android:name="com.qhn.bhne.xhmusic.mvp.ui.activities.SongMenuTypeActivity" />
+
     </application>
 
 </manifest>
