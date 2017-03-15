@@ -1,4 +1,4 @@
-package com.qhn.bhne.xhmusic.mvp.entity;
+package com.qhn.bhne.xhmusic.mvp.entity.db;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
@@ -17,7 +17,7 @@ public class HistorySearch {
 
     @Index(unique = true)
     @NotNull
-    private String name;//工程名称
+    private String name;//搜索名称
 
     @Generated(hash = 1580392407)
     public HistorySearch(Long id, @NotNull String name) {

@@ -15,7 +15,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.qhn.bhne.xhmusic.R;
-import com.qhn.bhne.xhmusic.mvp.entity.HistorySearch;
+import com.qhn.bhne.xhmusic.mvp.entity.db.HistorySearch;
 import com.qhn.bhne.xhmusic.mvp.ui.activities.base.BaseActivity;
 import com.qhn.bhne.xhmusic.mvp.ui.fragment.SearchRecommendFragment;
 import com.qhn.bhne.xhmusic.mvp.ui.fragment.SearchResultFragment;

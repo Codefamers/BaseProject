@@ -9,7 +9,7 @@ import android.widget.RelativeLayout;
 import com.qhn.bhne.xhmusic.R;
 import com.qhn.bhne.xhmusic.listener.ClickAdapterItemListener;
 import com.qhn.bhne.xhmusic.mvp.entity.MusicRank;
-import com.qhn.bhne.xhmusic.mvp.entity.SongMenuIntro;
+import com.qhn.bhne.xhmusic.mvp.entity.db.SongMenuIntro;
 import com.qhn.bhne.xhmusic.mvp.model.impl.RankListModelImpl;
 import com.qhn.bhne.xhmusic.mvp.presenter.impl.MusicRankPresenterImpl;
 import com.qhn.bhne.xhmusic.mvp.ui.activities.MusicListActivity;

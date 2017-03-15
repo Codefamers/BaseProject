@@ -33,7 +33,7 @@ import com.qhn.bhne.xhmusic.mvp.entity.RecommendContent;
 import com.qhn.bhne.xhmusic.mvp.entity.SearchAlbum;
 import com.qhn.bhne.xhmusic.mvp.entity.SearchMV;
 import com.qhn.bhne.xhmusic.mvp.entity.SearchSongMenu;
-import com.qhn.bhne.xhmusic.mvp.entity.SongInfo;
+import com.qhn.bhne.xhmusic.mvp.entity.db.SongInfo;
 import com.qhn.bhne.xhmusic.mvp.entity.SongListFM;
 import com.qhn.bhne.xhmusic.mvp.entity.SongMenu;
 import com.qhn.bhne.xhmusic.mvp.entity.SongMenuType;

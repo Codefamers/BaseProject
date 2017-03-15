@@ -14,7 +14,7 @@ import com.qhn.bhne.xhmusic.R;
 import com.qhn.bhne.xhmusic.listener.ClickAdapterItemListener;
 import com.qhn.bhne.xhmusic.listener.LoadMoreListener;
 import com.qhn.bhne.xhmusic.mvp.entity.SongMenu;
-import com.qhn.bhne.xhmusic.mvp.entity.SongMenuIntro;
+import com.qhn.bhne.xhmusic.mvp.entity.db.SongMenuIntro;
 import com.qhn.bhne.xhmusic.mvp.model.impl.MusicListModelImpl;
 import com.qhn.bhne.xhmusic.mvp.presenter.impl.SongMenuPresenterImpl;
 import com.qhn.bhne.xhmusic.mvp.ui.activities.MusicListActivity;

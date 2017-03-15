@@ -22,6 +22,9 @@ android {
         //设置自动生成单元测试用例
 //    generateTests
     }
+    dexOptions {
+        jumboMode true
+    }
     defaultConfig {
         applicationId "com.qhn.bhne.xhmusic"
         minSdkVersion 21

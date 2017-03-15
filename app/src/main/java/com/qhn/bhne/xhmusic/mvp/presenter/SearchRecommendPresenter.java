@@ -1,6 +1,6 @@
 package com.qhn.bhne.xhmusic.mvp.presenter;
 
-import com.qhn.bhne.xhmusic.mvp.entity.HistorySearch;
+import com.qhn.bhne.xhmusic.mvp.entity.db.HistorySearch;
 import com.qhn.bhne.xhmusic.mvp.presenter.base.BasePresenter;
 
 /**

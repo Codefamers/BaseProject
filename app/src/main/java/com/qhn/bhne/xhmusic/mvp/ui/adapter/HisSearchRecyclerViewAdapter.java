@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.qhn.bhne.xhmusic.R;
-import com.qhn.bhne.xhmusic.mvp.entity.HistorySearch;
+import com.qhn.bhne.xhmusic.mvp.entity.db.HistorySearch;
 import com.qhn.bhne.xhmusic.mvp.ui.adapter.base.BaseRecyclerViewAdapter;
 import com.qhn.bhne.xhmusic.mvp.ui.fragment.SearchRecommendFragment;
 

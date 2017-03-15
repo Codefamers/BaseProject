@@ -24,19 +24,15 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.qhn.bhne.xhmusic.R;
-import com.qhn.bhne.xhmusic.application.App;
 import com.qhn.bhne.xhmusic.common.MusicConstants;
 import com.qhn.bhne.xhmusic.mvp.entity.GlobalPlayMusic;
-import com.qhn.bhne.xhmusic.mvp.entity.SongInfo;
+import com.qhn.bhne.xhmusic.mvp.entity.db.SongInfo;
 import com.qhn.bhne.xhmusic.mvp.entity.Songs;
 import com.qhn.bhne.xhmusic.utils.DisplayUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**

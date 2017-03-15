@@ -18,7 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qhn.bhne.xhmusic.R;
+import com.qhn.bhne.xhmusic.mvp.entity.db.ArtistInfo;
+import com.qhn.bhne.xhmusic.mvp.entity.db.FolderInfo;
 import com.qhn.bhne.xhmusic.mvp.entity.GlobalPlayMusic;
+import com.qhn.bhne.xhmusic.mvp.entity.SearchAlbum;
+import com.qhn.bhne.xhmusic.mvp.entity.db.SongInfo;
+import com.qhn.bhne.xhmusic.mvp.model.impl.MusicUtils;
 import com.qhn.bhne.xhmusic.mvp.ui.activities.base.BaseActivity;
 import com.qhn.bhne.xhmusic.mvp.ui.adapter.OnLinePagerAdapter;
 import com.qhn.bhne.xhmusic.mvp.ui.fragment.RecommendMusicFragment;
@@ -27,7 +32,6 @@ import com.qhn.bhne.xhmusic.mvp.ui.fragment.RankFragment;
 import com.qhn.bhne.xhmusic.mvp.ui.fragment.BroadcastFragment;
 import com.qhn.bhne.xhmusic.mvp.ui.fragment.SongMenuFragment;
 import com.qhn.bhne.xhmusic.mvp.ui.service.MusicService;
-import com.qhn.bhne.xhmusic.playmusicDemo.SampleChooserActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -177,10 +181,25 @@ public class MainActivity extends BaseActivity implements SongMenuFragment.SongM
                 viewPager.setCurrentItem(SONG_MENU_PAGE,true);
                 break;
             case R.id.btn_exclusive_report:
-                startActivity(new Intent(MainActivity.this, SampleChooserActivity.class));
+                //startActivity(new Intent(MainActivity.this, SampleChooserActivity.class));
                 //Toast.makeText(activity, "独家报道", Toast.LENGTH_SHORT).show();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        List<SearchAlbum> album=MusicUtils.queryAlbums(MainActivity.this);
+                        album.size();
+                        List<SongInfo> songInfos=MusicUtils.queryMusic(MainActivity.this, 3);
+                        songInfos.size();
+                        List<FolderInfo> folder=MusicUtils.queryFolder(MainActivity.this);
+                        folder.size();
+                        List<ArtistInfo> artistInfos=MusicUtils.queryArtist(MainActivity.this);
+                        artistInfos.size();
+                    }
+                }).start();
+
                 break;
             case R.id.btn_new_music:
+
                 //Toast.makeText(activity, "新歌排行", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_good_mv:

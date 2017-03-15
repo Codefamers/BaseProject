@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
+import com.qhn.bhne.xhmusic.mvp.entity.db.SongInfo;
 
 import java.util.ArrayList;
 import java.util.List;

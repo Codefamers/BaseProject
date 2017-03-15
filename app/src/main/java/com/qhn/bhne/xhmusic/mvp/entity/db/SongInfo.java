@@ -1,15 +1,20 @@
-package com.qhn.bhne.xhmusic.mvp.entity;
+package com.qhn.bhne.xhmusic.mvp.entity.db;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.NotNull;
+import org.greenrobot.greendao.annotation.Transient;
+import org.greenrobot.greendao.annotation.Generated;
+
 /**
  * Created by qhn
  * on 2017/3/4 0004.
  */
-
+@Entity
 public class SongInfo implements Parcelable {
 
     /**
@@ -48,12 +53,15 @@ public class SongInfo implements Parcelable {
     private int errcode;
     private String error;
     private String extName;
+    @Transient
     private ExtraBean extra;
     private int fileHead;
     private String fileName;
     private int fileSize;
     private String hash;
+    @NotNull
     private String imgUrl;
+    @NotNull
     private String intro;
     private String mvhash;
     private int privilege;
@@ -69,6 +77,43 @@ public class SongInfo implements Parcelable {
     private String topic_remark;
     private String topic_url;
     private String url;
+    private int songID;
+    private String folder;
+    private String folderPath;
+    @NotNull
+    private Boolean isLocal;
+
+    public Boolean getLocal() {
+        return isLocal;
+    }
+
+    public void setLocal(Boolean local) {
+        isLocal = local;
+    }
+
+    public String getFolderPath() {
+        return folderPath;
+    }
+
+    public void setFolderPath(String folderPath) {
+        this.folderPath = folderPath;
+    }
+
+    public String getFolder() {
+        return folder;
+    }
+
+    public void setFolder(String folder) {
+        this.folder = folder;
+    }
+
+    public int getSongID() {
+        return songID;
+    }
+
+    public void setSongID(int songID) {
+        this.songID = songID;
+    }
 
     public float getBitRate() {
         return bitRate;
@@ -395,6 +440,9 @@ public class SongInfo implements Parcelable {
         };
     }
 
+    public SongInfo() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -429,13 +477,22 @@ public class SongInfo implements Parcelable {
         dest.writeString(this.topic_remark);
         dest.writeString(this.topic_url);
         dest.writeString(this.url);
+        dest.writeInt(this.songID);
+        dest.writeString(this.folder);
+        dest.writeString(this.folderPath);
+        dest.writeValue(this.isLocal);
     }
 
-    public SongInfo() {
+    public Boolean getIsLocal() {
+        return this.isLocal;
+    }
+
+    public void setIsLocal(Boolean isLocal) {
+        this.isLocal = isLocal;
     }
 
     protected SongInfo(Parcel in) {
-        this.bitRate = in.readInt();
+        this.bitRate = in.readFloat();
         this.choricSinger = in.readString();
         this.ctype = in.readInt();
         this.errcode = in.readInt();
@@ -462,9 +519,49 @@ public class SongInfo implements Parcelable {
         this.topic_remark = in.readString();
         this.topic_url = in.readString();
         this.url = in.readString();
+        this.songID = in.readInt();
+        this.folder = in.readString();
+        this.folderPath = in.readString();
+        this.isLocal = (Boolean) in.readValue(Boolean.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<SongInfo> CREATOR = new Parcelable.Creator<SongInfo>() {
+    @Generated(hash = 654845943)
+    public SongInfo(float bitRate, String choricSinger, int ctype, int errcode, String error, String extName, int fileHead, String fileName, int fileSize, String hash, @NotNull String imgUrl, @NotNull String intro,
+            String mvhash, int privilege, int q, String req_hash, String singerHead, int singerId, String singerName, String songName, int status, int stype, int timeLength, String topic_remark, String topic_url, String url,
+            int songID, String folder, String folderPath, @NotNull Boolean isLocal) {
+        this.bitRate = bitRate;
+        this.choricSinger = choricSinger;
+        this.ctype = ctype;
+        this.errcode = errcode;
+        this.error = error;
+        this.extName = extName;
+        this.fileHead = fileHead;
+        this.fileName = fileName;
+        this.fileSize = fileSize;
+        this.hash = hash;
+        this.imgUrl = imgUrl;
+        this.intro = intro;
+        this.mvhash = mvhash;
+        this.privilege = privilege;
+        this.q = q;
+        this.req_hash = req_hash;
+        this.singerHead = singerHead;
+        this.singerId = singerId;
+        this.singerName = singerName;
+        this.songName = songName;
+        this.status = status;
+        this.stype = stype;
+        this.timeLength = timeLength;
+        this.topic_remark = topic_remark;
+        this.topic_url = topic_url;
+        this.url = url;
+        this.songID = songID;
+        this.folder = folder;
+        this.folderPath = folderPath;
+        this.isLocal = isLocal;
+    }
+
+    public static final Creator<SongInfo> CREATOR = new Creator<SongInfo>() {
         @Override
         public SongInfo createFromParcel(Parcel source) {
             return new SongInfo(source);

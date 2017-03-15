@@ -11,7 +11,7 @@ import com.qhn.bhne.xhmusic.R;
 import com.qhn.bhne.xhmusic.common.HostType;
 import com.qhn.bhne.xhmusic.listener.ClickAdapterItemListener;
 import com.qhn.bhne.xhmusic.mvp.entity.SearchAlbum;
-import com.qhn.bhne.xhmusic.mvp.entity.SongMenuIntro;
+import com.qhn.bhne.xhmusic.mvp.entity.db.SongMenuIntro;
 import com.qhn.bhne.xhmusic.mvp.model.impl.AlbumSongsModelImpl;
 import com.qhn.bhne.xhmusic.mvp.ui.activities.MusicListActivity;
 import com.qhn.bhne.xhmusic.mvp.ui.activities.SearchActivity;

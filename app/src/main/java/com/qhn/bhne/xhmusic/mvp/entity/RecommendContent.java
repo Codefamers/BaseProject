@@ -1,6 +1,7 @@
 package com.qhn.bhne.xhmusic.mvp.entity;
 
 import com.google.gson.annotations.SerializedName;
+import com.qhn.bhne.xhmusic.mvp.entity.db.SongMenuIntro;
 
 import java.util.List;
 

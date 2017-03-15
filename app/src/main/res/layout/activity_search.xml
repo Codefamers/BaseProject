@@ -6,17 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context="com.qhn.bhne.xhmusic.mvp.ui.activities.MusicListActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-
+        android:theme="@style/AppTheme.AppBarOverlay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        android:paddingTop="24dp"
         app:layout_scrollFlags="scroll|enterAlways"
-        app:navigationIcon="@mipmap/ic_arrow_back_white_24dp"
+        app:navigationIcon="?homeAsUpIndicator"
         app:popupTheme="@style/AppTheme.PopupOverlay"
         app:subtitleTextAppearance="@style/toolbar_subTitle_text"
         app:subtitleTextColor="@color/alpha_35_white"

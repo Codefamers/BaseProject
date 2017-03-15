@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.qhn.bhne.xhmusic.R;
-import com.qhn.bhne.xhmusic.mvp.entity.SongMenuIntro;
+import com.qhn.bhne.xhmusic.mvp.entity.db.SongMenuIntro;
 import com.qhn.bhne.xhmusic.utils.MyUtils;
 
 import javax.inject.Inject;

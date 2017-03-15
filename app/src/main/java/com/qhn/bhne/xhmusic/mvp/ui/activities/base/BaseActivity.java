@@ -1,7 +1,6 @@
 package com.qhn.bhne.xhmusic.mvp.ui.activities.base;
 
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,7 +21,6 @@ import com.qhn.bhne.xhmusic.di.component.ActivityComponent;
 import com.qhn.bhne.xhmusic.di.component.DaggerActivityComponent;
 import com.qhn.bhne.xhmusic.di.module.ActivityModule;
 import com.qhn.bhne.xhmusic.mvp.presenter.base.BasePresenter;
-import com.qhn.bhne.xhmusic.mvp.ui.service.MusicService;
 import com.qhn.bhne.xhmusic.utils.NetUtil;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.socks.library.KLog;
@@ -114,8 +112,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     private void initDrawerLayout() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        toolbar.setOnMenuItemClickListener(this);
         NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -147,8 +143,12 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
 
     private void initToolBar() {
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setOnMenuItemClickListener(this);
+
+
     }
 
 

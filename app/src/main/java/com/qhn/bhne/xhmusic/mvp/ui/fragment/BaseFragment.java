@@ -98,7 +98,10 @@ public abstract class BaseFragment<V extends BasePresenter,E> extends Fragment i
     public void onDestroy() {
         super.onDestroy();
         RefWatcher refWatcher = App.getRefWatcher(getActivity());
-        refWatcher.watch(this);
+        if (refWatcher!=null) {
+            refWatcher.watch(this);
+        }
+
         if (mPresenter != null)
             mPresenter.onDestroy();
         MyUtils.cancelSubscription(mSubscription);//取消订阅

@@ -1,6 +1,6 @@
 package com.qhn.bhne.xhmusic.mvp.view;
 
-import com.qhn.bhne.xhmusic.mvp.entity.HistorySearch;
+import com.qhn.bhne.xhmusic.mvp.entity.db.HistorySearch;
 import com.qhn.bhne.xhmusic.mvp.view.base.BaseView;
 
 import java.util.List;

@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.ScrollView;
 
 import com.qhn.bhne.xhmusic.R;
-import com.qhn.bhne.xhmusic.mvp.entity.HistorySearch;
+import com.qhn.bhne.xhmusic.mvp.entity.db.HistorySearch;
 import com.qhn.bhne.xhmusic.mvp.entity.HotMusicTag;
 import com.qhn.bhne.xhmusic.mvp.presenter.impl.SearchRecImpl;
 import com.qhn.bhne.xhmusic.mvp.ui.activities.WebActivity;

@@ -6,7 +6,7 @@ import com.qhn.bhne.xhmusic.common.HostType;
 import com.qhn.bhne.xhmusic.db.DaoSession;
 import com.qhn.bhne.xhmusic.db.HistorySearchDao;
 import com.qhn.bhne.xhmusic.event.RetryConnectNetEvent;
-import com.qhn.bhne.xhmusic.mvp.entity.HistorySearch;
+import com.qhn.bhne.xhmusic.mvp.entity.db.HistorySearch;
 import com.qhn.bhne.xhmusic.mvp.entity.HotMusicTag;
 import com.qhn.bhne.xhmusic.mvp.presenter.SearchRecommendPresenter;
 import com.qhn.bhne.xhmusic.mvp.presenter.base.BasePresenterImpl;

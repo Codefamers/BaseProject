@@ -26,7 +26,7 @@ import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.qhn.bhne.xhmusic.R;
 import com.qhn.bhne.xhmusic.mvp.entity.GlobalPlayMusic;
-import com.qhn.bhne.xhmusic.mvp.entity.SongInfo;
+import com.qhn.bhne.xhmusic.mvp.entity.db.SongInfo;
 import com.qhn.bhne.xhmusic.mvp.entity.Songs;
 import com.qhn.bhne.xhmusic.mvp.ui.activities.base.BaseActivity;
 import com.qhn.bhne.xhmusic.mvp.ui.service.MusicService;

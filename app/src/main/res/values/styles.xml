@@ -46,6 +46,21 @@
         <item name="textAllCaps">true</item><!--字体是否大写-->
     </style>
 
+
+    <style name="LocalTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@color/colorAccent</item>
+        <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabPaddingStart">12dp</item>
+        <item name="tabPaddingEnd">12dp</item>
+        <item name="tabBackground">?attr/selectableItemBackground</item>
+        <item name="tabTextAppearance">@style/LocalTabTextAppearance</item>
+        <item name="tabSelectedTextColor">@color/colorAccent</item><!--tab字体选中的颜色-->
+    </style>
+    <style name="LocalTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/alpha_35_black</item><!--tab字体默认的颜色-->
+        <item name="textAllCaps">true</item><!--字体是否大写-->
+    </style>
     <!--推荐标题样式-->
     <style name="recommend_title_text"  >
         <item name="android:layout_width">wrap_content</item>
@@ -80,11 +95,12 @@
     </style>
 
     <style name="local_fragment">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">center|start</item>
-        <item name="android:paddingTop">8dp</item>
-        <item name="android:drawableBottom">@drawable/ic_drawable_cut_line</item>
+
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_gravity">center_vertical</item>
         <item name="android:textColor">@color/alpha_85_black</item>
         <item name="android:textSize">@dimen/small_text</item>
 
@@ -102,7 +118,14 @@
         <item name="android:textColor">@color/alpha_35_white</item>
         <item name="android:layout_marginTop">@dimen/y4</item>
     </style>
-
+    <!--本地音乐中图标的样式-->
+    <style name="local_fragment_img">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
 
 
 </resources>

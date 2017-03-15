@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.qhn.bhne.xhmusic.R;
 import com.qhn.bhne.xhmusic.di.scope.ContextLife;
 import com.qhn.bhne.xhmusic.mvp.entity.RecommendContent;
-import com.qhn.bhne.xhmusic.mvp.entity.SongMenuIntro;
+import com.qhn.bhne.xhmusic.mvp.entity.db.SongMenuIntro;
 import com.qhn.bhne.xhmusic.mvp.model.impl.MusicListModelImpl;
 import com.qhn.bhne.xhmusic.mvp.ui.activities.MusicListActivity;
 import com.qhn.bhne.xhmusic.mvp.ui.adapter.base.BaseRecyclerViewAdapter;

@@ -26,7 +26,7 @@ import com.qhn.bhne.xhmusic.application.App;
 import com.qhn.bhne.xhmusic.common.MusicConstants;
 import com.qhn.bhne.xhmusic.di.component.DaggerServiceComponent;
 import com.qhn.bhne.xhmusic.mvp.entity.GlobalPlayMusic;
-import com.qhn.bhne.xhmusic.mvp.entity.SongInfo;
+import com.qhn.bhne.xhmusic.mvp.entity.db.SongInfo;
 import com.qhn.bhne.xhmusic.mvp.entity.Songs;
 import com.socks.library.KLog;
 

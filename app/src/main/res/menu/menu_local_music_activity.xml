@@ -1,0 +1,34 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".mvp.ui.activities.LocalMusicActivity"
+    >
+
+
+
+
+    <item
+        android:id="@+id/action_search"
+        android:icon="@mipmap/ic_search_white_24dp"
+        android:orderInCategory="100"
+        android:title="@string/action_search"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_scan"
+        android:icon="@mipmap/ic_scan_music"
+        android:title="@string/action_scan"
+        app:showAsAction="withText"/>
+    <item
+        android:id="@+id/action_sort"
+        android:icon="@mipmap/ic_sort_type"
+        android:title="@string/action_sort"
+
+        app:showAsAction="withText" />
+
+    <item
+        android:id="@+id/action_upgrade_quality"
+        android:icon="@mipmap/ic_upgrade_quality"
+        android:title="@string/action_upgrade_quality"
+        app:showAsAction="withText" />
+
+</menu>

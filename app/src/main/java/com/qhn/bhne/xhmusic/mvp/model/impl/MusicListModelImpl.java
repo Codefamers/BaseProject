@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import com.qhn.bhne.xhmusic.common.HostType;
 import com.qhn.bhne.xhmusic.listener.RequestCallBack;
-import com.qhn.bhne.xhmusic.mvp.entity.SongInfo;
+import com.qhn.bhne.xhmusic.mvp.entity.db.SongInfo;
 import com.qhn.bhne.xhmusic.mvp.entity.Songs;
 import com.qhn.bhne.xhmusic.mvp.model.MusicListModel;
 import com.qhn.bhne.xhmusic.net.RetrofitManager;

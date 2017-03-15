@@ -3,6 +3,7 @@ package com.qhn.bhne.xhmusic.application;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 
@@ -18,6 +19,7 @@ import com.qhn.bhne.xhmusic.db.DaoSession;
 import com.qhn.bhne.xhmusic.di.component.ApplicationComponent;
 import com.qhn.bhne.xhmusic.di.component.DaggerApplicationComponent;
 import com.qhn.bhne.xhmusic.di.module.ApplicationModule;
+import com.qhn.bhne.xhmusic.permissions.Nammu;
 import com.socks.library.KLog;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
@@ -79,7 +81,10 @@ public class App extends Application {
         initDatabase();//配置数据库
         initApplicationComponent();
         userAgent = Util.getUserAgent(this, "ExoPlayerDemo");
+        Nammu.init(sAppContext);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
+        }
     }
 
     private void initDatabase() {

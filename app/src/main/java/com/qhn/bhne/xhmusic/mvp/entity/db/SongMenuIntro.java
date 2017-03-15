@@ -1,8 +1,13 @@
-package com.qhn.bhne.xhmusic.mvp.entity;
+package com.qhn.bhne.xhmusic.mvp.entity.db;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.NotNull;
+import org.greenrobot.greendao.annotation.Generated;
+
+@Entity
 public class SongMenuIntro implements Parcelable {
     public SongMenuIntro(int specialid,int collectcount, String intro, int songcount, int play_count, String user_name, String imgurl, String specialname, int slid) {
         this.collectcount = collectcount;
@@ -32,18 +37,22 @@ public class SongMenuIntro implements Parcelable {
      * slid : 29
      */
 
-    private int play_count;
-    private String specialname;
-    private String publishtime;
-    private String singername;
+    private int play_count;//歌单播放数量
+    @NotNull
+    private String specialname;//歌单的名称
+    @NotNull
+    private String publishtime;//创建时间
+    private String singername;//
     private int verified;
-    private int songcount;
-    private String imgurl;
-    private String intro;
+    private int songcount;//歌单内歌曲的数量
+    @NotNull
+    private String imgurl;//歌单的图片资源
+    @NotNull
+    private String intro;//歌单介绍
     private int suid;
     private int specialid;
-    private int collectcount;
-    private String user_name;
+    private int collectcount;//歌单收藏的数量
+    private String user_name;//用户的名称
     private int slid;
 
     public int getPlay_count() {
@@ -189,6 +198,24 @@ public class SongMenuIntro implements Parcelable {
         this.collectcount = in.readInt();
         this.user_name = in.readString();
         this.slid = in.readInt();
+    }
+
+    @Generated(hash = 414942690)
+    public SongMenuIntro(int play_count, @NotNull String specialname, @NotNull String publishtime, String singername, int verified, int songcount, @NotNull String imgurl,
+            @NotNull String intro, int suid, int specialid, int collectcount, String user_name, int slid) {
+        this.play_count = play_count;
+        this.specialname = specialname;
+        this.publishtime = publishtime;
+        this.singername = singername;
+        this.verified = verified;
+        this.songcount = songcount;
+        this.imgurl = imgurl;
+        this.intro = intro;
+        this.suid = suid;
+        this.specialid = specialid;
+        this.collectcount = collectcount;
+        this.user_name = user_name;
+        this.slid = slid;
     }
 
     public static final Parcelable.Creator<SongMenuIntro> CREATOR = new Parcelable.Creator<SongMenuIntro>() {
