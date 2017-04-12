@@ -58,7 +58,7 @@
             android:parentActivityName=".mvp.ui.activities.SearchActivity" />
         <activity android:name=".mvp.ui.activities.SongMenuTypeActivity" />
         <activity
-            android:name=".mvp.ui.activities.LocalMusicActivity"
+            android:name=".mvp.localMusic.LocalMusicActivity"
             android:parentActivityName=".mvp.ui.activities.MainActivity" />
         <activity android:name=".mvp.ui.activities.ScanMusicActivity"></activity>
     </application>

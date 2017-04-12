@@ -27,7 +27,7 @@ import com.qhn.bhne.xhmusic.mvp.model.impl.MusicUtils;
 import com.qhn.bhne.xhmusic.mvp.ui.activities.base.BaseActivity;
 import com.qhn.bhne.xhmusic.mvp.ui.adapter.OnLinePagerAdapter;
 import com.qhn.bhne.xhmusic.mvp.ui.fragment.RecommendMusicFragment;
-import com.qhn.bhne.xhmusic.mvp.ui.fragment.LocalMusicFragment;
+import com.qhn.bhne.xhmusic.mvp.localMusic.LocalMusicFragment;
 import com.qhn.bhne.xhmusic.mvp.ui.fragment.RankFragment;
 import com.qhn.bhne.xhmusic.mvp.ui.fragment.BroadcastFragment;
 import com.qhn.bhne.xhmusic.mvp.ui.fragment.SongMenuFragment;
