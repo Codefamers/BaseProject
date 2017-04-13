@@ -60,7 +60,8 @@
         <activity
             android:name=".mvp.localMusic.LocalMusicActivity"
             android:parentActivityName=".mvp.ui.activities.MainActivity" />
-        <activity android:name=".mvp.ui.activities.ScanMusicActivity"></activity>
+        <activity android:name=".mvp.localMusic.ScanMusicActivity"
+            android:parentActivityName=".mvp.localMusic.LocalMusicActivity"/>
     </application>
 
 </manifest>

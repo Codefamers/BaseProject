@@ -39,7 +39,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     protected T mPresenter;
     public Unbinder mUnbinder;
 
-    public ActivityComponent getmActivityComponent() {
+    public ActivityComponent getActivityComponent() {
         return mActivityComponent;
     }
 

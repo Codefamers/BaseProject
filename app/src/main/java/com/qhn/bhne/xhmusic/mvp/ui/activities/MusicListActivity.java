@@ -212,7 +212,7 @@ public class MusicListActivity extends BaseLoadDataActivity<MusicListPresentImpl
 
     @Override
     protected void initInjector() {
-        getmActivityComponent().inject(this);
+        getActivityComponent().inject(this);
     }
 
     @Override

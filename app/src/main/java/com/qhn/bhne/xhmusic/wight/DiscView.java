@@ -124,8 +124,8 @@ public class DiscView extends RelativeLayout {
 
     public DiscView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mScreenWidth = DisplayUtil.getScreenWidth(context);
-        mScreenHeight = DisplayUtil.getScreenHeight(context);
+        mScreenWidth = DisplayUtil.getScreenWidth();
+        mScreenHeight = DisplayUtil.getScreenHeight();
         mContext=context;
 
     }
@@ -133,7 +133,6 @@ public class DiscView extends RelativeLayout {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-
         initDiscBackground();
         initViewPager();
         initNeedle();

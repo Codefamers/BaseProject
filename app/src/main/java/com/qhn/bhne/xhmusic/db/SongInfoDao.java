@@ -79,8 +79,8 @@ public class SongInfoDao extends AbstractDao<SongInfo, Void> {
                 "\"FILE_NAME\" TEXT," + // 7: fileName
                 "\"FILE_SIZE\" INTEGER NOT NULL ," + // 8: fileSize
                 "\"HASH\" TEXT," + // 9: hash
-                "\"IMG_URL\" TEXT NOT NULL ," + // 10: imgUrl
-                "\"INTRO\" TEXT NOT NULL ," + // 11: intro
+                "\"IMG_URL\" TEXT," + // 10: imgUrl
+                "\"INTRO\" TEXT," + // 11: intro
                 "\"MVHASH\" TEXT," + // 12: mvhash
                 "\"PRIVILEGE\" INTEGER NOT NULL ," + // 13: privilege
                 "\"Q\" INTEGER NOT NULL ," + // 14: q
@@ -140,8 +140,16 @@ public class SongInfoDao extends AbstractDao<SongInfo, Void> {
         if (hash != null) {
             stmt.bindString(10, hash);
         }
-        stmt.bindString(11, entity.getImgUrl());
-        stmt.bindString(12, entity.getIntro());
+ 
+        String imgUrl = entity.getImgUrl();
+        if (imgUrl != null) {
+            stmt.bindString(11, imgUrl);
+        }
+ 
+        String intro = entity.getIntro();
+        if (intro != null) {
+            stmt.bindString(12, intro);
+        }
  
         String mvhash = entity.getMvhash();
         if (mvhash != null) {
@@ -235,8 +243,16 @@ public class SongInfoDao extends AbstractDao<SongInfo, Void> {
         if (hash != null) {
             stmt.bindString(10, hash);
         }
-        stmt.bindString(11, entity.getImgUrl());
-        stmt.bindString(12, entity.getIntro());
+ 
+        String imgUrl = entity.getImgUrl();
+        if (imgUrl != null) {
+            stmt.bindString(11, imgUrl);
+        }
+ 
+        String intro = entity.getIntro();
+        if (intro != null) {
+            stmt.bindString(12, intro);
+        }
  
         String mvhash = entity.getMvhash();
         if (mvhash != null) {
@@ -315,8 +331,8 @@ public class SongInfoDao extends AbstractDao<SongInfo, Void> {
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // fileName
             cursor.getInt(offset + 8), // fileSize
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // hash
-            cursor.getString(offset + 10), // imgUrl
-            cursor.getString(offset + 11), // intro
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // imgUrl
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // intro
             cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // mvhash
             cursor.getInt(offset + 13), // privilege
             cursor.getInt(offset + 14), // q
@@ -351,8 +367,8 @@ public class SongInfoDao extends AbstractDao<SongInfo, Void> {
         entity.setFileName(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
         entity.setFileSize(cursor.getInt(offset + 8));
         entity.setHash(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
-        entity.setImgUrl(cursor.getString(offset + 10));
-        entity.setIntro(cursor.getString(offset + 11));
+        entity.setImgUrl(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setIntro(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
         entity.setMvhash(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
         entity.setPrivilege(cursor.getInt(offset + 13));
         entity.setQ(cursor.getInt(offset + 14));

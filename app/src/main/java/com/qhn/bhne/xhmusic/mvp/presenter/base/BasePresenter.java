@@ -9,8 +9,8 @@ import com.qhn.bhne.xhmusic.mvp.view.base.BaseView;
  * on 2016/10/27 0027.
  */
 
-public interface BasePresenter {
+public interface BasePresenter<T extends BaseView> {
     void create();
-    void attachView(@NonNull BaseView view);
+    void attachView(@NonNull T view);
     void onDestroy();
 }

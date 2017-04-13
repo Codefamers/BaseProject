@@ -17,6 +17,7 @@ import com.qhn.bhne.xhmusic.application.App;
 import com.qhn.bhne.xhmusic.db.DaoSession;
 import com.qhn.bhne.xhmusic.di.scope.ContextLife;
 import com.qhn.bhne.xhmusic.mvp.entity.GlobalPlayMusic;
+import com.qhn.bhne.xhmusic.mvp.model.impl.LocalMusicInfoProvider;
 import com.qhn.bhne.xhmusic.utils.RxBus;
 
 import javax.inject.Singleton;
@@ -81,4 +82,9 @@ public class ApplicationModule {
         return player;
     }
 
+    @Singleton
+    @Provides
+    public LocalMusicInfoProvider provideLocalMusicInfoProvider() {
+        return new LocalMusicInfoProvider();
+    }
 }

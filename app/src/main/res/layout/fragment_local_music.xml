@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -12,14 +11,12 @@
 
         <ImageView
             style="@style/local_fragment_img"
-
             android:src="@mipmap/ic_local_music" />
 
         <TextView
             android:id="@+id/txt_local_music"
             style="@style/local_fragment"
             android:drawableBottom="@drawable/ic_drawable_cut_line"
-
             android:text="@string/local_music" />
     </LinearLayout>
 
@@ -47,7 +44,6 @@
 
         <ImageView
             style="@style/local_fragment_img"
-
             android:src="@mipmap/ic_manager_download" />
 
         <TextView
@@ -57,7 +53,6 @@
             android:text="@string/download_manager" />
     </LinearLayout>
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -65,8 +60,6 @@
 
         <ImageView
             style="@style/local_fragment_img"
-
-
             android:src="@mipmap/ic_my_signer" />
 
         <TextView
@@ -94,17 +87,18 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="32dp"
+        android:layout_height="48dp"
         android:background="@color/alpha_05_black"
         android:orientation="horizontal">
+
         <ImageView
             android:id="@+id/img_build_menu_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="8dp"
-            android:layout_marginLeft="8dp"
-            android:src="@mipmap/ic_rotate_arrows"/>
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_rotate_arrows" />
+
         <TextView
             android:id="@+id/txt_build_menu_title"
             android:layout_width="0dp"
@@ -114,36 +108,37 @@
             android:gravity="center_vertical"
             android:text="创建的歌单"
             android:textColor="@color/alpha_35_black"
-            android:textSize="@dimen/x12" />
+            android:textSize="14sp" />
 
         <ImageView
             android:id="@+id/img_build_menu_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:paddingRight="@dimen/x16"
+            android:padding="8dp"
+            android:scaleType="centerInside"
             android:src="@mipmap/ic_more_operation" />
     </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rec_build_menu"
         android:layout_width="match_parent"
-        android:visibility="gone"
+        android:layout_height="wrap_content" />
 
-        android:layout_height="wrap_content"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="32dp"
+        android:layout_height="48dp"
         android:background="@color/alpha_05_black"
         android:orientation="horizontal">
+
         <ImageView
             android:id="@+id/img_collect_menu_arrow"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="8dp"
-            android:layout_marginLeft="8dp"
-            android:src="@mipmap/ic_rotate_arrows"/>
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_rotate_arrows" />
+
         <TextView
             android:id="@+id/txt_collect_menu_title"
             android:layout_width="0dp"
@@ -153,19 +148,21 @@
             android:gravity="center_vertical"
             android:text="收藏的歌单"
             android:textColor="@color/alpha_35_black"
-            android:textSize="@dimen/x12" />
+            android:textSize="14dp" />
 
         <ImageView
             android:id="@+id/txt_collect_menu_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:paddingRight="@dimen/x16"
+            android:padding="8dp"
+            android:scaleType="centerInside"
             android:src="@mipmap/ic_more_operation" />
     </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rec_collect_menu"
         android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 </LinearLayout>

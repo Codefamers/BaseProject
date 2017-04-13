@@ -14,6 +14,8 @@ import android.provider.MediaStore.Audio.Media;
 import android.provider.MediaStore.Files.FileColumns;
 
 import com.qhn.bhne.xhmusic.R;
+import com.qhn.bhne.xhmusic.application.App;
+import com.qhn.bhne.xhmusic.di.scope.ContextLife;
 import com.qhn.bhne.xhmusic.mvp.entity.db.ArtistInfo;
 import com.qhn.bhne.xhmusic.mvp.entity.db.FolderInfo;
 import com.qhn.bhne.xhmusic.mvp.entity.SearchAlbum;
@@ -24,19 +26,26 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * 查询各主页信息，获取封面图片等
  */
-public class MusicUtils {
-    private final static int START_FROM_ARTIST = 1;
-    private final static int START_FROM_ALBUM = 2;
-    private final static int START_FROM_LOCAL = 3;
-    private final static int START_FROM_FOLDER = 4;
-
-
+public class LocalMusicInfoProvider {
+    public final static int START_FROM_ARTIST = 1;
+    public final static int START_FROM_ALBUM = 2;
+    public final static int START_FROM_LOCAL = 3;
+    public final static int START_FROM_FOLDER = 4;
     private static final int FILTER_SIZE = 1024 * 1024;// 1MB
-    private static final int FILTER_DURATION =  60 * 1000;// 1分钟
+    private static final int FILTER_DURATION = 60 * 1000;// 1分钟
 
+    private Context mContext;
+    private ContentResolver cr;
+
+    public LocalMusicInfoProvider() {
+        mContext=App.getAppContext();
+        cr = mContext.getContentResolver();
+    }
 
     private static String[] proj_music = new String[]{
             Media._ID, Media.TITLE,
@@ -55,10 +64,8 @@ public class MusicUtils {
     /**
      * 获取包含音频文件的文件夹信息
      */
-    public static List<FolderInfo> queryFolder(Context context) {
-
+    public List<FolderInfo> queryFolder() {
         Uri uri = MediaStore.Files.getContentUri("external");
-        ContentResolver cr = context.getContentResolver();
         StringBuilder mSelection = new StringBuilder(FileColumns.MEDIA_TYPE
                 + " = " + FileColumns.MEDIA_TYPE_AUDIO + " and " + "("
                 + FileColumns.DATA + " like'%.mp3' or " + Media.DATA
@@ -77,13 +84,9 @@ public class MusicUtils {
 
     /**
      * 获取歌手信息
-     *
-     *
      */
-    public static List<ArtistInfo> queryArtist(Context context) {
-
+    public List<ArtistInfo> queryArtist() {
         Uri uri = MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI;
-        ContentResolver cr = context.getContentResolver();
         StringBuilder where = new StringBuilder(MediaStore.Audio.Artists._ID
                 + " in (select distinct " + Media.ARTIST_ID
                 + " from audio_meta where (1=1 )");
@@ -101,12 +104,8 @@ public class MusicUtils {
 
     /**
      * 获取专辑信息
-     *
-     *
      */
-    public static List<SearchAlbum> queryAlbums(Context context) {
-
-        ContentResolver cr = context.getContentResolver();
+    public List<SearchAlbum> queryAlbums() {
         StringBuilder where = new StringBuilder(Albums._ID
                 + " in (select distinct " + Media.ALBUM_ID
                 + " from audio_meta where (1=1)");
@@ -124,20 +123,15 @@ public class MusicUtils {
 
 
     /**
-     *
-     * @param from    不同的界面进来要做不同的查询
-     *
+     * @param from 不同的界面进来要做不同的查询
      */
-    public static List<SongInfo> queryMusic(Context context, int from) {
-        return queryMusic(context, null, from);
+    public List<SongInfo> queryMusic(int from) {
+        return queryMusic(null, from);
     }
 
 
-    private static ArrayList<SongInfo> queryMusic(Context context, String id, int from) {
-
+    private ArrayList<SongInfo> queryMusic(String id, int from) {
         Uri uri = Media.EXTERNAL_CONTENT_URI;
-        ContentResolver cr = context.getContentResolver();
-
         StringBuilder select = new StringBuilder(" 1=1 and title != ''");
         // 查询语句：检索出.mp3为后缀名，时长大于1分钟，文件大小大于1MB的媒体文件
         select.append(" and " + Media.SIZE + " > " + FILTER_SIZE);
@@ -180,7 +174,7 @@ public class MusicUtils {
     }
 
 
-    public static ArrayList<SongInfo> getMusicLists(Context context, long[] id) {
+    public ArrayList<SongInfo> getMusicLists(long[] id) {
         final StringBuilder selection = new StringBuilder();
         selection.append(MediaStore.Audio.Media._ID + " IN (");
         for (int i = 0; i < id.length; i++) {
@@ -192,7 +186,7 @@ public class MusicUtils {
         selection.append(")");
 
 
-        Cursor cursor = (context.getContentResolver().query(Media.EXTERNAL_CONTENT_URI, proj_music,
+        Cursor cursor = (cr.query(Media.EXTERNAL_CONTENT_URI, proj_music,
                 selection.toString(),
                 null, null));
         if (cursor == null) {
@@ -218,7 +212,7 @@ public class MusicUtils {
     }
 
 
-    private static ArrayList<SongInfo> getMusicListCursor(Cursor cursor) {
+    private ArrayList<SongInfo> getMusicListCursor(Cursor cursor) {
         if (cursor == null) {
             return null;
         }
@@ -231,7 +225,7 @@ public class MusicUtils {
         return musicList;
     }
 
-    private static SongInfo cursorToSongInfo(Cursor cursor) {
+    private SongInfo cursorToSongInfo(Cursor cursor) {
         SongInfo songInfo = new SongInfo();
         songInfo.setSongID(cursor.getInt(cursor
                 .getColumnIndex(Media._ID)));
@@ -254,7 +248,7 @@ public class MusicUtils {
         return songInfo;
     }
 
-    public static List<SearchAlbum> getAlbumList(Cursor cursor) {
+    public List<SearchAlbum> getAlbumList(Cursor cursor) {
         List<SearchAlbum> list = new ArrayList<>();
         while (cursor.moveToNext()) {
             SearchAlbum info = new SearchAlbum();
@@ -271,7 +265,7 @@ public class MusicUtils {
         return list;
     }
 
-    public static List<ArtistInfo> getArtistList(Cursor cursor) {
+    public List<ArtistInfo> getArtistList(Cursor cursor) {
         List<ArtistInfo> list = new ArrayList<>();
         while (cursor.moveToNext()) {
             ArtistInfo info = new ArtistInfo();
@@ -286,7 +280,7 @@ public class MusicUtils {
         return list;
     }
 
-    public static List<FolderInfo> getFolderList(Cursor cursor) {
+    public List<FolderInfo> getFolderList(Cursor cursor) {
         List<FolderInfo> list = new ArrayList<>();
         while (cursor.moveToNext()) {
             FolderInfo info = new FolderInfo();
@@ -301,7 +295,7 @@ public class MusicUtils {
         return list;
     }
 
-    public static String makeTimeString(long milliSecs) {
+    public String makeTimeString(long milliSecs) {
         StringBuffer sb = new StringBuffer();
         long m = milliSecs / (60 * 1000);
         sb.append(m < 10 ? "0" + m : m);
@@ -312,11 +306,11 @@ public class MusicUtils {
     }
 
 
-    public static Uri getAlbumArtUri(long albumId) {
+    public Uri getAlbumArtUri(long albumId) {
         return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), albumId);
     }
 
-    public static Uri getAlbumUri(Context context, long musicId) {
+    public Uri getAlbumUri(Context context, long musicId) {
         ContentResolver cr = context.getContentResolver();
         Cursor cursor = cr.query(Media.EXTERNAL_CONTENT_URI, proj_music, "_id =" + String.valueOf(musicId), null, null);
         long id = -3;
@@ -331,7 +325,7 @@ public class MusicUtils {
         return getAlbumArtUri(id);
     }
 
-    public static String getAlbumdata(Context context, long musicid) {
+    public String getAlbumdata(Context context, long musicid) {
         ContentResolver cr = context.getContentResolver();
         Cursor cursor = cr.query(Media.EXTERNAL_CONTENT_URI, proj_music, "_id = " + String.valueOf(musicid), null, null);
         if (cursor == null) {
@@ -358,7 +352,7 @@ public class MusicUtils {
     }
 
 
-    public static ArtistInfo getArtistinfo(Context context, long id) {
+    public ArtistInfo getArtistinfo(Context context, long id) {
         ContentResolver cr = context.getContentResolver();
         Cursor cursor = cr.query(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, proj_artist, "_id =" + String.valueOf(id), null, null);
         if (cursor == null) {
@@ -374,7 +368,7 @@ public class MusicUtils {
     }
 
 
-    public static SearchAlbum getAlbumInfo(Context context, long albumId) {
+    public SearchAlbum getAlbumInfo(Context context, long albumId) {
         ContentResolver cr = context.getContentResolver();
         Cursor cursor = cr.query(Albums.EXTERNAL_CONTENT_URI, proj_album, "_id =" + String.valueOf(albumId), null, null);
         if (cursor == null) {
@@ -383,7 +377,7 @@ public class MusicUtils {
         SearchAlbum albumInfo = new SearchAlbum();
         while (cursor.moveToNext()) {
             albumInfo.setAlbumname(cursor.getString(cursor.getColumnIndex(Albums.ALBUM)));
-            albumInfo.setImgurl(cursor.getString(cursor.getColumnIndex(Albums.ALBUM_ART))) ;
+            albumInfo.setImgurl(cursor.getString(cursor.getColumnIndex(Albums.ALBUM_ART)));
         }
         cursor.close();
         return albumInfo;
@@ -391,7 +385,7 @@ public class MusicUtils {
     }
 
 
-    public static SongInfo getMusicInfo(Context context, long id) {
+    public SongInfo getMusicInfo(Context context, long id) {
         ContentResolver cr = context.getContentResolver();
         Cursor cursor = cr.query(Media.EXTERNAL_CONTENT_URI, proj_music, "_id = " + String.valueOf(id), null, null);
         if (cursor == null) {
@@ -399,14 +393,14 @@ public class MusicUtils {
         }
         SongInfo songInfo = new SongInfo();
         while (cursor.moveToNext()) {
-           songInfo=cursorToSongInfo(cursor);
+            songInfo = cursorToSongInfo(cursor);
         }
         cursor.close();
         return songInfo;
     }
 
 
-    public static String makeShortTimeString(final Context context, long secs) {
+    public String makeShortTimeString(final Context context, long secs) {
         long hours, mins;
 
         hours = secs / 3600;

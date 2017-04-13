@@ -23,7 +23,7 @@ import com.qhn.bhne.xhmusic.mvp.entity.db.FolderInfo;
 import com.qhn.bhne.xhmusic.mvp.entity.GlobalPlayMusic;
 import com.qhn.bhne.xhmusic.mvp.entity.SearchAlbum;
 import com.qhn.bhne.xhmusic.mvp.entity.db.SongInfo;
-import com.qhn.bhne.xhmusic.mvp.model.impl.MusicUtils;
+import com.qhn.bhne.xhmusic.mvp.model.impl.LocalMusicInfoProvider;
 import com.qhn.bhne.xhmusic.mvp.ui.activities.base.BaseActivity;
 import com.qhn.bhne.xhmusic.mvp.ui.adapter.OnLinePagerAdapter;
 import com.qhn.bhne.xhmusic.mvp.ui.fragment.RecommendMusicFragment;
@@ -183,19 +183,19 @@ public class MainActivity extends BaseActivity implements SongMenuFragment.SongM
             case R.id.btn_exclusive_report:
                 //startActivity(new Intent(MainActivity.this, SampleChooserActivity.class));
                 //Toast.makeText(activity, "独家报道", Toast.LENGTH_SHORT).show();
-                new Thread(new Runnable() {
+               /* new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        List<SearchAlbum> album=MusicUtils.queryAlbums(MainActivity.this);
+                        List<SearchAlbum> album= LocalMusicInfoProvider.queryAlbums(MainActivity.this);
                         album.size();
-                        List<SongInfo> songInfos=MusicUtils.queryMusic(MainActivity.this, 3);
+                        List<SongInfo> songInfos= LocalMusicInfoProvider.queryMusic(MainActivity.this, 3);
                         songInfos.size();
-                        List<FolderInfo> folder=MusicUtils.queryFolder(MainActivity.this);
+                        List<FolderInfo> folder= LocalMusicInfoProvider.queryFolder(MainActivity.this);
                         folder.size();
-                        List<ArtistInfo> artistInfos=MusicUtils.queryArtist(MainActivity.this);
+                        List<ArtistInfo> artistInfos= LocalMusicInfoProvider.queryArtist(MainActivity.this);
                         artistInfos.size();
                     }
-                }).start();
+                }).start();*/
 
                 break;
             case R.id.btn_new_music:

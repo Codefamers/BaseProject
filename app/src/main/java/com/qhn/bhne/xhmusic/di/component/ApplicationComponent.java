@@ -7,6 +7,7 @@ import com.qhn.bhne.xhmusic.db.DaoSession;
 import com.qhn.bhne.xhmusic.di.module.ApplicationModule;
 import com.qhn.bhne.xhmusic.di.scope.ContextLife;
 import com.qhn.bhne.xhmusic.mvp.entity.GlobalPlayMusic;
+import com.qhn.bhne.xhmusic.mvp.model.impl.LocalMusicInfoProvider;
 import com.qhn.bhne.xhmusic.utils.RxBus;
 
 import javax.inject.Singleton;
@@ -20,11 +21,11 @@ import dagger.Component;
 @Singleton
 @Component(modules = ApplicationModule.class)
 public interface ApplicationComponent {
-    @ContextLife("Application")
+    @ContextLife
     Context getApplication();
     GlobalPlayMusic getCurrentPlayMusic();
     DaoSession getDaoSession();
     RxBus getRxBus();
     ExoPlayer getExoPlayer();
-
+    LocalMusicInfoProvider getLocalMusicInfoProvider();
 }

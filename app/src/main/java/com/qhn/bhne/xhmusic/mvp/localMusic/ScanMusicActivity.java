@@ -1,28 +1,30 @@
-package com.qhn.bhne.xhmusic.mvp.ui.activities;
+package com.qhn.bhne.xhmusic.mvp.localMusic;
 
 import android.animation.Animator;
 import android.animation.FloatEvaluator;
 import android.animation.ValueAnimator;
-import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.qhn.bhne.xhmusic.R;
+import com.qhn.bhne.xhmusic.db.DaoSession;
+import com.qhn.bhne.xhmusic.mvp.entity.db.SongInfo;
+import com.qhn.bhne.xhmusic.mvp.model.impl.LocalMusicInfoProvider;
 import com.qhn.bhne.xhmusic.mvp.ui.activities.base.BaseActivity;
 
+import java.util.List;
+
+import javax.inject.Inject;
+
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ScanMusicActivity extends BaseActivity {
-
 
     @BindView(R.id.img_scan_icon)
     ImageView imgScanIcon;
@@ -31,6 +33,8 @@ public class ScanMusicActivity extends BaseActivity {
     @BindView(R.id.txt_show_result)
     TextView txtShowResult;
     private ValueAnimator animator;
+    @Inject
+    DaoSession daoSession;
 
     @Override
     protected void initViews() {
@@ -100,7 +104,6 @@ public class ScanMusicActivity extends BaseActivity {
             }
         });
         animator.start();
-
         //扫描效果添加
         TranslateAnimation translateAnimation = new TranslateAnimation(TranslateAnimation.RELATIVE_TO_PARENT, 0f, TranslateAnimation.RELATIVE_TO_PARENT, 0f,
                 TranslateAnimation.RELATIVE_TO_PARENT, 0f, TranslateAnimation.RELATIVE_TO_PARENT, 0.7f);
@@ -149,11 +152,20 @@ public class ScanMusicActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.txt_return_local_music:
+                scanLocalMusic();
                 startScanAnim();
                 break;
             case R.id.txt_get_lrc:
                 stopScanAnim();
                 break;
+        }
+    }
+
+    //扫描本地音乐
+    private void scanLocalMusic() {
+        List<SongInfo> songInfoList = new LocalMusicInfoProvider().queryMusic(LocalMusicInfoProvider.START_FROM_LOCAL);
+        for (SongInfo songInfo : songInfoList) {
+            daoSession.getSongInfoDao().insert(songInfo);
         }
     }
 }

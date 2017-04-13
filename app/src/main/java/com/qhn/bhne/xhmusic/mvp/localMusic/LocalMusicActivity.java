@@ -4,19 +4,14 @@ import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
 import com.qhn.bhne.xhmusic.R;
-import com.qhn.bhne.xhmusic.mvp.ui.activities.ScanMusicActivity;
 import com.qhn.bhne.xhmusic.mvp.ui.activities.base.BaseActivity;
 import com.qhn.bhne.xhmusic.mvp.ui.adapter.OnLinePagerAdapter;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 
 public class LocalMusicActivity extends BaseActivity {
@@ -38,7 +33,7 @@ public class LocalMusicActivity extends BaseActivity {
         tabTitles.add("专辑");
         tabTitles.add("MV");
         List<Fragment> tabFragmentList = new ArrayList<>();
-        tabFragmentList.add(new LocalMusicFragment());
+        tabFragmentList.add(new SingleMusicFragment());
         tabFragmentList.add(new LocalMusicFragment());
         tabFragmentList.add(new LocalMusicFragment());
         tabFragmentList.add(new LocalMusicFragment());
@@ -49,7 +44,7 @@ public class LocalMusicActivity extends BaseActivity {
 
     @Override
     protected void initInjector() {
-
+        getActivityComponent().inject(this);
     }
 
     @Override
@@ -67,7 +62,6 @@ public class LocalMusicActivity extends BaseActivity {
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search:
-
                 Toast.makeText(this, "搜索", Toast.LENGTH_SHORT).show();
             case R.id.action_scan:
                 startActivity(new Intent(LocalMusicActivity.this, ScanMusicActivity.class));
@@ -81,6 +75,4 @@ public class LocalMusicActivity extends BaseActivity {
         }
         return false;
     }
-
-
 }

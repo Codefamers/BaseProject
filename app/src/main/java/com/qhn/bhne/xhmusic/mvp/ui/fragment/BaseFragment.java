@@ -44,7 +44,7 @@ public abstract class BaseFragment<V extends BasePresenter,E> extends Fragment i
     private static int EMPTY_VIEW = 3;
     private static int FAIL_VIEW = 4;
     private FrameLayout root;
-
+    public Bundle  mBundle;
 
     public FragmentComponent getFragmentComponent() {
         return fragmentComponent;
@@ -86,6 +86,7 @@ public abstract class BaseFragment<V extends BasePresenter,E> extends Fragment i
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mBundle=savedInstanceState;
         if (mFragmentView == null) {
             mFragmentView = inflater.inflate(getLayoutId(), container, false);
             ButterKnife.bind(this, mFragmentView);

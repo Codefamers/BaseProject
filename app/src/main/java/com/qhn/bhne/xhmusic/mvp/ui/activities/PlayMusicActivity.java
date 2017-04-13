@@ -106,7 +106,7 @@ public class PlayMusicActivity extends BaseActivity implements DiscView.IPlayInf
 
     @Override
     protected void initInjector() {
-        getmActivityComponent().inject(this);
+        getActivityComponent().inject(this);
     }
 
     @Override

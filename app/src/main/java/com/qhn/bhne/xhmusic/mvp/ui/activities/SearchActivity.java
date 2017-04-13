@@ -57,7 +57,7 @@ public class SearchActivity extends BaseActivity implements SearchRecommendFragm
 
     @Override
     protected void initInjector() {
-        getmActivityComponent().inject(this);
+        getActivityComponent().inject(this);
     }
 
     @Override

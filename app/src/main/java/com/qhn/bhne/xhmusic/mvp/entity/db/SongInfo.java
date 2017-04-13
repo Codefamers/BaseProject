@@ -59,9 +59,9 @@ public class SongInfo implements Parcelable {
     private String fileName;
     private int fileSize;
     private String hash;
-    @NotNull
+
     private String imgUrl;
-    @NotNull
+    
     private String intro;
     private String mvhash;
     private int privilege;
@@ -525,10 +525,10 @@ public class SongInfo implements Parcelable {
         this.isLocal = (Boolean) in.readValue(Boolean.class.getClassLoader());
     }
 
-    @Generated(hash = 654845943)
-    public SongInfo(float bitRate, String choricSinger, int ctype, int errcode, String error, String extName, int fileHead, String fileName, int fileSize, String hash, @NotNull String imgUrl, @NotNull String intro,
-            String mvhash, int privilege, int q, String req_hash, String singerHead, int singerId, String singerName, String songName, int status, int stype, int timeLength, String topic_remark, String topic_url, String url,
-            int songID, String folder, String folderPath, @NotNull Boolean isLocal) {
+    @Generated(hash = 1226580267)
+    public SongInfo(float bitRate, String choricSinger, int ctype, int errcode, String error, String extName, int fileHead, String fileName, int fileSize, String hash, String imgUrl, String intro, String mvhash,
+            int privilege, int q, String req_hash, String singerHead, int singerId, String singerName, String songName, int status, int stype, int timeLength, String topic_remark, String topic_url, String url, int songID,
+            String folder, String folderPath, @NotNull Boolean isLocal) {
         this.bitRate = bitRate;
         this.choricSinger = choricSinger;
         this.ctype = ctype;

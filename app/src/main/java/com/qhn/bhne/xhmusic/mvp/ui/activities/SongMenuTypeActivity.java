@@ -55,7 +55,7 @@ public class SongMenuTypeActivity extends BaseLoadDataActivity<SongMenuTypePrese
 
     @Override
     protected void initInjector() {
-        getmActivityComponent().inject(this);
+        getActivityComponent().inject(this);
     }
 
     @Override

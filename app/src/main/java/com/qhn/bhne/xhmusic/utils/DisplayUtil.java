@@ -2,6 +2,8 @@ package com.qhn.bhne.xhmusic.utils;
 
 import android.content.Context;
 
+import com.qhn.bhne.xhmusic.application.App;
+
 /**
  * Created by AchillesL on 2016/11/16.
  */
@@ -31,12 +33,12 @@ public class DisplayUtil {
     public static final float SCALE_MUSIC_PIC_SIZE = (float) (533.0 / BASE_SCREEN_WIDTH);
 
     /*设备屏幕宽度*/
-    public static int getScreenWidth(Context context) {
-        return context.getResources().getDisplayMetrics().widthPixels;
+    public static int getScreenWidth() {
+        return App.getAppContext().getResources().getDisplayMetrics().widthPixels;
     }
 
     /*设备屏幕高度*/
-    public static int getScreenHeight(Context context) {
-        return context.getResources().getDisplayMetrics().heightPixels;
+    public static int getScreenHeight() {
+        return App.getAppContext().getResources().getDisplayMetrics().heightPixels;
     }
 }

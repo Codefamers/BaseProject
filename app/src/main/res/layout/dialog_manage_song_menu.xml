@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/alpha_05_black"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/tv_menu_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/alpha_35_black"
+        android:textSize="14sp"
+        tool:text="创建的歌单" />
+
+    <LinearLayout
+        android:id="@+id/ll_build_song"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:visibility="gone"
+        android:layout_below="@+id/tv_menu_title"
+        android:orientation="horizontal">
+
+        <ImageView
+            style="@style/local_fragment_img"
+            android:src="@drawable/ic_add_box_black_24dp" />
+
+        <TextView
+            android:id="@+id/tv_build_menu"
+            style="@style/local_fragment"
+            android:drawableBottom="@drawable/ic_drawable_cut_line"
+            android:text="创建新歌单" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_manage_menu"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@+id/ll_build_song"
+        android:orientation="horizontal">
+
+        <ImageView
+            style="@style/local_fragment_img"
+            android:src="@drawable/ic_song_menu_manager_24dp" />
+
+        <TextView
+            android:id="@+id/tv_manage_menu"
+            style="@style/local_fragment"
+            android:drawableBottom="@drawable/ic_drawable_cut_line"
+            android:text="歌单管理" />
+    </LinearLayout>
+
+
+</RelativeLayout>
